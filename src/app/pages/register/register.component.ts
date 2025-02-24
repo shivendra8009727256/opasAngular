@@ -3,12 +3,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, FormBuilder, 
 import { NgIf, NgClass, NgFor } from '@angular/common';
 import { user } from '../../model/user';
 import { MasterService } from '../../../service/master.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
-  imports: [NgIf, FormsModule, ReactiveFormsModule, NgFor],
+  imports: [NgIf, FormsModule, ReactiveFormsModule, NgFor,RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

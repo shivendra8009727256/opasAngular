@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-forget-password',
   imports: [ReactiveFormsModule, NgIf],
-  templateUrl: './forget-password.component.html',
-  styleUrl: './forget-password.component.css'
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.css'
 })
-export class ForgetPasswordComponent {
+export class ForgotPasswordComponent {
   forgetPasswordForm: FormGroup;  // ✅ Renamed FormGroup
 
   constructor(

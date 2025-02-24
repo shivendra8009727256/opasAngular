@@ -10,13 +10,14 @@ import { CertificateComponent } from './certificate/certificate.component';
 import { BlogComponent } from './blog/blog.component';
 import { ContactComponent } from './contact/contact.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ForgotPasswordComponent } from './forget-password/forgot-password.component';
+import { authGuard } from '../service/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' }, // Default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'products', component: ProductsComponent },
@@ -25,7 +26,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'user', component: UserComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
-  { path: 'forgetPassword', component: ForgetPasswordComponent },
+  { path: 'forgotPassword', component: ForgotPasswordComponent },
 
   // Catch-all wildcard route (optional: redirect to home or 404 page)
   { path: '**', redirectTo: 'register' }  

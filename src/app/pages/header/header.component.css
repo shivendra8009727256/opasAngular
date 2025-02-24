@@ -1,0 +1,114 @@
+/* Basic Reset */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+  }
+  
+  /* Navigation Bar */
+  nav {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 65px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+	/* background: linear-gradient(to right bottom, #2c3e50, #34495e); */
+	padding: 5px 20px;
+	transition: transform 0.4s ease-in-out;
+	z-index: 1000;
+  }
+  
+  /* Hides the header smoothly */
+  .hidden {
+	transform: translateY(-100%);
+  }
+  
+  /* Logo Container */
+  .logo-container {
+	display: flex;
+	align-items: center; /* Center the logo vertically */
+  }
+  
+  /* Logo Styling */
+  .logo-img {
+	height: 120px; /* Set logo height */
+	width: auto; /* Keep aspect ratio */
+  }
+  
+  /* Hamburger Menu Button (Mobile) */
+  .hamburger-btn {
+	display: none;
+	background: #18396ac9;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	z-index: 1001;
+  }
+  
+  .hamburger-btn .bar {
+	display: block;
+	width: 25px;
+	height: 3px;
+	margin: 5px auto;
+	background-color: #e9ecef;
+	transition: 0.3s;
+  }
+  
+  /* Navigation Links */
+  ul {
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+  }
+  
+  ul li {
+	margin: 0 15px;
+  }
+  
+  ul li a {
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+	color: #1c2b6ee3;
+	transition: color 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Hover Effect */
+  ul li a:hover {
+	color: #02000c;
+	transform: scale(1.1);
+  }
+  
+  /* Responsive Navigation */
+  @media screen and (max-width: 768px) {
+  
+	/* Hide the navigation links by default */
+	ul {
+	  flex-direction: column;
+	  position: absolute;
+	  top: 60px;
+	  right: 0;
+	  background: #f8f9fac9;
+	  width: 200px;
+	  display: none;
+	}
+  
+	ul.show {
+	  display: flex;
+	  /* Display the links when the "show" class is added */
+	}
+  
+	ul li {
+	  padding: 10px;
+	  text-align: center;
+	}
+  
+	/* Show the hamburger button on small screens */
+	.hamburger-btn {
+	  display: block;
+	}
+  }
+  

@@ -1,0 +1,40 @@
+/* Ensure the body takes full height and remove margin */
+html, body {
+  height: 100%; /* Make the body take full viewport height */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+}
+
+/* Wrapper for content and footer */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the wrapper always takes full height of the viewport */
+}
+
+/* Content Section */
+.content {
+  min-height: 600px;
+  flex-grow: 1; /* Makes content take up remaining space */
+  padding: 20px;
+  margin-top: 65px; /* Push content below the header */
+  background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca);
+  background-repeat: no-repeat;
+  background-size: 100% 200%;
+  background-position: center;
+  justify-content: space-between;
+}
+
+/* Footer */
+app-footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  margin-top: auto; /* Push footer to the bottom of the page */
+}

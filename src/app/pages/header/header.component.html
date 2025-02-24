@@ -1,0 +1,23 @@
+<nav [class.hidden]="isHidden" (mouseleave)="closeMenuOnMouseLeave()">
+  <!-- Left: Company Logo -->
+  <div routerLink="/register" class="logo-container" (click)="closeMenuOnMouseLeave()" >
+    <img style="cursor: pointer;" src="/opasLogo.png" alt="Company Logo" class="logo-img" >
+  </div>
+  
+  <!-- Hamburger Menu Button (Mobile) -->
+  <button class="hamburger-btn" (click)="toggleMenu()">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <!-- Right: Navigation Links -->
+  <ul [class.show]="isMenuOpen">
+    <li><a routerLink="/home">HOME</a></li>
+    <li><a routerLink="/about">ABOUT US</a></li>
+    <li><a routerLink="/products">PRODUCTS</a></li>
+    <li><a routerLink="/certificate">CERTIFICATE</a></li>
+    <li><a routerLink="/blog">BLOG</a></li>
+    <li><a routerLink="/contact">CONTACT US</a></li>
+  </ul>
+</nav>

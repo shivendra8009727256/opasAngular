@@ -1,0 +1,27 @@
+<p>login works!</p>
+<div class="form-container">
+    <!-- Login Form -->
+    <form id="login-form">
+      <h3>Login Here</h3>
+      <label for="username">Username</label>
+      <input type="text" placeholder="Email or Phone" id="login-username"  name="username">
+  
+      <label for="password">Password</label>
+      <div class="password-container">
+        <input type="password" placeholder="Password" id="login-password"  name="password">
+        <i class="fa-solid fa-eye" id="login-eye" (click)="togglePassword('login')"></i>
+      </div>
+  
+      <button type="submit">Log In</button>
+  
+      <p class="social-text">Login with a social media account</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com" class="social-icon" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.twitter.com" class="social-icon" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        <a href="https://www.instagram.com" class="social-icon" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+  
+      <!-- <p class="signup-text">Don't have an account? <a href="javascript:void(0);" (click)="toggleForm()">Sign Up</a></p> -->
+    </form>
+  </div>
+  

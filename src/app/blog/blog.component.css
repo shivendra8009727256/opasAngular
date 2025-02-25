@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap");
+
+body {
+  background: rgba(#83c965, 0.7); /* Color used for --color-middle */
+  font-family: "Montserrat", sans-serif;
+}
+
+.card-set {
+  padding: 15px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  background: #fff; /* --color-card */
+  /* box-shadow: 0 10px 20px rgba(6, 31, 9, .2); */
+  border: 0;
+  border-bottom: 4px solid #83c965; /* --color-middle */
+  border-radius: 10px 10px 0 0;
+  position: relative;
+}
+
+.card-images {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  padding-top: 5px;
+  margin-bottom: 15px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  transition: transform 0.5s ease-in;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.card-images .image:nth-child(3) {
+  box-shadow: 0 0 0 rgba(#3b2e6b, 0); /* --color-dark */
+  transform: translateX(-50%) scale(0.95);
+  transition: box-shadow 0.3s ease-in, transform 0.5s ease-in 0.5s;
+}
+
+.card-images:hover {
+  z-index: 10;
+}
+
+.card-images:hover .image:nth-child(1) {
+  transform: translateX(-100%) translateY(0%) rotate(-1deg) scale(0.85) !important;
+  transition: transform 0.5s ease-in;
+}
+
+.card-images:hover .image:nth-child(1):hover {
+  transform: translateX(-130%) translateY(0%) rotate(-3deg) scale(0.85) !important;
+  transition: transform 0.5s ease-in;
+}
+
+.card-images:hover .image:nth-child(2) {
+  transform: translateX(0%) translateY(0%) rotate(1deg) scale(0.85) !important;
+}
+
+.card-images:hover .image:nth-child(2):hover {
+  transform: translateX(30%) translateY(0%) rotate(3deg) scale(0.85) !important;
+  transition: transform 0.5s ease-in;
+}
+
+.card-images:hover .image:nth-child(3) {
+  animation: swipe-bottom-top 2s 1;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
+  z-index: 1;
+  transform: translateX(-50%) scale(0.95) !important;
+  transition: box-shadow 0.3s ease-in, transform 0.5s ease-in 0.3s;
+}
+
+.card-images:hover .image:nth-child(3):hover {
+  z-index: 2;
+}
+
+.card-body {
+  position: relative;
+  padding: 15px;
+}
+
+.card-body h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #4d4d4d;
+}
+
+.card-body a.btn {
+  background: #83c965; /* --color-middle */
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 30px;
+  transition: all 0.4s;
+}
+
+.card-body a.btn:hover {
+  background: #83c965; /* --color-middle */
+  border-color: #e5e9f8; /* --color-light */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.7s;
+}
+
+.card:hover .image:nth-child(1) {
+  transform: translateX(-45%) translateY(-2%) rotate(-6deg) scale(0.95);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in, transform 0.5s ease-in;
+}
+
+.card:hover .image:nth-child(2) {
+  transform: translateX(-55%) translateY(0%) rotate(3deg) scale(0.95);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in, transform 0.5s ease-in;
+}
+
+.card:hover .image:nth-child(3) {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-in, transform 0.5s ease-in 0.3s;
+}

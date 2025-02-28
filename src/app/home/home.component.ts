@@ -143,6 +143,25 @@ export class HomeComponent {
       }
     );
   }
+
+  openModal(): void {
+    const modal = document.getElementById('myModal');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  closeModal(): void {
+    const modal = document.getElementById('myModal');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+  }
+
   
   
 }

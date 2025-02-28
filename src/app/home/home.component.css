@@ -43,7 +43,7 @@
 
 /* ////////////////////CARD CSSS */
 .card-container {
-  margin: 10px;
+  margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -161,4 +161,12 @@
   .intro h1 { font-size: 5rem; }
   .intro p { font-size: 2.50rem; }
   .intro { height: 600px; }
+}
+
+.modal {
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal.show {
+  display: block;
 }

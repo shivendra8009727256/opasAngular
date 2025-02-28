@@ -21,11 +21,11 @@
 
 
 <div class="card-container">
-  <div class="card" *ngFor="let item of images" (click)="goToProduct(item)">
+  <div class="card" *ngFor="let item of images" >
     <div class="card-content">
       <img style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
-      <h3>{{ item.name }}</h3>
-      <p> <span style="color: red; font-size: large; ">*Price:</span> {{ item.color }}</p>
+      <h3 style="cursor: pointer;" (click)="goToProduct(item)">{{ item.name }}</h3>
+      <p> <span style="color: red; font-size: large; cursor: pointer; " (click)="goToProduct(item)">*Price:</span> {{ item.color }}</p>
 
       <!-- Buttons for Edit and Delete -->
 

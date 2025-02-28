@@ -4,6 +4,19 @@
   <p><strong>Color:</strong> {{ product?.color }}</p>
 </div> -->
 
+<div class="product-card">
+  <img 
+    loading="lazy" 
+    [src]="'http://localhost:8000/uploads/' + product?.image" 
+    alt="Product Image" 
+    class="product-image"
+  >
+
+  <div class="product-details">
+    <h2>{{ product?.name }}</h2>
+    <p><strong>Price:</strong> {{ product?.color }}</p>
+  </div>
+</div>
 
 
 
@@ -12,24 +25,24 @@
 
 
 
-<main>
 
-    <section class="cards-wrapper">
+
+
+<!--    
   
       <div class="card">
-        <picture>
-          <!-- <source type="image/webp" srcset="https://content-scroll-up-effect.vercel.app/assets/images/image-01.webp"> -->
-          <img loading="lazy" [src]="'http://localhost:8000/uploads/' + product?.image" alt="Image 01" width="1000" height="500">
-        </picture>
+       
+     <img loading="lazy" [src]="'http://localhost:8000/uploads/' + product?.image" alt="Image 01" width="1000" height="500">
+       
   
-        <div class="overlay">
+        <div>
           <h2>{{ product?.name }}</h2>
-          <div class="overlay-content">
-            <p><strong>Color:</strong> {{ product?.color }}</p>
+          <div >
+            <p><strong>Price:</strong> {{ product?.color }}</p>
             </div>
         </div>
-      </div>
+      </div> -->
   
   
-    </section>
-  </main>
+  
+  

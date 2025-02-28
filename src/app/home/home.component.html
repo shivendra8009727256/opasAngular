@@ -21,16 +21,53 @@
 
 
 <div class="card-container">
-  <div class="card" *ngFor="let item of images">
+  <div class="card" *ngFor="let item of images" (click)="goToProduct(item)">
     <div class="card-content">
       <img style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
       <h3>{{ item.name }}</h3>
-      <p>Price: ${{ item.color }}</p>
+      <p> <span style="color: red; font-size: large; ">*Price:</span> {{ item.color }}</p>
 
       <!-- Buttons for Edit and Delete -->
 
-      <button class="btn btn-sucess" (click)="updateImageWithDetails(item._id)">Edit</button>
+      <button class="btn btn-success" (click)="openEditModal(item)">Edit</button>
       <button (click)="deleteData(item._id)">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Modal for Editing -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Product:</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+          <div class="form-group">
+            <label for="editName">Image Name</label>
+            <input type="text" id="editName" formControlName="name" class="form-control" required />
+          </div>
+      
+          <div class="form-group">
+            <label for="editColor">Color</label>
+            <input type="text" id="editColor" formControlName="color" class="form-control" required />
+          </div>
+      
+          <div class="form-group">
+            <label for="editImage">Choose Image</label>
+            <input type="file" id="editImage" (change)="onFileSelected($event)" class="form-control" />
+          </div>
+          <br>
+      
+          <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
+            Update
+          </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeEditModal()">Close</button>
+      </div>
     </div>
   </div>
 </div>

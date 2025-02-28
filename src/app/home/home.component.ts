@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   imports: [MatButtonModule,ReactiveFormsModule,NgFor],
@@ -16,6 +17,8 @@ export class HomeComponent {
   uploadSuccess = false;
   uploadError = false;
   images: any=[];
+  editForm: FormGroup;
+  selectedItem: any = null;
   img1:any=null;
   img2:any=null;
   img3:any=null;
@@ -23,8 +26,13 @@ export class HomeComponent {
   img5:any=null;
 
   
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private router: Router) {
     this.uploadForm = this.fb.group({
+      name: ['', [Validators.required]],
+      color: ['', [Validators.required]],
+      image: [null],
+    });
+    this.editForm = this.fb.group({
       name: ['', [Validators.required]],
       color: ['', [Validators.required]],
       image: [null],
@@ -162,6 +170,57 @@ export class HomeComponent {
     }
   }
 
+  openEditModal(item: any) {
+    this.selectedItem = item;
+    this.editForm.patchValue({
+      name: item.name,
+      color: item.color
+    });
+    const modal = document.getElementById('editModal');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  closeEditModal() {
+    const modal = document.getElementById('editModal');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+  }
+
   
+
+  onEditSubmit() {
+    if (this.editForm.invalid || !this.selectedItem) return;
+
+    const formData = new FormData();
+    formData.append('name', this.editForm.get('name')?.value);
+    formData.append('color', this.editForm.get('color')?.value);
+    
+    if (this.fileToUpload) {
+      formData.append('image', this.fileToUpload, this.fileToUpload.name);
+    }
+
+    this.http.patch(`http://localhost:8000/opas/updateImage/${this.selectedItem._id}`, formData).subscribe(
+      async () => {
+        console.log('Image updated successfully');
+        await this.getAllImage();
+        this.closeEditModal();
+      },
+      (error) => {
+        console.error('Error updating image', error);
+      }
+    );
+  }
+
+  ///////////////send to product page //////////////////
+  goToProduct(item: any) {
+    this.router.navigate(['/product', item._id], { state: { product: item } });
+  }
   
 }

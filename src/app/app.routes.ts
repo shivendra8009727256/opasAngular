@@ -14,13 +14,13 @@ import { ForgotPasswordComponent } from './forget-password/forgot-password.compo
 import { authGuard } from '../service/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'register', pathMatch: 'full' }, // Default route
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'product/:id', component: ProductsComponent },
   { path: 'certificate', component: CertificateComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'contact', component: ContactComponent },
@@ -29,5 +29,5 @@ export const routes: Routes = [
   { path: 'forgotPassword', component: ForgotPasswordComponent },
 
   // Catch-all wildcard route (optional: redirect to home or 404 page)
-  { path: '**', redirectTo: 'register' }  
+  { path: '**', redirectTo: 'home' }  
 ];

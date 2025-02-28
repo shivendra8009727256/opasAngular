@@ -1,10 +1,11 @@
+import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button'
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule,ReactiveFormsModule],
+  imports: [MatButtonModule,ReactiveFormsModule,NgFor],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -101,6 +102,47 @@ export class HomeComponent {
       }
     );
   }
+  //////delete data /////////
+  async deleteData(item:any){
+    const id=item;
+   await this.http.delete("http://localhost:8000/opas/delete/"+id).subscribe(async (res:any)=>{
+      console.log("DELETE API>>>>>>>",res)
+      await this.getAllImage()
+    })
 
+  }
+
+  updateData(item:any){
+    const id=item;
+    const obj={
+
+    }
+
+  }
+
+  
+   // Update image file and details
+   updateImageWithDetails(item: any) {
+    const id = item._id;
+    const formData = new FormData();
+    formData.append('name', item.name);
+    formData.append('color', item.color);
+    formData.append('details', item.details);
+
+    if (this.fileToUpload) {
+      formData.append('image', this.fileToUpload, this.fileToUpload.name);
+    }
+
+    this.http.patch(`http://localhost:8000/opas/updateImage/${id}`, formData).subscribe(
+      async (response: any) => {
+        console.log('Image and details updated successfully', response);
+        await this.getAllImage();
+      },
+      (error) => {
+        console.error('Error updating image and details', error);
+      }
+    );
+  }
+  
   
 }

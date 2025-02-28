@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 .intro {
-  height: 700px;
+  height: 100%;
   width: 100%;
   position: relative;
   display: flex;
@@ -23,11 +23,12 @@
 
 .intro-slideshow img {
   position: absolute;
+  max-height: 600px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures full coverage */
+  object-fit: fill; /* Ensures full coverage */
   opacity: 0;
   transition: opacity 0.75s ease-in-out;
 }
@@ -39,6 +40,79 @@
   position: relative;
   z-index: 1;
 }
+
+/* ////////////////////CARD CSSS */
+.card-container {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  width: 300px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
+  background: #faf9f9;
+  object-fit: fill;
+  color: rgb(17, 17, 17);
+  text-align: center;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  position: relative; /* Ensure it's the reference point for absolute positioning */
+}
+
+.card-content h3 {
+  margin: 5px 0;
+}
+
+.card-content p {
+  margin: 3px 0;
+}
+
+/* Button styles */
+.card button {
+  position: absolute;
+  top: 10px; /* Distance from the top */
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.card button:first-child {
+  left: 10px; /* Position the Edit button in the top-left corner */
+}
+
+.card button:last-child {
+  right: 10px; /* Position the Delete button in the top-right corner */
+}
+
+.card button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+
+
+
+
 
 /* .intro h1 {
   font-size: 4rem;
@@ -55,7 +129,7 @@
   .intro-header { padding: 1.5rem 2rem; }
   .intro h1 { font-size: 2.5rem; }
   .intro p { font-size: 1.25rem; }
-  .intro { height: 500px; }
+  .intro { height: 400px; }
 }
 
 @media (max-width: 425px) {
@@ -63,7 +137,7 @@
   .intro-header { padding: 0.75rem 1rem; }
   .intro h1 { font-size: 1.5rem; }
   .intro p { font-size: 0.75rem; }
-  .intro { height: 300px; }
+  .intro { height: 250px; }
 }
 
 @media (max-width: 320px) {
@@ -71,14 +145,14 @@
   .intro-header { padding: 0.2rem 0.2rem; }
   .intro h1 { font-size: 1rem; }
   .intro p { font-size: 0.50rem; }
-  .intro { height: 250px; }
+  .intro { height: 150px; }
 }
 @media (min-width: 1024px) {
   html { font-size: 14px; }
   .intro-header { padding: 1.5rem 3rem; }
   .intro h1 { font-size: 3rem; }
   .intro p { font-size: 2rem; }
-  .intro { height: 700px; }
+  .intro { height: 500px; }
 }
 /* Uncomment this if needed for larger screens */
 @media (min-width: 1440px) {
@@ -86,5 +160,5 @@
   .intro-header { padding: 2rem 4rem; }
   .intro h1 { font-size: 5rem; }
   .intro p { font-size: 2.50rem; }
-  .intro { height: 700px; }
+  .intro { height: 600px; }
 }

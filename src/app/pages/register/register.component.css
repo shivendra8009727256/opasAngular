@@ -1,15 +1,16 @@
-/* Global styles */
-.parent {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
-}
+/* .parent{
+  height: 100%;
+  border:#ec1606 solid 2px;
+  min-height: 600px;
+  max-height: max-content;  
+  background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca);
+  background-repeat: no-repeat;
+  background-size: 100% 200%;
+  background-position: center;
+  justify-content: space-between;
+  
+} */
+
 
 /* Responsive */
 @media (max-width: 768px) {

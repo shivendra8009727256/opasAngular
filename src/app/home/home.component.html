@@ -7,10 +7,10 @@
     <img [src]="'http://localhost:8000/uploads/' + images[4]?.image">
     
   </div>
-  <!-- <div class="intro-header">
+  <div class="intro-header">
     <h1>Top Exporter of Premium Quality</h1>
     <p>Certified Export House in India</p>
-  </div> -->
+  </div>
 </div>
 
 <div>
@@ -59,10 +59,39 @@
   </form>
 
 
+  <div class="card-container">
+    <div class="card" *ngFor="let item of images">
+      <div class="card-content">
+        <img style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
+        <h3>{{ item.name }}</h3>
+        <p>Price: ${{ item.color }}</p>
+        
+        <!-- Buttons for Edit and Delete -->
+        
+        <button (click)="updateImageWithDetails(item._id)">Edit</button>
+        <button (click)="deleteData(item._id)">Delete</button>
+      </div>
+    </div>
+  </div>
+  
 
 
-
-
+  <!-- <div class="card-container">
+    <div class="card" *ngFor="let item of images" >
+      <div class="card-content">       
+        <img  style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
+        <h3>{{ item.name }}</h3>
+        <p>Price: ${{ item.color }}</p>
+        
+      </div>
+      <button  (click)="updateImageWithDetails(item._id)">Edit</button> &nbsp;&nbsp;
+        <button (click)="deleteData(item._id)">Delete</button>
+      
+     
+     
+     
+    </div>
+  </div> -->
 
 
 

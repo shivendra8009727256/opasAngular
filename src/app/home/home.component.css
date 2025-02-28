@@ -170,3 +170,24 @@
 .modal.show {
   display: block;
 }
+
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the h4 tag */
+  height: 40vh; /* Optional: Full viewport height */
+  background-color: #dbe7e3;
+}
+
+h4 {
+  text-align: center; /* Center the h4 text */
+  margin-top: 20px; /* Optional: Remove margin */
+}
+
+.textContent p {
+ 
+  text-align: left; /* Align the p tag text to the left */
+  max-width: 900px; /* Optional: Control the width of the paragraph */
+  margin-top: 20px; /* Optional: Add some space above the paragraph */
+}

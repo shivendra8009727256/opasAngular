@@ -186,8 +186,9 @@ h4 {
 }
 
 .textContent p {
- padding: 10px;
+ padding-left: 30px;
+ padding-right: 30px;
   text-align: left; /* Align the p tag text to the left */
-  max-width: 900px; /* Optional: Control the width of the paragraph */
+  /* Optional: Control the width of the paragraph */
   margin-top: 20px; /* Optional: Add some space above the paragraph */
 }

@@ -15,7 +15,7 @@
 .product-image {
   width: 60%; /* Image takes 40% of the card width */
   height: 100%; 
-  object-fit: cover; /* Keeps aspect ratio */
+  object-fit: fill; /* Keeps aspect ratio */
 }
 
 .product-details {

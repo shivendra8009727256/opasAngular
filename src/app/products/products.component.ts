@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 declare var Razorpay: any;
 @Component({
@@ -9,6 +10,7 @@ declare var Razorpay: any;
 })
 export class ProductsComponent {
   product: any;
+  http=inject(HttpClient)
 
   constructor(private route: ActivatedRoute) {
     const navigation = window.history.state;
@@ -31,36 +33,57 @@ export class ProductsComponent {
     document.body.appendChild(script);
   }
 
-  payWithRazorpay() {
-    if (typeof Razorpay === 'undefined') {
-      alert('Razorpay SDK not loaded. Check your internet connection.');
-      return;
-    }
+  
 
-    const options = {
-      "key": "rzp_test_W7NkcgtEncLHaE", // Replace with your actual key
-      "amount": 50000, // Amount in paisa (₹500.00)
-      "currency": "INR",
-      "name": "OpasBizz Pvt Ltd",
-      "description": "Test Transaction",
-      "image": "/opasLogo.png",
-      "handler": function(response: any) {
-        console.log('Payment Successful:', response);
-        alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
-      },
-      "prefill": {
-        "name": "Shivendra Singh",
-        "email": "Admin@opasbizz.com",
-        "contact": "8009727256"
-      },
-      "theme": {
-        "color": "hsl(219.29deg 65.6% 29.28%)"
-      }
-    };
+  async payWithRazorpay() {
+    // const price= this.product.color
+    // console.log("AMOUNT>>>>>>>>",price)
 
-    const rzp1 = new Razorpay(options);
-    console.log("RAZOR PAY >>>>>>",rzp1)
-    rzp1.open();
+    this.http.post('http://localhost:8000/payment/create-order', { amount: 20, currency: 'INR' })
+      .subscribe((order: any) => {
+        console.log("ORDER RESPONSE >>>>", order);
+  
+        const options = {
+          key: "rzp_test_W7NkcgtEncLHaE",
+          amount: order.amount,
+          currency: order.currency,
+          name: "OpasBizz Pvt Ltd",
+          image:"/opasLogo.png",
+          description: "Test Transaction",
+          order_id: order.id, // Fix: Ensure order.id exists
+          handler: (response: any) => {
+            console.log("PAYMENT RESPONSE >>>>", response);
+            
+            const verifyPayload = {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            };
+  
+            this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
+              .subscribe((res: any) => {
+                console.log("VERIFY PAYMENT RESPONSE >>>>", res);
+                if (res.success) {
+                  alert("Payment verified successfully!");
+                } else {
+                  alert("Payment verification failed.");
+                }
+              });
+          },
+          prefill: {   // 👈 ADD THIS
+            name: "Test User",
+            email: "test@example.com",
+            contact: "9999999999"
+          },
+          theme: { color: "hsl(219.29deg 65.6% 29.28%)" }
+        };
+  
+        const rzp = new Razorpay(options);
+        rzp.open();
+      }, error => {
+        console.error("Error creating order:", error);
+      });
   }
+  
 
 }

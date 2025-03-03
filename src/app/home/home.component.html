@@ -23,10 +23,13 @@
 <div class="card-container">
   <div class="card" *ngFor="let item of images" >
     <div class="card-content">
-      <img style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
-      <h3 style="cursor: pointer;" (click)="goToProduct(item)">{{ item.ProductName }}</h3>
-      <p> <span style="color: red; font-size: large; cursor: pointer; " (click)="goToProduct(item)">*Price:</span> ${{ item.price }} /Kilogram</p>
-
+      <img style="height: 210px; width: 250px;" [src]="'http://localhost:8000/uploads/'+item.image">
+      <div style="cursor: pointer; " (click)="goToProduct(item)">
+        <h3 style="cursor: pointer;" >{{ item.productName }}</h3>
+        <p> *Price: <span style="color: rgb(223, 29, 29); ">${{ item.price }}</span> /Kilogram</p>
+  
+      </div>
+     
       <!-- Buttons for Edit and Delete -->
 
       <button class="btn btn-success" (click)="openEditModal(item)">Edit</button>
@@ -45,13 +48,56 @@
       <div class="modal-body">
         <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
           <div class="form-group">
-            <label for="editName">Image Name</label>
-            <input type="text" id="editName" formControlName="name" class="form-control" required />
+            <label for="name"> <span style="color: red;">*</span>Product Name</label>
+            <input type="text" id="productNameEdit" formControlName="productNameEdit" class="form-control"  />
+          </div>
+          <!--  -->
+          
+          
+          <div class="form-group">
+            <label for="name"> <span style="color: red;">*</span>Price</label>
+            <input type="number" id="priceEdit" formControlName="priceEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="name"> <span style="color: red;">*</span>Business Type</label>
+            <input type="text" id="businessTypeEdit" formControlName="businessTypeEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="certification"> <span style="color: red;">*</span>Certification</label>
+            <input type="text" id="certificationEdit" formControlName="certificationEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="cultivationType"> <span style="color: red;">*</span>Cultivation Type</label>
+            <input type="text" id="cultivationTypeEdit" formControlName="cultivationTypeEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="shelfLife"> <span style="color: red;">*</span>Shelf Life</label>
+            <input type="text" id="shelfLifeEdit" formControlName="shelfLifeEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="feature"> <span style="color: red;">*</span>Feature</label>
+            <input type="text" id="featureEdit" formControlName="featureEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="moisture"> <span style="color: red;">*</span>Moisture</label>
+            <input type="text" id="moistureEdit" formControlName="moistureEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="location"> <span style="color: red;">*</span>Location</label>
+            <input type="text" id="locationEdit" formControlName="locationEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="packagingType"> <span style="color: red;">*</span>Packaging Type</label>
+            <input type="text" id="packagingTypeEdit" formControlName="packagingTypeEdit" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="packSize"> <span style="color: red;">*</span>Pack Size</label>
+            <input type="text" id="packSizeEdit" formControlName="packSizeEdit" class="form-control"  />
           </div>
       
           <div class="form-group">
             <label for="editColor">Color</label>
-            <input type="text" id="editColor" formControlName="color" class="form-control" required />
+            <input type="text" id="editColorEdit" formControlName="colorEdit" class="form-control" required />
           </div>
       
           <div class="form-group">
@@ -87,7 +133,7 @@
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Product Name</label>
-            <input type="text" id="ProductName" formControlName="ProductName" class="form-control"  />
+            <input type="text" id="productName" formControlName="productName" class="form-control"  />
           </div>
           <!--  -->
           

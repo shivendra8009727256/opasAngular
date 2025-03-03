@@ -10,14 +10,25 @@ declare var Razorpay: any;
 })
 export class ProductsComponent {
   product: any;
-  http=inject(HttpClient)
+  http=inject(HttpClient);
+  products:any;
+ 
 
   constructor(private route: ActivatedRoute) {
     const navigation = window.history.state;
     this.product = navigation.product;
     console.log("PRODUCT DATA>>>>>>>>>>",this.product)
+     this.getProductDetails()
+
   }
 
+  getProductDetails(){
+    const id=this.product._id
+    this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+      this.products=res?.data;
+      console.log('Products Data successfully',res.data);
+    })
+  }
  
 
 

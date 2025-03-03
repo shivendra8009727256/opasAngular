@@ -1,14 +1,28 @@
+
 <div class="product-card">
   <img 
     loading="lazy" 
-    [src]="'http://localhost:8000/uploads/' + product?.image" 
+    [src]="'http://localhost:8000/uploads/' + products?.image" 
     alt="Product Image" 
     class="product-image"
   >
+  <h2>{{ products?.productName }}</h2>
+  <p><strong><span style="color: red;">*</span>Price:</strong><span style="color: rgb(241, 16, 16);">${{ products?.price }}</span>/ Kilogram </p>
+ 
 
   <div class="product-details">
-    <h2>{{ product?.name }}</h2>
-    <p><strong>Price:</strong> {{ product?.color }}</p>
+   
+    <p><strong>businessType:</strong>{{ products?.businessType}}</p>
+    <p><strong>certification:</strong>{{ products?.certification}}</p>
+    <p><strong>cultivationType:</strong>{{ products?.cultivationType}}</p>
+    <p><strong>shelfLife:</strong>{{ products?.shelfLife}}</p>
+    <p><strong>location:</strong>{{ products?.location}}</p>
+    <!-- <p><strong>packagingType</strong>{{ products?.packagingType}}</p>
+    <p><strong>packSize</strong>{{ products?.packSize}}</p>
+    <p><strong>moisture</strong>{{ products?.moisture}}</p>
+    -->
+    
+   
 
     <!-- Razorpay Payment Button -->
     <button class="btn btn-primary" id="rzp-button1" (click)="payWithRazorpay()">Pay</button>

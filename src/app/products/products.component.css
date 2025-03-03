@@ -1,34 +1,45 @@
+
+
+
 .product-card {
-  display: flex
-  ;
-      /* align-items: center; */
-      border: 2px solid #ddd;
+      display: flex;
+      border: 5px solid #ddd;
       border-radius: 10px;
       overflow: hidden;
-      width: 80%;
-      height: 600px;
+      width: 70%;
+      height: 400px;
       margin: auto;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      background: #d0cccc;
+      box-shadow: 1px 4px 8px rgb(111 20 20 / 10%);
+      background: #ffffff;
+      margin-top: 30px;
+      position: relative;
 }
 
 .product-image {
-  width: 60%; /* Image takes 40% of the card width */
-  height: 100%; 
-  object-fit: fill; /* Keeps aspect ratio */
+  width: 40%;
+  height: 60%;
+  object-fit: cover;
+  padding: 10px;
+  /* border-radius: 10%; */
+  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+}
+.product-image:hover {
+  transform: scale(1.5); /* Zoom in effect */
 }
 
 .product-details {
   flex: 1;
   padding: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 h2 {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size:x-large;
+  color: black;
 }
 
 p {
-  font-size: 12px;
+  font-size: 14px;
+  font-size: medium;
 }

@@ -28,7 +28,7 @@ export class HomeComponent {
   
   constructor(private fb: FormBuilder,private router: Router) {
     this.uploadForm = this.fb.group({
-      ProductName: ['', [Validators.required]],
+      productName: ['', [Validators.required]],
       price: ['', [Validators.required]],
       businessType: ['', [Validators.required]],
       certification: ['', [Validators.required]],
@@ -43,8 +43,18 @@ export class HomeComponent {
       image: [null],
     });
     this.editForm = this.fb.group({
-      name: ['', [Validators.required]],
-      color: ['', [Validators.required]],
+      productNameEdit: ['', [Validators.required]],
+      priceEdit: ['', [Validators.required]],
+      businessTypeEdit: ['', [Validators.required]],
+      certificationEdit: ['', [Validators.required]],
+      cultivationTypeEdit: ['', [Validators.required]],
+      shelfLifeEdit: ['', [Validators.required]],
+      featureEdit: ['', [Validators.required]],
+      moistureEdit: ['', [Validators.required]],
+      locationEdit: ['', [Validators.required]],
+      packagingTypeEdit: ['', [Validators.required]],
+      packSizeEdit: ['', [Validators.required]],
+      colorEdit: ['', [Validators.required]],      
       image: [null],
     });
   }
@@ -98,7 +108,7 @@ export class HomeComponent {
     
 
     const formData = new FormData();
-    formData.append('ProductName', this.uploadForm.get('ProductName')?.value);
+    formData.append('productName', this.uploadForm.get('productName')?.value);
     formData.append('color', this.uploadForm.get('color')?.value);
     formData.append('price', this.uploadForm.get('price')?.value);
     formData.append('businessType', this.uploadForm.get('businessType')?.value);
@@ -143,37 +153,31 @@ export class HomeComponent {
 
   }
 
-  updateData(item:any){
-    const id=item;
-    const obj={
-
-    }
-
-  }
+  
 
   
    // Update image file and details
-   updateImageWithDetails(item: any) {
-    const id = item._id;
-    const formData = new FormData();
-    formData.append('name', item.name);
-    formData.append('color', item.color);
-    formData.append('details', item.details);
+  //  updateImageWithDetails(item: any) {
+  //   const id = item._id;
+  //   const formData = new FormData();
+  //   formData.append('name', item.name);
+  //   formData.append('color', item.color);
+  //   formData.append('details', item.details);
 
-    if (this.fileToUpload) {
-      formData.append('image', this.fileToUpload, this.fileToUpload.name);
-    }
+  //   if (this.fileToUpload) {
+  //     formData.append('image', this.fileToUpload, this.fileToUpload.name);
+  //   }
 
-    this.http.patch(`http://localhost:8000/opas/updateImage/${id}`, formData).subscribe(
-      async (response: any) => {
-        console.log('Image and details updated successfully', response);
-        await this.getAllImage();
-      },
-      (error) => {
-        console.error('Error updating image and details', error);
-      }
-    );
-  }
+  //   this.http.patch(`http://localhost:8000/opas/updateImage/${id}`, formData).subscribe(
+  //     async (response: any) => {
+  //       console.log('Image and details updated successfully', response);
+  //       await this.getAllImage();
+  //     },
+  //     (error) => {
+  //       console.error('Error updating image and details', error);
+  //     }
+  //   );
+  // }
 
   openModal(): void {
     const modal = document.getElementById('myModal');
@@ -195,9 +199,20 @@ export class HomeComponent {
 
   openEditModal(item: any) {
     this.selectedItem = item;
+    console.log("ITEM>>>>>>>",this.selectedItem)
     this.editForm.patchValue({
-      name: item.name,
-      color: item.color
+      productNameEdit: item.productName,
+      priceEdit: item.price,
+      businessTypeEdit: item.businessType,
+      certificationEdit: item.certification,
+      cultivationTypeEdit: item.cultivationType,
+      shelfLifeEdit: item.shelfLife,
+      featureEdit: item.feature,
+      moistureEdit: item.moisture,
+      locationEdit: item.location,
+      packagingTypeEdit: item.packagingType,
+      packSizeEdit: item.packSize,
+      colorEdit: item.color,
     });
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -222,8 +237,18 @@ export class HomeComponent {
     if (this.editForm.invalid || !this.selectedItem) return;
 
     const formData = new FormData();
-    formData.append('name', this.editForm.get('name')?.value);
-    formData.append('color', this.editForm.get('color')?.value);
+    formData.append('productName', this.editForm.get('productNameEdit')?.value);
+    formData.append('price', this.editForm.get('priceEdit')?.value);
+    formData.append('businessType', this.editForm.get('businessTypeEdit')?.value);
+    formData.append('certification', this.editForm.get('certificationEdit')?.value);
+    formData.append('cultivationType', this.editForm.get('cultivationTypeEdit')?.value);
+    formData.append('shelfLife', this.editForm.get('shelfLifeEdit')?.value);
+    formData.append('feature', this.editForm.get('featureEdit')?.value);
+    formData.append('moisture', this.editForm.get('moistureEdit')?.value);
+    formData.append('location', this.editForm.get('locationEdit')?.value);
+    formData.append('packagingType', this.editForm.get('packagingTypeEdit')?.value);
+    formData.append('packSize', this.editForm.get('packSizeEdit')?.value);
+    formData.append('color', this.editForm.get('colorEdit')?.value);
     
     if (this.fileToUpload) {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);

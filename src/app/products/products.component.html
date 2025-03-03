@@ -1,26 +1,32 @@
-
-<div class="product-card">
-  <img 
-    loading="lazy" 
-    [src]="'http://localhost:8000/uploads/' + products?.image" 
-    alt="Product Image" 
-    class="product-image"
-  >
-  <h2>{{ products?.productName }}</h2>
-  <p><strong><span style="color: red;">*</span>Price:</strong><span style="color: rgb(241, 16, 16);">${{ products?.price }}</span>/ Kilogram </p>
  
+<div class="product-card poppins-thin">
+<div class="heading">
+  <img 
+  loading="lazy" 
+  [src]="'http://localhost:8000/uploads/' + products?.image" 
+  alt="Product Image" 
+  class="product-image"
+>
+<h2>{{ products?.productName }}</h2>
+<p><strong><span style="color: red;">*</span>Price:</strong><span style="color: rgb(241, 16, 16);">${{ products?.price }}</span>/ Kilogram </p>
+
+</div>
+
+
+
+  
 
   <div class="product-details">
    
-    <p><strong>businessType:</strong>{{ products?.businessType}}</p>
-    <p><strong>certification:</strong>{{ products?.certification}}</p>
-    <p><strong>cultivationType:</strong>{{ products?.cultivationType}}</p>
-    <p><strong>shelfLife:</strong>{{ products?.shelfLife}}</p>
-    <p><strong>location:</strong>{{ products?.location}}</p>
-    <!-- <p><strong>packagingType</strong>{{ products?.packagingType}}</p>
-    <p><strong>packSize</strong>{{ products?.packSize}}</p>
-    <p><strong>moisture</strong>{{ products?.moisture}}</p>
-    -->
+    <p style="border: 1px solid black;"><strong>BusinessType:</strong>   {{ products?.businessType}}</p>
+    <p style="border: 1px solid black;"><strong>Certification:</strong>  {{ products?.certification}}</p>
+    <p style="border: 1px solid black;"><strong>CultivationType:</strong> {{ products?.cultivationType}}</p>
+    <p style="border: 1px solid black;"><strong>ShelfLife:</strong>{{ products?.shelfLife}}</p>
+    <p style="border: 1px solid black;"><strong>Location:</strong>{{ products?.location}}</p>
+    <p  style="border: 1px solid black;"><strong>PackagingType</strong>{{ products?.packagingType}}</p>
+    <p  style="border: 1px solid black;"><strong>PackSize</strong>{{ products?.packSize}}</p>
+    <p  style="border: 1px solid black;"><strong>Moisture</strong>{{ products?.moisture}}</p>
+   
     
    
 

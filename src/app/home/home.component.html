@@ -26,14 +26,14 @@
       <img style="height: 210px; width: 250px;" [src]="'http://localhost:8000/uploads/'+item.image">
       <div style="cursor: pointer; " (click)="goToProduct(item)">
         <h3 style="cursor: pointer;" >{{ item.productName }}</h3>
-        <p> *Price: <span style="color: rgb(223, 29, 29); ">${{ item.price }}</span> /Kilogram</p>
+        <p> *Price: <span style="color: rgb(238, 8, 8); ">${{ item.price }}</span> /Kilogram</p>
   
       </div>
      
       <!-- Buttons for Edit and Delete -->
 
-      <button class="btn btn-success" (click)="openEditModal(item)">Edit</button>
-      <button (click)="deleteData(item._id)">Delete</button>
+      <button class="btn btn-success" style="left: 20px;" (click)="openEditModal(item)">Edit</button>
+      <button style="right: 20px" (click)="deleteData(item._id)">Delete</button>
     </div>
   </div>
 </div>

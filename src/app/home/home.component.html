@@ -24,8 +24,8 @@
   <div class="card" *ngFor="let item of images" >
     <div class="card-content">
       <img style="height: 300px; width: 300px;" [src]="'http://localhost:8000/uploads/'+item.image">
-      <h3 style="cursor: pointer;" (click)="goToProduct(item)">{{ item.name }}</h3>
-      <p> <span style="color: red; font-size: large; cursor: pointer; " (click)="goToProduct(item)">*Price:</span> {{ item.color }}</p>
+      <h3 style="cursor: pointer;" (click)="goToProduct(item)">{{ item.ProductName }}</h3>
+      <p> <span style="color: red; font-size: large; cursor: pointer; " (click)="goToProduct(item)">*Price:</span> ${{ item.price }} /Kilogram</p>
 
       <!-- Buttons for Edit and Delete -->
 
@@ -86,13 +86,67 @@
       <div class="modal-body">
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label for="name">Image Name</label>
-            <input type="text" id="name" formControlName="name" class="form-control" required />
+            <label for="name"> <span style="color: red;">*</span>Product Name</label>
+            <input type="text" id="ProductName" formControlName="ProductName" class="form-control"  />
           </div>
-      
+          <!--  -->
+          
+          
+          <div class="form-group">
+            <label for="name"> <span style="color: red;">*</span>Price</label>
+            <input type="number" id="price" formControlName="price" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="name"> <span style="color: red;">*</span>Business Type</label>
+            <input type="text" id="businessType" formControlName="businessType" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="certification"> <span style="color: red;">*</span>Certification</label>
+            <input type="text" id="certification" formControlName="certification" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="cultivationType"> <span style="color: red;">*</span>Cultivation Type</label>
+            <input type="text" id="cultivationType" formControlName="cultivationType" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="shelfLife"> <span style="color: red;">*</span>Shelf Life</label>
+            <input type="text" id="shelfLife" formControlName="shelfLife" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="feature"> <span style="color: red;">*</span>Feature</label>
+            <input type="text" id="feature" formControlName="feature" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="moisture"> <span style="color: red;">*</span>Moisture</label>
+            <input type="text" id="moisture" formControlName="moisture" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="location"> <span style="color: red;">*</span>Location</label>
+            <input type="text" id="location" formControlName="location" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="packagingType"> <span style="color: red;">*</span>Packaging Type</label>
+            <input type="text" id="packagingType" formControlName="packagingType" class="form-control"  />
+          </div>
+          <div class="form-group">
+            <label for="packSize"> <span style="color: red;">*</span>Pack Size</label>
+            <input type="text" id="packSize" formControlName="packSize" class="form-control"  />
+          </div>
+          
+          
+          <!-- <div class="form-group">
+            <label for=""> <span style="color: red;">*</span>Pack Size</label>
+            <input type="text" id="packSize" formControlName="packSize" class="form-control" required />
+          </div> -->
+
+
+
+
+
+      <!--  -->
           <div class="form-group">
             <label for="color">Color</label>
-            <input type="text" id="color" formControlName="color" class="form-control" required />
+            <input type="text" id="color" formControlName="color" class="form-control"  />
           </div>
       
           <div class="form-group">

@@ -28,7 +28,17 @@ export class HomeComponent {
   
   constructor(private fb: FormBuilder,private router: Router) {
     this.uploadForm = this.fb.group({
-      name: ['', [Validators.required]],
+      ProductName: ['', [Validators.required]],
+      price: ['', [Validators.required]],
+      businessType: ['', [Validators.required]],
+      certification: ['', [Validators.required]],
+      cultivationType: ['', [Validators.required]],
+      shelfLife: ['', [Validators.required]],
+      feature: ['', [Validators.required]],
+      moisture: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      packagingType: ['', [Validators.required]],
+      packSize: ['', [Validators.required]],
       color: ['', [Validators.required]],
       image: [null],
     });
@@ -85,10 +95,22 @@ export class HomeComponent {
       console.log("THIS>?>>>>>>>>>>",this.uploadForm.value)
       return;
     }
+    
 
     const formData = new FormData();
-    formData.append('name', this.uploadForm.get('name')?.value);
+    formData.append('ProductName', this.uploadForm.get('ProductName')?.value);
     formData.append('color', this.uploadForm.get('color')?.value);
+    formData.append('price', this.uploadForm.get('price')?.value);
+    formData.append('businessType', this.uploadForm.get('businessType')?.value);
+    formData.append('certification', this.uploadForm.get('certification')?.value);
+    formData.append('cultivationType', this.uploadForm.get('cultivationType')?.value);
+    formData.append('shelfLife', this.uploadForm.get('shelfLife')?.value);
+    formData.append('feature', this.uploadForm.get('feature')?.value);
+    formData.append('moisture', this.uploadForm.get('moisture')?.value);
+    formData.append('location', this.uploadForm.get('location')?.value);
+    formData.append('packagingType', this.uploadForm.get('packagingType')?.value);
+    formData.append('packSize', this.uploadForm.get('packSize')?.value);
+   
 
     // Append the file
     if (this.fileToUpload) {
@@ -100,7 +122,8 @@ export class HomeComponent {
       async (response:any) => {
         this.uploadSuccess = true;
         this.uploadError = false;
-        console.log('Image uploaded successfully', response);
+       await this.uploadForm.reset()
+        console.log('Product uploaded successfully', response);
         await this.getAllImage()
       },
       (error) => {

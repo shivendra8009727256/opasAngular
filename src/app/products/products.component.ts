@@ -1,17 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {  ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 declare var Razorpay: any;
 @Component({
   selector: 'app-products',
-  imports: [],
+  imports: [CommonModule, MatCardModule, MatButtonModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent {
+export class ProductsComponent  {
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   product: any;
   http=inject(HttpClient);
   products:any;
+  getAllList :any
  
 
   constructor(private route: ActivatedRoute) {
@@ -19,14 +25,33 @@ export class ProductsComponent {
     this.product = navigation.product;
     console.log("PRODUCT DATA>>>>>>>>>>",this.product)
      this.getProductDetails()
-
+     this.getAllProductsList()
   }
 
-  getProductDetails(){
+ async getAllProductsList(){
+ await this.http.get("http://localhost:8000/opas/getImage").subscribe((res:any)=>{
+    this.getAllList = res.data; // Store the fetched images
+    console.log('Images fetched successfully', this.getAllList);
+  })
+
+ }
+
+
+
+
+  async getProductDetails(){
     const id=this.product._id
-    this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
-      console.log('Products Data successfully',res.data);
+      console.log( 'ROUTER Products Data successfully',res.data);
+    })
+  }
+  async getProductOne(item:any){
+    const id=item
+   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+      this.products=res?.data;
+      console.log('ONE Products Data successfully',res.data);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     })
   }
  
@@ -34,6 +59,10 @@ export class ProductsComponent {
 
   ngOnInit() {
     this.loadRazorpayScript();
+     // Start auto-scrolling every 3 seconds
+  this.scrollInterval = setInterval(() => {
+    this.scrollRight();
+  }, 4000); // Auto-scroll every 3 seconds
   }
 
   loadRazorpayScript() {
@@ -96,5 +125,52 @@ export class ProductsComponent {
       });
   }
   
+/////////////////////////////////////////////////////////////////////////
+
+
+// Variable to hold auto-scroll interval
+private scrollInterval: any;
+
+
+
+ngOnDestroy() {
+  // Clear interval when component is destroyed to avoid memory leaks
+  if (this.scrollInterval) {
+    clearInterval(this.scrollInterval);
+  }
+}
+
+scrollLeft() {
+  const container = this.scrollContainer.nativeElement;
+  const scrollPosition = container.scrollLeft;
+  const itemWidth = container.children[0].offsetWidth;
+
+  if (scrollPosition === 0) {
+    // If we're at the start, scroll to the last item
+    container.scrollLeft = container.scrollWidth - itemWidth;
+  } else {
+    container.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+  }
+}
+
+scrollRight() {
+  const container = this.scrollContainer.nativeElement;
+  const scrollPosition = container.scrollLeft;
+  const itemWidth = container.children[0].offsetWidth;
+
+  if (scrollPosition + container.offsetWidth >= container.scrollWidth) {
+    // If we're at the end, scroll to the start
+    container.scrollLeft = 0;
+  } else {
+    container.scrollBy({ left: itemWidth, behavior: 'smooth' });
+  }
+}
+
+
+
+
+
+
+
 
 }

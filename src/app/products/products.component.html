@@ -1,4 +1,4 @@
-<div>
+<div class="parent" >
 
 
 <div class="product-card poppins-thin">
@@ -8,9 +8,15 @@
     <h2>{{ products?.productName }}</h2>
     <p><strong><span style="color: red;">*</span>Price:</strong><span style="color: rgb(241, 16, 16);">${{
         products?.price }}</span>/ Kilogram </p>
-
+    <div style="display: flex; gap: 5px; ">
+     <input type="tel" placeholder="Quantity(Ton)" class="custom-input" />
+     <input type="text" placeholder="Total Amount" class="custom-input" />
+     <!-- <input type="text" class="custom-input" /> -->
+    </div>
   </div>
+  
   <div class="product-details">
+    
 
     <p style="border: 1px solid black;"><strong>BusinessType:</strong> {{ products?.businessType}}</p>
     <p style="border: 1px solid black;"><strong>Certification:</strong> {{ products?.certification}}</p>
@@ -22,8 +28,12 @@
     <p style="border: 1px solid black;"><strong>Moisture:</strong> {{ products?.moisture}}</p>
     <!-- Razorpay Payment Button -->
    
-    <button type="button" class="btn btn-success btn-lg btn-block" id="rzp-button1" (click)="payWithRazorpay()">Checkout</button>
+    <button type="button" class="btn btn-success btn-lg btn-block" id="rzp-button1" style="width: 100%;" (click)="payWithRazorpay()">Checkout</button>
   </div>
+</div>
+
+<div class="product-detail-list">
+
 </div>
 <div>
   <div class="container">
@@ -53,3 +63,18 @@
   </div>
 </div>
 </div>
+
+<!-- //////////////Create Checkout model //////////////////// -->
+ <!-- Large modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div>
+
+      </div>
+      ...
+    </div>
+  </div>
+</div> -->

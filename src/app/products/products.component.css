@@ -1,4 +1,12 @@
-
+.parent{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.product-detail-list{
+ /* background-color: #ddd;
+ width: 100%;
+ height: 400px; */
+}
 
 
 .product-card {
@@ -6,26 +14,26 @@
       border: 5px solid #ddd;
       border-radius: 10px;
       overflow: hidden;
-      width: 90%;
+      width: 80%;
       height: 500px;
       margin: auto;
       box-shadow: 1px 4px 8px rgb(111 20 20 / 10%);
-      background: #90bc79;
+      background: #a19267;
       margin-top: 40px;
       position: relative;
 }
 
 .product-image {
  max-width: 100%;  
- height: 80%;
+ height: 75%;
  max-height: 80%;
-  object-fit: fill;
+  object-fit: cover;
   padding: 10px;
   /* border-radius: 10%; */
-  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+  transition: transform 1.9s ease-in-out; /* Smooth zoom effect */
 }
 .product-image:hover {
-  transform: scale(4.5); /* Zoom in effect */
+  transform: scale(2.1); /* Zoom in effect */
 }
 
 .product-details {
@@ -73,12 +81,7 @@ p {
  .heading{font-size: 5px;}
 }
 
-.container {
-  text-align: center;
-  margin-top: 50px;
-  position: relative;
-  margin-bottom: 50px;
-}
+
 
 .section-title {
   font-size: 24px;
@@ -111,7 +114,14 @@ p {
 }
 
 .scroll-btn:hover {
-  background: black;
+  background: rgb(17, 17, 17);
+}
+.container {
+  text-align: center;
+  margin-top: 50px;
+  position: relative;
+  margin-bottom: 50px;
+ 
 }
 
 .product-list {
@@ -119,11 +129,15 @@ p {
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 20px;
-  padding: 10px;
+  padding-top: 20px;
   white-space: nowrap;
+  max-width: 100%;
+  height: 500px;
+ 
 }
 
 .product-card1 {
+  max-height: 400px;
   margin-top: 10px;
   display: inline-block;
   width: 300px;
@@ -131,6 +145,7 @@ p {
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   cursor: pointer;
+  transition: transform 0.5s ease-in-out;
 }
 .product-card1:hover {
   transform: scale(1.1); /* Zoom in effect */
@@ -146,4 +161,18 @@ p {
 /* Hide scrollbar */
 .product-list::-webkit-scrollbar {
   display: none;
+}
+
+.custom-input {
+  border: none; /* Remove all borders */
+  border-bottom: 2px solid white; /* Add bottom border */
+  background: transparent; /* Make background transparent */
+  color: white; /* Text color */
+  padding-left: 10px; 
+  font-size: 14px; /* Adjust font size */
+  outline: none; /* Remove focus outline */
+}
+
+.custom-input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Light white placeholder */
 }

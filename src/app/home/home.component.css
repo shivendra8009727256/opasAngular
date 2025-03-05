@@ -40,6 +40,23 @@
   position: relative;
   z-index: 1;
 }
+/* ////////////////////////////////////////second text/////////// */
+.textContent1{
+  margin: 20px;
+  display:flex;
+  margin-bottom: 50px;
+ 
+  }
+
+  .textContent1 h4 {
+    text-align: center;
+  }
+  .textContent1 p {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: justify; 
+     margin-top: 20px;
+  }
 
 /* ////////////////////CARD CSSS */
 .card-container {
@@ -48,6 +65,7 @@
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
+  margin-bottom: 100px;
   
 }
 
@@ -147,6 +165,7 @@
   .intro { height: 250px; }
   .textContent p{padding-left: 0px;
     padding-right: 0px;}
+    .textContent1{ display: contents;}
 }
 
 @media (max-width: 320px) {
@@ -157,6 +176,7 @@
   .intro { height: 150px; }
   .textContent p{padding-left: 0px;
     padding-right: 0px;}
+  .textContent1{ display: contents;}
 }
 @media (min-width: 1024px) {
   html { font-size: 14px; }
@@ -201,7 +221,6 @@ h4 {
 .textContent p {
  padding-left: 50px;
  padding-right: 50px;
- text-align: justify; /* Align the p tag text to the left */
-  /* Optional: Control the width of the paragraph */
-  margin-top: 20px; /* Optional: Add some space above the paragraph */
+ text-align: justify; 
+  margin-top: 20px; 
 }

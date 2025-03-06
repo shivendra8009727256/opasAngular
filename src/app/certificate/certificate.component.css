@@ -6,9 +6,11 @@
     min-height: 100vh;
     background: #121212;
     margin: 0;
+    
 }
 
 .product-card {
+    margin-top: 150px;
     display: flex;
     background: rgba(255, 255, 255, 0.1);
     padding: 50px;
@@ -20,6 +22,7 @@
     backdrop-filter: blur(10px);
     border: 4px solid;
     border-image: linear-gradient(135deg, #ff7e5f, #feb47b) 1;
+    margin-bottom: 100px;
 }
 
 .product-image {

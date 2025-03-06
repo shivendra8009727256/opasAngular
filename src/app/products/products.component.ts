@@ -231,17 +231,18 @@ export class ProductsComponent  {
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
       console.log( 'ROUTER Products Data successfully',res.data);
-    })
-  }
-  async getProductOne(item:any){
-    console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
-    const id=item
-   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
-      this.products=res?.data;
-      console.log('ONE Products Data successfully',res.data);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
   }
+  // async getProductOne(item:any){
+  //   console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
+  //   const id=item
+  //  await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+  //     this.products=res?.data;
+  //     console.log('ONE Products Data successfully',res.data);
+  //     window.scrollTo({ top: 0, behavior: 'smooth' });
+  //   })
+  // }
  
 
 

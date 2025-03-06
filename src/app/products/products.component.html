@@ -33,7 +33,7 @@
 
       <!-- Input Fields for Quantity and Total Amount -->
       <div style="display: flex; gap: 5px; margin-left: 20px;">
-        <input type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
+        <input style="width: 50px;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
           (input)="calculateTotalAmount()" [value]="quantity === 0 ? 'Quantity (Ton)' : quantity" />
 
         <input type="text" placeholder="Total Amount" class="custom-input"

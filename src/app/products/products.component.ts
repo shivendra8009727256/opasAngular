@@ -209,7 +209,7 @@ export class ProductsComponent  {
     const navigation = window.history.state;
     this.product = navigation.product;
     console.log("PRODUCT DATA>>>>>>>>>>",this.product)
-     this.getProductDetails()
+     this.getProductDetails(this.product)
      this.getAllProductsList()
   }
 
@@ -224,8 +224,9 @@ export class ProductsComponent  {
 
 
 
-  async getProductDetails(){
-    const id=this.product._id
+  async getProductDetails(item:any){
+    console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>")
+    const id=item._id
    await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
@@ -233,6 +234,7 @@ export class ProductsComponent  {
     })
   }
   async getProductOne(item:any){
+    console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
     const id=item
    await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;

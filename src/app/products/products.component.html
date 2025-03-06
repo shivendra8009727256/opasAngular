@@ -193,7 +193,7 @@
       <div class="product-list" #scrollContainer>
         <!-- Loop through products -->
         <mat-card class="product-card1" *ngFor="let product of getAllList">
-          <div (click)="getProductOne(product._id)">
+          <div (click)="getProductDetails(product)">
             <img mat-card-image [src]="'http://localhost:8000/uploads/' + product?.image" alt="Product Image">
             <mat-card-content>
               <h3>{{ product?.productName }}</h3>

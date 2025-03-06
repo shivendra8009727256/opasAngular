@@ -9,12 +9,23 @@
       <h2>{{ products?.productName }}</h2>
 
       <p>
-        <strong><span style="color: red;">*</span>Price:</strong> &nbsp;
-        <select (change)="onCurrencyChange($event)">
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Select Currency</mat-label>
+          <mat-select  [(ngModel)]="selectedCurrency" (selectionChange)="onCurrencyChange($event)">
+            <mat-option *ngFor="let currency of currencyList" [value]="currency">
+              {{ currency }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp; <strong><span style="color: red;">*</span>Price:</strong> &nbsp;
+        
+        
+        <!-- <select (change)="onCurrencyChange($event)" > 
           <option *ngFor="let currency of currencyList" [value]="currency">
             {{ currency }}
           </option>
-        </select>&nbsp;
+        </select>&nbsp; -->
 
         <!-- Clickable Flag Icon for Currency Selection -->
         <span style="cursor: pointer;" (click)="toggleCurrencyDropdown()">
@@ -27,13 +38,13 @@
         <span style="color: rgb(241, 16, 16);">
           {{ convertedPrice | number:'1.2-2' }} {{ selectedCurrency }}
         </span> / Kilogram
-      </p>
+      
 
 
 
       <!-- Input Fields for Quantity and Total Amount -->
-      <div style="display: flex; gap: 5px; margin-left: 20px;">
-        <input style="width: 50px;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
+      <div style="display: flex; gap: 15px; margin-left: 20px;">
+        <input style="width: 100px;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
           (input)="calculateTotalAmount()" [value]="quantity === 0 ? 'Quantity (Ton)' : quantity" />
 
         <input type="text" placeholder="Total Amount" class="custom-input"

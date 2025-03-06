@@ -8,6 +8,18 @@
  height: 400px; */
 }
 
+mat-form-field {
+  width: 180px; /* Set your desired width */
+  height: 10px;
+  max-height: 20px;
+}
+
+.mat-select-panel {
+  max-width: 100px !important; /* Ensures dropdown matches the field width */
+}
+
+
+
 
 .product-card {
       display: flex;
@@ -27,8 +39,8 @@
 .product-image {
   width: 89%;
  max-width: 100%;  
- height: 75%;
- max-height: 80%;
+ height: 67%;
+ max-height: 70%;
   object-fit: cover;
   padding: 10px;
   /* border-radius: 10%; */
@@ -42,7 +54,7 @@
 }
 @keyframes slideIn {
   0% {
-      transform: translateX(-100%) scale(0.5);
+      transform: translateX(-100%) scale(0.2);
       opacity: 0;
   }
 
@@ -58,7 +70,7 @@
   }
 
   100% {
-      transform: scale(1.2);
+      transform: scale(1.1);
   }
 }
 
@@ -71,7 +83,7 @@
 }
 
 h2 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size:x-large;
   color: black;
 }
@@ -202,31 +214,24 @@ p {
   border-bottom: 2px solid rgb(12, 12, 12); 
   background: transparent; 
   color: rgb(8, 8, 8); 
-  padding-left: 10px; 
+  /* padding-left: 10px;  */
   /* font-size: 14px;  */
   outline: none;
-  margin-left: 30px; 
+  /* margin-left: 30px;  */
   text-align: center;
-  width: 30%;
+  width: 50%;
    max-width: 100%;
+   margin-top: 12px;
 }
 
 .custom-input::placeholder {
   color: rgba(19, 17, 17, 0.7); 
 }
 
-.currency-dropdown {
-  position: absolute;
-  background: white;
-  border: 1px solid #ddd;
-  padding: 5px;
-  z-index: 100;
-}
 
-.currency-dropdown select {
-  padding: 5px;
-  border-radius: 5px;
-}
+
+
+
 
 img {
   border-radius: 3px;

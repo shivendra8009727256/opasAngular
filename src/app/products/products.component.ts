@@ -7,12 +7,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {CurrencyService} from '../../service/currency.service'
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 
 declare var Razorpay: any;
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, MatCardModule, MatButtonModule,FormsModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule,FormsModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -272,7 +274,7 @@ export class ProductsComponent  {
    * Handle currency selection change
    */
   onCurrencyChange(event: any) {
-    this.selectedCurrency = event.target.value;
+    this.selectedCurrency = event.value;
     console.log("SELECTED CURRENCY>>>>>>>>>>>>",this.selectedCurrency)
     this.convertPrice();
   }

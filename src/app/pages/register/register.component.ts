@@ -75,6 +75,7 @@ export class RegisterComponent {
     this.masterSer.login(this.loginForm.value).subscribe((res: any) => {
       try {
         if (res) {
+          console.log('<<<<<<<<<<<<<<<<<...RSPONCE....>>>>>>>>>>>>>>>>>>>>>>',res);
           localStorage.setItem("email", JSON.stringify(res.user?.email));
           localStorage.setItem("isActive", JSON.stringify(res.user?.isActive));
           localStorage.setItem("fullName", JSON.stringify(res.user?.fullName));
@@ -82,6 +83,7 @@ export class RegisterComponent {
           localStorage.setItem("companyName", JSON.stringify(res.user?.companyName));
           localStorage.setItem("address", JSON.stringify(res.user?.address));
           localStorage.setItem("token", JSON.stringify(res.token));
+          localStorage.setItem("phoneNumber", JSON.stringify(res.phoneNumber));
           console.log('Login Data:', res);
 
           this.router.navigateByUrl("/dashboard");

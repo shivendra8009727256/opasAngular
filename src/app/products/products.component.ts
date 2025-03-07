@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {  ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,9 @@ import {CurrencyService} from '../../service/currency.service'
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { ChangeDetectorRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar'
+
 
 
 declare var Razorpay: any;
@@ -22,6 +25,7 @@ export class ProductsComponent  {
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   product: any;
   http=inject(HttpClient);
+  router = inject(Router);
   products:any;
   getAllList :any
   dollarToINR: any;
@@ -33,7 +37,7 @@ export class ProductsComponent  {
   currencyList: string[] = []; // List of currencies
   quantity: number = 0; // User-entered quantity (in Tons)
   totalAmount: number = 0; // Store only numbers
-
+  quantityCheck:boolean=true
   // Currency Flags (ISO 3166-1 alpha-2 country codes)
   currencyFlags: any ={
     INR: "in",
@@ -203,16 +207,41 @@ export class ProductsComponent  {
     
   }
   totalAmountInINR: number=0;
+  userEmail: string | null;
+  fullName: string | null;
+
+  isActive: string | null;
+  companyName: string | null;
+  businessType: string | null;
+  address: string | null;
+  token: string | null;
+  phoneNumber: string | null;
 
   
   
 
-  constructor(private route: ActivatedRoute, private currencyService: CurrencyService) {
+  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
     const navigation = window.history.state;
     this.product = navigation.product;
-    console.log("PRODUCT DATA>>>>>>>>>>",this.product)
+    
      this.getProductDetails(this.product)
      this.getAllProductsList()
+     this.userEmail=localStorage.getItem("email");
+     this.isActive= localStorage.getItem("isActive");
+     this.fullName=localStorage.getItem("fullName");
+     this.businessType= localStorage.getItem("businessType");
+     this.companyName= localStorage.getItem("companyName");
+     this.address= localStorage.getItem("address");
+     this.token=localStorage.getItem("token");
+     this.phoneNumber=localStorage.getItem("phoneNumber");
+
+
+
+
+
+     
+   
+     console.log(this.fullName,"PRODUCT DATA>>>>>>>>>>",this.userEmail, ">>>>>>>>")
   }
 
  async getAllProductsList(){
@@ -293,9 +322,14 @@ export class ProductsComponent  {
     }
     this.calculateTotalAmount(); // Recalculate total when currency changes
   }
-  calculateTotalAmount() {
+  async calculateTotalAmount() {
+    
+    if(this.quantity >=25){
+      this.quantityCheck=false
+    }
+    await this.validateQuantity()
     const quantityInKg = this.quantity * 1000; // Convert Tons to Kilograms
-    this.totalAmount = quantityInKg * this.convertedPrice; // Store only numbers
+    this.totalAmount =  Number((quantityInKg * this.convertedPrice).toFixed(2));; // Store only numbers
     // Convert totalAmount to INR if exchange rate exists
     if (this.exchangeRates['INR']) {
       this.totalAmountInINR = this.totalAmount * (this.exchangeRates['INR'] / this.exchangeRates[this.selectedCurrency]);
@@ -306,7 +340,12 @@ export class ProductsComponent  {
   }
   
 
-
+  validateQuantity() {
+    if (this.quantity < 1 || isNaN(this.quantity)) {
+      this.quantity = 1; // Reset to 1 if invalid
+    }
+  }
+  
 
 
   loadRazorpayScript() {
@@ -317,9 +356,16 @@ export class ProductsComponent  {
     document.body.appendChild(script);
   }
 
-  
+  userDetails(){
+    if(this.userEmail!=null && this.fullName!=null){
+this.payWithRazorpay()
+    }else{
+      this.router.navigateByUrl("/register")
+    }
+  }
 
   async payWithRazorpay() {
+    
     // const price= this.product.color
     
     const obj={
@@ -329,7 +375,7 @@ export class ProductsComponent  {
     console.log("AMOUNT>>>>>>>>",obj)
 
     this.http.post('http://localhost:8000/payment/create-order', obj)
-      .subscribe((order: any) => {
+      .subscribe(async (order: any) => {
         console.log("ORDER RESPONSE >>>>", order);
   
         const options = {
@@ -340,7 +386,7 @@ export class ProductsComponent  {
           image:"/opasLogo.png",
           description: "Test Transaction",
           order_id: order.id, // Fix: Ensure order.id exists
-          handler: (response: any) => {
+          handler: async (response: any) => {
             console.log("PAYMENT RESPONSE >>>>", response);
             
             const verifyPayload = {
@@ -349,33 +395,76 @@ export class ProductsComponent  {
               razorpay_signature: response.razorpay_signature
             };
   
-            this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
-              .subscribe((res: any) => {
+           await this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
+              .subscribe(async (res: any) => {
                 console.log("VERIFY PAYMENT RESPONSE >>>>", res);
                 if (res.success) {
-                  alert("Payment verified successfully!");
+                 await this.paymentSuccess(response,{order_id: order.id,amount: order.amount,currency: order.currency});
                 } else {
-                  alert("Payment verification failed.");
+                 await this.paymentFailed({order_id: order.id,amount: order.amount,currency: order.currency,error:res.error});
                 }
               });
           },
-          prefill: {   // 👈 ADD THIS
-            name: "Test User",
-            email: "test@example.com",
-            contact: "9999999999"
+          prefill: { 
+            name: this.fullName || "Test User",
+            email: this.userEmail || "test@example.com",
+            contact: this.phoneNumber ||"0123456789"
           },
           theme: { color: "hsl(219.29deg 65.6% 29.28%)" }
         };
   
         const rzp = new Razorpay(options);
-        rzp.open();
+       await rzp.open();
       }, error => {
-        console.error("Error creating order:", error);
+        console.error("Error creating order:>>>>>>>>>>>>>>>>", error);
+        this.paymentFailed({error:error});
       });
   }
   
 /////////////////////////////////////////////////////////////////////////
+paymentSuccess(response: any,item:any) {
+  console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
+  const obj={
+  
+      userId:"1",
+      orderId:item.order_id,
+      razorpayPaymentId:response.razorpay_payment_id,
+      razorpayOrderId:response.razorpay_order_id,
+      razorpaySignature:response.razorpay_signature,
+      amount:item.amount,
+      currency:item.currency,
+      customerEmail:this.userEmail,
+      customerPhone:this.phoneNumber,
+    }
+    console.log("OBJECT>>>>>>>>>>>",item)
+     
+  this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe((res:any)=>{
+    console.log("Payment was successful!", response);
+    this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
+  })
+  console.log("Payment was successful!", response);
+  this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
 
+  // Here you can redirect the user or perform any other action
+}
+
+paymentFailed(item:any) {
+  const obj={
+    userId:"1",
+    orderId:item.orderId,
+    amount:item.amount,
+    currency:item.currency,
+    status: "Failed",
+    errorDetails:item.error,
+  }
+  this.http.post('http://localhost:8000/payment/payment-failed',obj).subscribe((res:any)=>{
+    console.log("Payment failed!");
+  this.openSnackBar("Payment failed! Please try again.", "Retry"); 
+  })
+  console.log("Payment failed!");
+  this.openSnackBar("Payment failed! Please try again.", "Retry");
+  
+}
 
 // Variable to hold auto-scroll interval
 private scrollInterval: any;
@@ -416,7 +505,14 @@ scrollRight() {
 }
 
 
-
+ // Method to show the snackbar
+ openSnackBar(message: string, action: string) {
+  this.snackBar.open(message, action, {
+    duration: 2000, // Duration in milliseconds (2 seconds)
+    verticalPosition: 'top', // Snackbar appears at the top
+    horizontalPosition: 'center', // Snackbar appears at the center
+  });
+}
 
 
 

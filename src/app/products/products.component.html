@@ -44,7 +44,7 @@
 
       <!-- Input Fields for Quantity and Total Amount -->
       <div style="display: flex; gap: 15px; margin-left: 20px;">
-        <input style="width: 100px;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
+        <input style="width: 30%;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
           (input)="calculateTotalAmount()" [value]="quantity === 0 ? 'Quantity (Ton)' : quantity" />
 
         <input type="text" placeholder="Total Amount" class="custom-input"
@@ -80,7 +80,7 @@
       <!-- Razorpay Payment Button -->
 
       <button type="button" class="btn btn-success btn-lg btn-block" id="rzp-button1" style="width: 100%;"
-        (click)="payWithRazorpay()">Checkout</button>
+        (click)="userDetails()" >Checkout</button>
     </div>
   </div>
 

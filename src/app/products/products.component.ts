@@ -216,6 +216,7 @@ export class ProductsComponent  {
   address: string | null;
   token: string | null;
   phoneNumber: string | null;
+  userId: string | null;
 
   
   
@@ -234,6 +235,7 @@ export class ProductsComponent  {
      this.address= localStorage.getItem("address");
      this.token=localStorage.getItem("token");
      this.phoneNumber=localStorage.getItem("phoneNumber");
+     this.userId=localStorage.getItem("userId");
 
 
 
@@ -241,7 +243,7 @@ export class ProductsComponent  {
 
      
    
-     console.log(this.fullName,"PRODUCT DATA>>>>>>>>>>",this.userEmail, ">>>>>>>>")
+     console.log(this.userId,"PRODUCT DATA>>>>>>>>>>",this.userEmail, ">>>>>>>>")
   }
 
  async getAllProductsList(){
@@ -261,6 +263,8 @@ export class ProductsComponent  {
    await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
+      this.quantity=0
+      this.calculateTotalAmount()
       console.log( 'ROUTER Products Data successfully',res.data);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
@@ -324,10 +328,8 @@ export class ProductsComponent  {
   }
   async calculateTotalAmount() {
     
-    if(this.quantity >=25){
-      this.quantityCheck=false
-    }
-    await this.validateQuantity()
+    
+    
     const quantityInKg = this.quantity * 1000; // Convert Tons to Kilograms
     this.totalAmount =  Number((quantityInKg * this.convertedPrice).toFixed(2));; // Store only numbers
     // Convert totalAmount to INR if exchange rate exists
@@ -340,11 +342,7 @@ export class ProductsComponent  {
   }
   
 
-  validateQuantity() {
-    if (this.quantity < 1 || isNaN(this.quantity)) {
-      this.quantity = 1; // Reset to 1 if invalid
-    }
-  }
+ 
   
 
 
@@ -372,61 +370,73 @@ this.payWithRazorpay()
       amount:this.totalAmount,
       currency:this.selectedCurrency
     }
-    console.log("AMOUNT>>>>>>>>",obj)
-
-    this.http.post('http://localhost:8000/payment/create-order', obj)
+    try{
+      this.http.post('http://localhost:8000/payment/create-order', obj)
       .subscribe(async (order: any) => {
-        console.log("ORDER RESPONSE >>>>", order);
+        try{
+          console.log("ORDER RESPONSE >>>>", order);
+          const options = {
+            key: "rzp_test_W7NkcgtEncLHaE",
+            amount: order.amount,
+            currency: order.currency,
+            name: "OpasBizz Pvt Ltd",
+            image:"/opasLogo.png",
+            description: "Test Transaction",
+            order_id: order.id, // Fix: Ensure order.id exists
+            handler: async (response: any) => {
+              console.log("PAYMENT RESPONSE >>>>", response);
+              
+              const verifyPayload = {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              };
+    
+             await this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
+                .subscribe(async (res: any) => {
+                  console.log("VERIFY PAYMENT RESPONSE >>>>", res);
+                  if (res.success) {
+                   await this.paymentSuccess(response,{order_id: order.id,amount: order.amount,currency: order.currency});
+                  } else {
+                   await this.paymentFailed({order_id: order.id,amount: order.amount,currency: order.currency,error:res.error});
+                  }
+                });
+            },
+            prefill: { 
+              name: this.fullName || "Test User",
+              email: this.userEmail || "test@example.com",
+              contact: this.phoneNumber ||"0123456789"
+            },
+            theme: { color: "hsl(219.29deg 65.6% 29.28%)" }
+          };
+    
+          const rzp = new Razorpay(options);
+         await rzp.open();
+        }catch(error){
+          console.log("ERROR>>>>>>>> >>>>", error);
+        }
+        
   
-        const options = {
-          key: "rzp_test_W7NkcgtEncLHaE",
-          amount: order.amount,
-          currency: order.currency,
-          name: "OpasBizz Pvt Ltd",
-          image:"/opasLogo.png",
-          description: "Test Transaction",
-          order_id: order.id, // Fix: Ensure order.id exists
-          handler: async (response: any) => {
-            console.log("PAYMENT RESPONSE >>>>", response);
-            
-            const verifyPayload = {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature
-            };
-  
-           await this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
-              .subscribe(async (res: any) => {
-                console.log("VERIFY PAYMENT RESPONSE >>>>", res);
-                if (res.success) {
-                 await this.paymentSuccess(response,{order_id: order.id,amount: order.amount,currency: order.currency});
-                } else {
-                 await this.paymentFailed({order_id: order.id,amount: order.amount,currency: order.currency,error:res.error});
-                }
-              });
-          },
-          prefill: { 
-            name: this.fullName || "Test User",
-            email: this.userEmail || "test@example.com",
-            contact: this.phoneNumber ||"0123456789"
-          },
-          theme: { color: "hsl(219.29deg 65.6% 29.28%)" }
-        };
-  
-        const rzp = new Razorpay(options);
-       await rzp.open();
+       
       }, error => {
         console.error("Error creating order:>>>>>>>>>>>>>>>>", error);
         this.paymentFailed({error:error});
       });
+
+    }catch(error){
+      console.log("ERROR>>>>>>>>>>",error)
+
+    }
+
+    
   }
   
 /////////////////////////////////////////////////////////////////////////
 paymentSuccess(response: any,item:any) {
   console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
   const obj={
-  
-      userId:"1",
+      productId:this.products._id,
+      userId:this.userId,
       orderId:item.order_id,
       razorpayPaymentId:response.razorpay_payment_id,
       razorpayOrderId:response.razorpay_order_id,

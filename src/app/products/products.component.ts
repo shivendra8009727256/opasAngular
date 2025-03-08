@@ -449,7 +449,7 @@ paymentSuccess(response: any,item:any) {
     console.log("OBJECT>>>>>>>>>>>",item)
      
   this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe((res:any)=>{
-    console.log("Payment was successful!", response);
+    console.log("Payment was successful!", res);
     this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
   })
   console.log("Payment was successful!", response);

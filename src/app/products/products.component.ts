@@ -217,6 +217,8 @@ export class ProductsComponent  {
   token: string | null;
   phoneNumber: string | null;
   userId: string | null;
+  invoiceUrl: any | null;
+  baseUrl: string = 'http://localhost:8000'; // Base URL
 
   
   
@@ -435,24 +437,31 @@ this.payWithRazorpay()
 paymentSuccess(response: any,item:any) {
   console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
   const obj={
+    quantity:this.quantity,
       productId:this.products._id,
-      userId:this.userId,
+      userId:typeof this.userId === 'string' ? JSON.parse(this.userId) : this.userId,
       orderId:item.order_id,
       razorpayPaymentId:response.razorpay_payment_id,
       razorpayOrderId:response.razorpay_order_id,
       razorpaySignature:response.razorpay_signature,
       amount:item.amount,
       currency:item.currency,
-      customerEmail:this.userEmail,
-      customerPhone:this.phoneNumber,
+      customerEmail:typeof this.userEmail === 'string' ? JSON.parse(this.userEmail) : this.userEmail,
+      customerPhone:typeof this.phoneNumber === 'string' ? JSON.parse(this.phoneNumber) : this.phoneNumber,
     }
-    console.log("OBJECT>>>>>>>>>>>",item)
+    console.log("OBJECT USER>>>>>>>>>>>",obj)
      
   this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe((res:any)=>{
-    console.log("Payment was successful!", res);
+  
+    this.invoiceUrl=res?.invoiceUrl
+   
+    console.log(res,"Payment was successful!", this.invoiceUrl); 
     this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
+    this.quantity=0;
+    this.calculateTotalAmount()
+
   })
-  console.log("Payment was successful!", response);
+  
   this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
 
   // Here you can redirect the user or perform any other action
@@ -525,7 +534,17 @@ scrollRight() {
 }
 
 
+openPdfInNewWindow() {
+  const pdfUrl = this.baseUrl + this.invoiceUrl;
+  console.log('Generated PDF URL:', pdfUrl); // Log to check if the URL is correct
 
+  if (this.invoiceUrl) {
+    window.open(pdfUrl, '_blank');
+  } else {
+    this.openSnackBar("Invoice not found. Please try again later.", "Retry");
+    console.error('Invalid URL:', pdfUrl);
+  }
+}
 
 
 }

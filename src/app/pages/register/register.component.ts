@@ -85,6 +85,7 @@ export class RegisterComponent {
           localStorage.setItem("token", JSON.stringify(res.token));
           localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));
           localStorage.setItem("userId", JSON.stringify(res.user?._id));
+          localStorage.setItem("userStatus", JSON.stringify(res.user?.userStatus));
           console.log('Login Data:', res);
 
           this.router.navigateByUrl("/dashboard");

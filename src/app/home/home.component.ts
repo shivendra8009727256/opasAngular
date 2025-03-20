@@ -24,9 +24,12 @@ export class HomeComponent {
   img3:any=null;
   img4:any=null;
   img5:any=null;
+  userStatus: string | null;
 
   
   constructor(private fb: FormBuilder,private router: Router) {
+    this.userStatus=localStorage.getItem("userStatus")
+    console.log("UserSTATUS>>>>>>>>>>>",this.userStatus)
     this.uploadForm = this.fb.group({
       productName: ['', [Validators.required]],
       price: ['', [Validators.required]],

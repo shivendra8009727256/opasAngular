@@ -112,3 +112,41 @@
 	}
   }
   
+  /* User Details Section */
+.user-details {
+	display: flex;
+	align-items: center;
+	margin-left: auto; /* Push to the right */
+	padding-right: 20px; /* Add some spacing */
+  }
+  
+  .user-image {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+	border: 2px solid #011f83;
+  }
+  
+  .user-info {
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .user-name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #011f83;
+  }
+  
+  .user-gst {
+	font-size: 14px;
+	color: #011f83;
+  }
+  
+  /* Responsive Design for User Details */
+  @media screen and (max-width: 768px) {
+	.user-details {
+	  display: none; /* Hide user details on mobile */
+	}
+  }

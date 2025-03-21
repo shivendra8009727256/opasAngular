@@ -43,6 +43,8 @@ export class HomeComponent {
       packagingType: ['', [Validators.required]],
       packSize: ['', [Validators.required]],
       color: ['', [Validators.required]],
+      size: ['', [Validators.required]],
+      broken: ['', [Validators.required]],
       image: [null],
     });
     this.editForm = this.fb.group({
@@ -58,6 +60,8 @@ export class HomeComponent {
       packagingTypeEdit: ['', [Validators.required]],
       packSizeEdit: ['', [Validators.required]],
       colorEdit: ['', [Validators.required]],      
+      sizeEdit: ['', [Validators.required]],      
+      brokenEdit: ['', [Validators.required]],      
       image: [null],
     });
   }
@@ -113,6 +117,8 @@ export class HomeComponent {
     const formData = new FormData();
     formData.append('productName', this.uploadForm.get('productName')?.value);
     formData.append('color', this.uploadForm.get('color')?.value);
+    formData.append('size', this.uploadForm.get('size')?.value);
+    formData.append('broken', this.uploadForm.get('broken')?.value);
     formData.append('price', this.uploadForm.get('price')?.value);
     formData.append('businessType', this.uploadForm.get('businessType')?.value);
     formData.append('certification', this.uploadForm.get('certification')?.value);
@@ -216,6 +222,8 @@ export class HomeComponent {
       packagingTypeEdit: item.packagingType,
       packSizeEdit: item.packSize,
       colorEdit: item.color,
+      sizeEdit: item.size,
+      brokenEdit: item.broken,
     });
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -252,6 +260,8 @@ export class HomeComponent {
     formData.append('packagingType', this.editForm.get('packagingTypeEdit')?.value);
     formData.append('packSize', this.editForm.get('packSizeEdit')?.value);
     formData.append('color', this.editForm.get('colorEdit')?.value);
+    formData.append('size', this.editForm.get('sizeEdit')?.value);
+    formData.append('broken', this.editForm.get('brokenEdit')?.value);
     
     if (this.fileToUpload) {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);

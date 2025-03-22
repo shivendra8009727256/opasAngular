@@ -1,15 +1,28 @@
-import { Component, HostListener } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Component, HostListener, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import{ShareDataService} from '../../share-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink,NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  router = inject(Router);
+  userData: any = null; // Store the received user data
+  private subscription: Subscription = new Subscription(); // Initialize here
   lastScrollY = window.scrollY;
   isHidden = false;
+   isMenuOpen = false;   
+   isLoggedIn = true; // Set this based on your authentication logic
+   isDropdownOpen = false;
+   userName:string | null
+   gstNo:string | null
+
+ 
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -24,9 +37,9 @@ export class HeaderComponent {
     this.lastScrollY = currentScrollY;
   }
   
-  isMenuOpen = false; // Manage the visibility of the mobile menu
+  // isMenuOpen = false; 
 
-  // Method to toggle the mobile menu
+  // Toggle mobile menu
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -40,8 +53,63 @@ export class HeaderComponent {
     }
   }
 
+
+   constructor(private ShareDataService:ShareDataService){
+   // Retrieve values from localStorage and remove double quotes
+const rawUserName = localStorage.getItem("fullName")?.replace(/"/g, '') || '';
+
+// Capitalize the first letter of each word in the name
+this.userName = rawUserName
+  .split(' ') // Split the name into an array of words
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+  .join(' '); // Join the words back into a single string
+
+this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
+   }
+   ngOnInit() {
+    
+    // Subscribe to the userData$ Observable
+    this.subscription = this.ShareDataService.userData$.subscribe(async (data) => {
+      this.userData = data.user; // Update the user data
+     await this.login()
+     this.userName=this.userData.fullName.split(' ') // Split the name into an array of words
+     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+     .join(' '); // Join the words back into a single string
+   this.gstNo=this.userData.gstNo?.replace(/"/g, '') || ''
+      console.log('User data received in HeaderComponent:', this.userData);
+    });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe to avoid memory leaks
+    this.subscription.unsubscribe();
+  }
   // Close menu when the user moves the cursor out of the menu bar
   closeMenuOnMouseLeave() {
     this.isMenuOpen = false;
+    this.isDropdownOpen=false
+  }
+  // Example method to handle login (replace with actual logic)
+  login() {
+    this.isLoggedIn = true;
+    // Fetch user details from a service or API
+  }
+
+  // Example method to handle logout (replace with actual logic)
+  logout() {
+    this.isLoggedIn = false;
+    localStorage.clear();
+    // Clear user details
+  }
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  navigateToProfile() {
+    // Navigate to the profile page
+    console.log('Navigate to Profile');
+    this.isDropdownOpen = false;
+    this.router.navigateByUrl('/profile') 
+
   }
 }

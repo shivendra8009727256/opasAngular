@@ -62,6 +62,7 @@
 	list-style: none;
 	display: flex;
 	justify-content: space-between;
+	margin-left: 50px;
   }
   
   ul li {
@@ -94,6 +95,7 @@
 	  background: #f8f9fac9;
 	  width: 200px;
 	  display: none;
+	  
 	}
   
 	ul.show {
@@ -149,4 +151,71 @@
 	.user-details {
 	  display: none; /* Hide user details on mobile */
 	}
+  }
+  /* Auth Buttons */
+.auth-buttons {
+	display: flex;
+	gap: 10px;
+	margin-left: auto; /* Push to the right */
+	padding-right: 20px; /* Add some spacing */
+  }
+  
+  .auth-button {
+	padding: 8px 16px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #011f83;
+	background-color: transparent;
+	border: 2px solid #011f83;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .auth-button:hover {
+	background-color: #011f83;
+	color: #ffffff;
+  }
+  
+  /* Responsive Design for Auth Buttons */
+  @media screen and (max-width: 768px) {
+	.auth-buttons {
+	  display: none; /* Hide auth buttons on mobile */
+	}
+  }
+  /* Dropdown Button */
+.dropdown-btn {
+	background: none;
+	border: none;
+	font-size: 20px;
+	cursor: pointer;
+	color: #011f83;
+	margin-left: 10px;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+	position: absolute;
+	top: 60px;
+	right: 20px;
+	background-color: #ffffff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	z-index: 1002;
+	display: flex;
+	flex-direction: column;
+  }
+  
+  .dropdown-menu a {
+	padding: 10px 20px;
+	text-decoration: none;
+	color: #011f83;
+	font-size: 16px;
+	transition: background-color 0.3s ease;
+	cursor: pointer;
+  }
+  
+  .dropdown-menu a:hover {
+	background-color: #f1f1f1;
   }

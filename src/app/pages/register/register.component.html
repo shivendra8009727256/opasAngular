@@ -126,6 +126,14 @@
             <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Enter a valid phone number.</small>
           </div>
         </div> -->
+        <div class="input-group">
+          <label for="register-gstNo"><span class="text-danger">*</span>GST No:</label>
+          <input type="gstNo" formControlName="gstNo" placeholder="Enter your GST Number">
+          <div class="text-danger"
+            *ngIf="registerForm.get('gstNo')?.touched && registerForm.get('gstNo')?.invalid">
+            <small *ngIf="registerForm.get('gstNo')?.errors?.['required']">GST Number is required.</small>
+          </div>
+        </div>
   
   
        

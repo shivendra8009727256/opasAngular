@@ -5,6 +5,7 @@ import { user } from '../../model/user';
 import { MasterService } from '../../../service/master.service';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import{ShareDataService} from '../../share-data.service'
 
 @Component({
   selector: 'app-register',
@@ -39,7 +40,7 @@ export class RegisterComponent {
   selectedCountry = signal<string>('India');
   selectedCountryCode = signal<string>('+91');
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private ShareDataService:ShareDataService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -53,7 +54,8 @@ export class RegisterComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
       businessType: ['', [Validators.required]],
       companyName: ['', [Validators.required]],
-      address: ['', [Validators.required]]
+      address: ['', [Validators.required]],
+      gstNo: ['', [Validators.required]]
     });
   }
 
@@ -86,9 +88,12 @@ export class RegisterComponent {
           localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));
           localStorage.setItem("userId", JSON.stringify(res.user?._id));
           localStorage.setItem("userStatus", JSON.stringify(res.user?.userStatus));
+          localStorage.setItem("gstNo", JSON.stringify(res.user?.gstNo));
           console.log('Login Data:', res);
+          this.ShareDataService.sendUserData(res);
+          console.log('User data emitted:',res);
 
-          this.router.navigateByUrl("/dashboard");
+          this.router.navigateByUrl("/home");
         } else {
           console.log('<<<<<<<<<<<<<<<<<.......>>>>>>>>>>>>>>>>>>>>>>');
         }
@@ -132,7 +137,8 @@ export class RegisterComponent {
     companyName: this.registerForm.value.companyName,
     address: this.registerForm.value.address,
     country: selectedCountryName,  
-    countryCode: countryCode       
+    countryCode: countryCode ,      
+    gstNo: this.registerForm.value.gstNo,       
   };
 console.log("OBJ>>>>>>>>>>",obj1)
     try {
@@ -140,7 +146,7 @@ console.log("OBJ>>>>>>>>>>",obj1)
         alert("Registration Successful");
         console.log(">>>>>>>>>>>>", res);
         this.registerForm.reset({ country: 'India' }); 
-       await this.router.navigateByUrl('/register') // ✅ Reset with Default Country
+       await this.router.navigateByUrl('/home') // ✅ Reset with Default Country
       });
     } catch (err) {
       console.log("ERR>>>>>>>>>>", err);

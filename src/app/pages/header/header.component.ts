@@ -3,6 +3,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import{ShareDataService} from '../../share-data.service';
 import { Subscription } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  http = inject(HttpClient);
   router = inject(Router);
   userData: any = null; // Store the received user data
   private subscription: Subscription = new Subscription(); // Initialize here
@@ -21,6 +23,7 @@ export class HeaderComponent {
    isDropdownOpen = false;
    userName:string | null=null
    gstNo:string | null
+   userId:any
 
  
 
@@ -57,6 +60,7 @@ export class HeaderComponent {
    constructor(private ShareDataService:ShareDataService){
    // Retrieve values from localStorage and remove double quotes
 const rawUserName = localStorage.getItem("fullName")?.replace(/"/g, '') || '';
+this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
 
 // Capitalize the first letter of each word in the name
 this.userName = rawUserName
@@ -67,6 +71,7 @@ this.userName = rawUserName
 this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
    }
    ngOnInit() {
+    this.getUser()
     
     // Subscribe to the userData$ Observable
     this.subscription = this.ShareDataService.userData$.subscribe(async (data) => {
@@ -79,6 +84,27 @@ this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
       console.log('User data received in HeaderComponent:', this.userData);
     });
   }
+  getUser() {
+      try{
+        let params = new HttpParams().set('userId', this.userId);
+      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+        (res: any) => {
+          
+          this.userName=res.user.fullName;
+          this.gstNo=res.user.gstNo;
+          this.userData = res.user;
+    
+          console.log(res.user,'API Response:', this.userData);
+  
+            
+          
+        });
+  
+      }catch (err){
+  console.log("CATCH>>>>>>>>")
+      }
+      
+    }
 
   ngOnDestroy() {
     // Unsubscribe to avoid memory leaks

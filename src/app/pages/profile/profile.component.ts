@@ -24,9 +24,10 @@ import {ShareDataService} from  '../../share-data.service'
 export class ProfileComponent {
    http = inject(HttpClient);
   profileForm: FormGroup;
-  profileImage: string | ArrayBuffer | null = 'userLogo.png'; // Default image
+  profileImage: any = 'userLogo.png'; // Default image
   userId: any="";
   changePasswordForm:FormGroup
+  profileImageFile: any;
 
 
 
@@ -97,19 +98,36 @@ console.log("CATCH>>>>>>>>")
     
   }
   
-  // Handle image selection
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.profileImage = reader.result; // Set the selected image as the profile image
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
+  // // Handle image selection
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files[0]) {
+  //     const file = input.files[0];
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.profileImage = reader.result; // Set the selected image as the profile image
+  //     };
+  //     reader.readAsDataURL(file); // Read the file as a data URL
+  //   }
+  // }
+
+   // Handle file selection
+   onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.profileImageFile = file; // Store the File object for upload
+
+      this.profileImage = URL.createObjectURL(file); // Creates a blob URL
     }
+    console.log('profileImage is still invalid', this.profileImage);
+    console.log('profileImageFile is still invalid', this.profileImageFile);
   }
 
+  ngOnDestroy() {
+    if (this.profileImage) {
+      URL.revokeObjectURL(this.profileImage); // Free memory
+    }
+  }
   // Trigger file input click when the edit button is clicked
   triggerFileInput(): void {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
@@ -118,7 +136,7 @@ console.log("CATCH>>>>>>>>")
 
   onSubmit() {
     if (this.profileForm.invalid) {
-      console.log('Form is invalid before marking fields', this.profileForm.value);
+      // console.log('Form is invalid before marking fields', this.profileForm.value);
 
     // Mark all fields as touched to trigger validation errors
     Object.keys(this.profileForm.controls).forEach(field => {
@@ -130,8 +148,20 @@ console.log("CATCH>>>>>>>>")
     console.log('Form is still invalid', this.profileForm);
     return;
     }
+   
+   
+  // Create FormData object
+  const formData = new FormData();
   
-    const formData = { ...this.profileForm.value, profileImage: this.profileImage };
+  // Append all form fields
+  Object.keys(this.profileForm.value).forEach(key => {
+    formData.append(key, this.profileForm.value[key]);
+  });
+
+  // Append the file if it exists
+  if (this.profileImageFile) {
+    formData.append('profileImage', this.profileImageFile);
+  }
    
   
     this.http.patch(`http://localhost:8000/auth/updateUser/${this.userId}`, formData).subscribe(
@@ -144,6 +174,7 @@ console.log("CATCH>>>>>>>>")
         localStorage.setItem("address", JSON.stringify(res.user?.address));       
         localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));      
         localStorage.setItem("gstNo", JSON.stringify(res.user?.gstNo));
+        localStorage.setItem("profileImage", res.user?.profileImage);
         console.log('Login Data:', res);
         this.ShareDataService.sendUserData(res);
         console.log('User data emitted:',res);

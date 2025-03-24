@@ -99,6 +99,7 @@ this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
   logout() {
     this.isLoggedIn = false;
     localStorage.clear();
+    this.router.navigateByUrl('/home')
     // Clear user details
   }
   toggleDropdown() {

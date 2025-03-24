@@ -1,0 +1,76 @@
+.parent{
+margin-top: 10%;
+/* background-color: #f8faf9bf; */
+margin-left: 10%;
+margin-bottom: 10%;
+margin-right: 10%;
+
+
+}
+
+.profile-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    color: #000;
+    background-color: #f8faf9bf;
+    border: 2px solid black;
+border-radius: 1%;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+  }
+  
+  .profile-image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(136, 127, 127, 0.8);
+    border-radius: 50%;
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  button[mat-raised-button] {
+    margin-top: 20px;
+    color: #ffffff;
+    background-color: blue;
+  }
+
+  .profile-container1 {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    color: #000;
+    margin-top: 10%;
+    font-size: xx-large;
+    background-color: #f8faf9bf;
+    border: 2px solid rgb(88, 87, 87);
+    border-radius: 2%;
+  }
+  .passwordChange{
+
+  }

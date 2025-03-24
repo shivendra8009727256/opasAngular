@@ -24,7 +24,7 @@ import {ShareDataService} from  '../../share-data.service'
 export class ProfileComponent {
    http = inject(HttpClient);
   profileForm: FormGroup;
-  profileImage: any = 'userLogo.png'; // Default image
+  profileImage: any ; // Default image
   userId: any="";
   changePasswordForm:FormGroup
   profileImageFile: any;
@@ -80,6 +80,14 @@ confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
             companyName: res.user.companyName || '',
             address: res.user.address || '',
           });
+          // Set profile image if it exists in the response
+          if (res.user.profileImage) {
+            
+            this.profileImage = `http://localhost:8000${res.user.profileImage}`;
+            console.log("GET USER IMAGE >>>>>>>>",this.profileImage)
+          } else {
+            this.profileImage = 'userLogo.png'; // Default image
+          }
    // Ensure form updates properly
    this.profileForm.markAsPristine();
    this.profileForm.markAsUntouched();

@@ -19,7 +19,7 @@ export class HeaderComponent {
    isMenuOpen = false;   
    isLoggedIn = true; // Set this based on your authentication logic
    isDropdownOpen = false;
-   userName:string | null
+   userName:string | null=null
    gstNo:string | null
 
  

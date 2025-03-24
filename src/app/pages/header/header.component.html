@@ -24,7 +24,7 @@
   </div>
 
   <!-- User Details Section (Shown if user is logged in) -->
-  <div *ngIf="isLoggedIn; else loginSignupSection" class="user-details">
+  <div *ngIf="isLoggedIn ===true && userName; else loginSignupSection" class="user-details">
     <img src="/userLogo.png" alt="User Image" class="user-image">
     <div class="user-info">
       <span class="user-name">{{userName}}</span>

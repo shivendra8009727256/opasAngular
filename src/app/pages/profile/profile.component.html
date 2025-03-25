@@ -43,6 +43,19 @@
               Please enter a valid email address.
             </mat-error>
           </mat-form-field>
+
+          <!-- Phone Code Dropdown -->
+  <mat-form-field appearance="outline" style="flex: 1;">
+    <mat-label>Country Phone Code</mat-label>
+    <mat-select formControlName="phoneCode" required (selectionChange)="profileSaveButton()">
+      <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
+        {{code.dial_code}} ({{code.name}})
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="f['phoneCode'].errors?.['required']">
+      Country code is required.
+    </mat-error>
+  </mat-form-field>
       
           <!-- Phone Number -->
           <mat-form-field appearance="outline">

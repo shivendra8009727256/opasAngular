@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button'
@@ -25,11 +25,15 @@ export class HomeComponent {
   img4:any=null;
   img5:any=null;
   userStatus: string | null;
+  hideButton:boolean=true
+  userId:any
+  userDataStatus: any;
 
   
   constructor(private fb: FormBuilder,private router: Router) {
+    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
     this.userStatus=localStorage.getItem("userStatus")
-    console.log("UserSTATUS>>>>>>>>>>>",this.userStatus)
+    console.log("UserSTATUS>>>>>>>>>>>",typeof(this.userStatus))
     this.uploadForm = this.fb.group({
       productName: ['', [Validators.required]],
       price: ['', [Validators.required]],
@@ -97,11 +101,45 @@ export class HomeComponent {
     this.getAllImage()
   }
   getAllImage(){
-    this.http.get("http://localhost:8000/opas/getImage").subscribe((res:any)=>{
+    this.http.get("http://localhost:8000/opas/getImage").subscribe(async (res:any)=>{
       this.images = res.data; // Store the fetched images
       console.log('Images fetched successfully', this.images);
+      await this.getUserstatus()
     })
   }
+
+  
+  
+  getUserstatus(){
+      try {
+        let params = new HttpParams().set('userId', this.userId);
+        this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+          (res: any) => {
+  
+            this.userDataStatus = res.user.userStatus
+           
+  
+            console.log(res.user, 'API Response:', this.userDataStatus)
+            console.log(this.userDataStatus ==="admin")
+            if(this.userDataStatus =="user"){
+              this.hideButton=true
+              console.log("1")
+            }else if(this.userDataStatus =="admin"){
+        this.hideButton=false
+        console.log("2")
+            }else{
+              this.hideButton=true
+              console.log("3")
+            }
+  
+  
+          });
+  
+      } catch (err) {
+        console.log("CATCH>>>>>>>>")
+      }
+  
+    }
    
 
 

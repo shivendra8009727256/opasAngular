@@ -53,7 +53,7 @@
 </div>
 <div>
   <!-- Trigger the modal with a button -->
-<button type="button" style="width: 100%;" class="btn btn-success btn-lg btn-block" (click)="openModal()">Add New Product </button>
+<button type="button" style="width: 100%;" class="btn btn-success btn-lg btn-block" (click)="openModal()" [hidden]="hideButton">Add New Product </button>
 </div>
 
 
@@ -69,8 +69,8 @@
      
       <!-- Buttons for Edit and Delete -->
 
-      <button class="btn btn-success" style="left: 20px;" (click)="openEditModal(item)"  >Edit</button>
-      <button style="right: 20px" (click)="deleteData(item._id)" >Delete</button>
+      <button class="btn btn-success" style="left: 20px;" (click)="openEditModal(item)"  [hidden]="hideButton" >Edit</button>
+      <button style="right: 20px" (click)="deleteData(item._id)"  [hidden]="hideButton"  >Delete</button>
     </div>
   </div>
 </div>

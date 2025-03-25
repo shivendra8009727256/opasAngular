@@ -1,4 +1,4 @@
-<div style="margin-bottom: 100px;" >
+<div style="margin-bottom: 100px;">
 
 
   <div class="neon-lights">
@@ -8,31 +8,31 @@
     <span class="light"></span>
   </div>
   <!-- <button type="button" class="submit-btn" (click)="getData()">Login</button> -->
-  
-  
+
+
   <div class="container">
     <div class="form-container">
       <div class="toggle-buttons">
         <button (click)="toggleForm('login')" [class.active]="isLoginActive">Login</button>
         <button (click)="toggleForm('register')" [class.active]="!isLoginActive">Register</button>
       </div>
-  
+
       <!-- Login Form -->
       <form [formGroup]="loginForm" *ngIf="isLoginActive" class="form active" (ngSubmit)="login()">
         <h2>Login</h2>
         <div class="input-group">
           <label for="login-email"><span class="text-danger">*</span>Email:</label>
           <input type="email" formControlName="email" placeholder="Enter your email">
-  
+
           <!-- Email Validation Errors -->
           <div class="text-danger" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
             <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
             <small *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email.</small>
           </div>
-  
-  
+
+
         </div>
-  
+
         <div class="input-group">
           <label for="login-password"><span class="text-danger">*</span>Password:</label>
           <input type="password" id="password" formControlName="password" placeholder="Enter your password" required>
@@ -45,126 +45,112 @@
           </div>
         </div>
         <!-- Forget Password Link (Aligned to Right) -->
-      <div class="forgot-password">
-        <a routerLink="/forgotPassword">Forgot Password?</a>
-    </div>
+        <div class="forgot-password">
+          <a routerLink="/forgotPassword">Forgot Password?</a>
+        </div>
         <button type="submit" class="submit-btn">Login</button>
       </form>
-  
+
       <!-- Registration Form -->
       <form *ngIf="!isLoginActive" class="form" (ngSubmit)="register()" [formGroup]="registerForm">
         <h2>Register</h2>
-        <div class="input-group">
-          <label for="register-name"><span class="text-danger">*</span>Name:</label>
-          <input type="text" formControlName="fullName" placeholder="Enter your name">
-          <div class="text-danger" *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid">
-            <small *ngIf="registerForm.get('fullName')?.errors?.['required']">Name is required.</small>
-          </div>
+        
+        <!-- Name Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Name</mat-label>
+          <input matInput type="text" formControlName="fullName" placeholder="Enter your name">
+          <mat-error *ngIf="registerForm.get('fullName')?.invalid">
+            <span *ngIf="registerForm.get('fullName')?.errors?.['required']">Name is required</span>
+            <span *ngIf="registerForm.get('fullName')?.errors?.['minlength']">Minimum 3 characters required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Email Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Enter your email">
+          <mat-error *ngIf="registerForm.get('email')?.invalid">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Enter a valid email</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Password Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Create a password">
+          <mat-error *ngIf="registerForm.get('password')?.invalid">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 characters required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Phone Number Field -->
+        <div class="phone-input-container">
+          <mat-form-field appearance="outline" class="country-select">
+            <mat-label><span class="text-danger">*</span> Country</mat-label>
+            <mat-select formControlName="country" (selectionChange)="onCountryChange($event)">
+                <mat-option *ngFor="let country of countries" [value]="country.name">
+                    {{ country.name }} ({{ country.dial_code }})
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.get('country')?.invalid">Country is required</mat-error>
+        </mat-form-field>
+        
+          <mat-form-field appearance="outline" class="country-code">
+            <mat-label>Code</mat-label>
+            <input matInput [value]="selectedCountryCode()" readonly>
+          </mat-form-field>
         </div>
-        <div class="input-group">
-          <label for="register-email"><span class="text-danger">*</span>Email:</label>
-          <input type="email" formControlName="email" placeholder="Enter your email">
-  
-  
-          <div class="text-danger" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
-            <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</small>
-            <small *ngIf="registerForm.get('email')?.errors?.['email']">Enter a valid email.</small>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="register-password"><span class="text-danger">*</span>Password:</label>
-          <input type="password" formControlName="password" placeholder="Create a password">
-          <div class="text-danger" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
-            <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
-            <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6
-              characters.</small>
-          </div>
-        </div>
-  <!-- PHONE FIELD -->
-  <div class="input-group">
-    <label><span class="text-danger">*</span>Phone No:</label>
-    <div class="phone-input">
-      <div class="custom-dropdown">
-        <select formControlName="country" (change)="onCountryChange($event)" class="custom-select">
-          <option style="width: 12px; height: 20px;" *ngFor="let country of countries" [value]="country.name">
-            {{ country.name }} ({{ country.code }})
-          </option>
-        </select>
-      </div>
-      <input type="text" [value]="selectedCountryCode()" readonly class="country-code" />
-    </div>
-  
-    <div class="input-group" style="margin-top: 5px;">
-      <input type="text" formControlName="phoneNumber" placeholder="Enter your phone number" class="phone-number" />
-    </div>
-  
-    <div class="text-danger" *ngIf="registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid">
-      <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone number is required.</small>
-      <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Enter a valid phone number.</small>
-    </div>
-  </div>
-       
-  
-        <!-- <div class="input-group">
-          <label><span class="text-danger">*</span>Phone No:</label>
-          <div class="phone-input">
-            <select formControlName="country" (change)="onCountryChange($event)" class="custom-select">
-              <option *ngFor="let country of countries" [value]="country.name"
-                [selected]="country.name === selectedCountry()">
-                {{ country.name }} ({{ country.code }})
-              </option>
-            </select>
-            <input type="text" [value]="selectedCountryCode()" readonly class="country-code" />
-  
-          </div>
-          <div class="input-group" style="margin-top: 5px;">
-            <input type="text" formControlName="phoneNumber" placeholder="Enter your phone number" class="phone-number" />
-          </div>
-          <div class="text-danger"
-            *ngIf="registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid">
-            <small *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone number is required.</small>
-            <small *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Enter a valid phone number.</small>
-          </div>
-        </div> -->
-        <div class="input-group">
-          <label for="register-gstNo"><span class="text-danger">*</span>GST No:</label>
-          <input type="gstNo" formControlName="gstNo" placeholder="Enter your GST Number">
-          <div class="text-danger"
-            *ngIf="registerForm.get('gstNo')?.touched && registerForm.get('gstNo')?.invalid">
-            <small *ngIf="registerForm.get('gstNo')?.errors?.['required']">GST Number is required.</small>
-          </div>
-        </div>
-  
-  
-       
-        <div class="input-group">
-          <label for="register-email"><span class="text-danger">*</span>Business Type:</label>
-          <input type="email" formControlName="businessType" placeholder="Enter your business type">
-          <div class="text-danger"
-            *ngIf="registerForm.get('businessType')?.touched && registerForm.get('businessType')?.invalid">
-            <small *ngIf="registerForm.get('businessType')?.errors?.['required']">Business type is required.</small>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="register-email"><span class="text-danger">*</span>Company Name:</label>
-          <input type="email" formControlName="companyName" placeholder="Enter your company name">
-          <div class="text-danger"
-            *ngIf="registerForm.get('companyName')?.touched && registerForm.get('companyName')?.invalid">
-            <small *ngIf="registerForm.get('companyName')?.errors?.['required']">Company name is required.</small>
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="register-email"><span class="text-danger">*</span>Address:</label>
-          <input type="email" formControlName="address" placeholder="Enter your address">
-          <div class="text-danger" *ngIf="registerForm.get('address')?.touched && registerForm.get('address')?.invalid">
-            <small *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</small>
-          </div>
-        </div>
-        <button type="submit" class="submit-btn">Register</button>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="text" formControlName="phoneNumber" placeholder="Enter phone number">
+          <mat-error *ngIf="registerForm.get('phoneNumber')?.invalid">
+            <span *ngIf="registerForm.get('phoneNumber')?.errors?.['required']">Phone number is required</span>
+            <span *ngIf="registerForm.get('phoneNumber')?.errors?.['pattern']">Enter a valid phone number</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- GST Number -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> GST No</mat-label>
+          <input matInput type="text" formControlName="gstNo" placeholder="Enter your GST Number">
+          <mat-error *ngIf="registerForm.get('gstNo')?.invalid">
+            <span *ngIf="registerForm.get('gstNo')?.errors?.['required']">GST Number is required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Business Type -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Business Type</mat-label>
+          <input matInput type="text" formControlName="businessType" placeholder="Enter your business type">
+          <mat-error *ngIf="registerForm.get('businessType')?.invalid">
+            <span *ngIf="registerForm.get('businessType')?.errors?.['required']">Business type is required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Company Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Company Name</mat-label>
+          <input matInput type="text" formControlName="companyName" placeholder="Enter your company name">
+          <mat-error *ngIf="registerForm.get('companyName')?.invalid">
+            <span *ngIf="registerForm.get('companyName')?.errors?.['required']">Company name is required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <!-- Address -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label><span class="text-danger">*</span> Address</mat-label>
+          <textarea matInput formControlName="address" placeholder="Enter your address"></textarea>
+          <mat-error *ngIf="registerForm.get('address')?.invalid">
+            <span *ngIf="registerForm.get('address')?.errors?.['required']">Address is required</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <button mat-raised-button color="primary" type="submit" class="submit-btn">Register</button>
       </form>
     </div>
   </div>
 
 </div>
-
-

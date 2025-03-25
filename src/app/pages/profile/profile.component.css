@@ -28,11 +28,19 @@ border-radius: 1%;
     display: inline-block;
   }
   
-  .profile-image {
+  /* .profile-image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
+  } */
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #250909;
+    border-style: outset;
   }
   
   .edit-icon {
@@ -74,3 +82,10 @@ border-radius: 1%;
   .passwordChange{
 
   }
+  ::ng-deep .custom-snackbar {
+    margin-bottom: 100px !important;
+  }
+  .hover-effect:hover {
+    background-color: #4a148c !important;
+  }
+  

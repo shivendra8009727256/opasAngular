@@ -456,7 +456,7 @@ paymentSuccess(response: any,item:any) {
     this.invoiceUrl=res?.invoiceUrl
    
     console.log(res,"Payment was successful!", this.invoiceUrl); 
-    this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
+    
     this.quantity=0;
     this.calculateTotalAmount()
 

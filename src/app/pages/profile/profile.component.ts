@@ -6,8 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {ShareDataService} from  '../../share-data.service'
-
+import { ShareDataService } from '../../share-data.service'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 
 @Component({
@@ -22,26 +22,27 @@ import {ShareDataService} from  '../../share-data.service'
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-   http = inject(HttpClient);
+  http = inject(HttpClient);
   profileForm: FormGroup;
-  profileImage: any ; // Default image
-  userId: any="";
-  changePasswordForm:FormGroup
+  profileImage: any; // Default image
+  userId: any = "";
+  changePasswordForm: FormGroup
   profileImageFile: any;
+  saveButton=true
 
 
 
 
 
-  constructor(private fb: FormBuilder, private ShareDataService:ShareDataService) {
-    this.userId=localStorage.getItem("userId")?.replace(/"/g, '') || '';
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private ShareDataService: ShareDataService) {
+    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
 
-    this.changePasswordForm=this.fb.group({
-oldPassword: ['', [Validators.required, Validators.minLength(8)]],
-newPassword: ['', [Validators.required, Validators.minLength(8)]],
-confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+    this.changePasswordForm = this.fb.group({
+      oldPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
     })
-  
+
     this.profileForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -49,7 +50,7 @@ confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
         '',
         [Validators.required, Validators.pattern(/^[0-9]{10}$/)], // 10-digit phone number
       ],
-      
+
       businessType: ['', Validators.required],
       gstNo: [
         '',
@@ -59,73 +60,70 @@ confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       address: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
-  ngOnInit(){
+  ngOnInit() {
     this.getUser()
+  }
+  profileSaveButton(){
+    alert("FALSE")
+    this.saveButton=false
+  }
+  profileSaveButtonDisable(){
+    this.saveButton=true
   }
 
   getUser() {
-    try{
+    try {
       let params = new HttpParams().set('userId', this.userId);
-    this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
-      (res: any) => {
-        console.log('API Response:', res);
-  
-        if (res.message === 'getUser' && res.user) {
-          this.profileForm.patchValue({
-            fullName: res.user.fullName || '',
-            email: res.user.email || '',
-            phoneNumber: res.user.phoneNumber || '',
-            businessType: res.user.businessType || '',
-            gstNo: res.user.gstNo || '',
-            companyName: res.user.companyName || '',
-            address: res.user.address || '',
-          });
-          // Set profile image if it exists in the response
-          if (res.user.profileImage) {
-            
-            this.profileImage = `http://localhost:8000${res.user.profileImage}`;
-            console.log("GET USER IMAGE >>>>>>>>",this.profileImage)
-          } else {
-            this.profileImage = 'userLogo.png'; // Default image
+      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+        (res: any) => {
+          console.log('API Response:', res);
+
+          if (res.message === 'getUser' && res.user) {
+            this.profileForm.patchValue({
+              fullName: res.user.fullName || '',
+              email: res.user.email || '',
+              phoneNumber: res.user.phoneNumber || '',
+              businessType: res.user.businessType || '',
+              gstNo: res.user.gstNo || '',
+              companyName: res.user.companyName || '',
+              address: res.user.address || '',
+            });
+            // Set profile image if it exists in the response
+            if (res.user.profileImage) {
+
+              this.profileImage = `http://localhost:8000${res.user.profileImage}`;
+              console.log("GET USER IMAGE >>>>>>>>", this.profileImage)
+            } else {
+              this.profileImage = 'userLogo.png'; // Default image
+            }
+            // Ensure form updates properly
+            this.profileForm.markAsPristine();
+            this.profileForm.markAsUntouched();
+            this.profileForm.updateValueAndValidity();
+
           }
-   // Ensure form updates properly
-   this.profileForm.markAsPristine();
-   this.profileForm.markAsUntouched();
-   this.profileForm.updateValueAndValidity();
-          
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
         }
-      },
-      (error) => {
-        console.error('Error fetching user:', error);
-      }
-    );
+      );
 
-    }catch (err){
-console.log("CATCH>>>>>>>>")
+    } catch (err) {
+      console.log("CATCH>>>>>>>>")
     }
-    
-  }
-  
-  // // Handle image selection
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files[0]) {
-  //     const file = input.files[0];
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.profileImage = reader.result; // Set the selected image as the profile image
-  //     };
-  //     reader.readAsDataURL(file); // Read the file as a data URL
-  //   }
-  // }
 
-   // Handle file selection
-   onFileSelected(event: any) {
+  }
+
+ 
+
+  // Handle file selection
+  onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.profileImageFile = file; // Store the File object for upload
 
       this.profileImage = URL.createObjectURL(file); // Creates a blob URL
+      this.profileSaveButton()
     }
     console.log('profileImage is still invalid', this.profileImage);
     console.log('profileImageFile is still invalid', this.profileImageFile);
@@ -146,47 +144,48 @@ console.log("CATCH>>>>>>>>")
     if (this.profileForm.invalid) {
       // console.log('Form is invalid before marking fields', this.profileForm.value);
 
-    // Mark all fields as touched to trigger validation errors
-    Object.keys(this.profileForm.controls).forEach(field => {
-      const control = this.profileForm.get(field);
-      control?.markAsTouched();
-      control?.updateValueAndValidity();
+      // Mark all fields as touched to trigger validation errors
+      Object.keys(this.profileForm.controls).forEach(field => {
+        const control = this.profileForm.get(field);
+        control?.markAsTouched();
+        control?.updateValueAndValidity();
+      });
+
+      console.log('Form is still invalid', this.profileForm);
+      return;
+    }
+
+
+    // Create FormData object
+    const formData = new FormData();
+
+    // Append all form fields
+    Object.keys(this.profileForm.value).forEach(key => {
+      formData.append(key, this.profileForm.value[key]);
     });
 
-    console.log('Form is still invalid', this.profileForm);
-    return;
+    // Append the file if it exists
+    if (this.profileImageFile) {
+      formData.append('profileImage', this.profileImageFile);
     }
-   
-   
-  // Create FormData object
-  const formData = new FormData();
-  
-  // Append all form fields
-  Object.keys(this.profileForm.value).forEach(key => {
-    formData.append(key, this.profileForm.value[key]);
-  });
 
-  // Append the file if it exists
-  if (this.profileImageFile) {
-    formData.append('profileImage', this.profileImageFile);
-  }
-   
-  
+
     this.http.patch(`http://localhost:8000/auth/updateUser/${this.userId}`, formData).subscribe(
-      (res:any) => {
+      (res: any) => {
         console.log('User data updated successfully', res);
-        localStorage.setItem("email", JSON.stringify(res.user?.email));       
+        localStorage.setItem("email", JSON.stringify(res.user?.email));
         localStorage.setItem("fullName", JSON.stringify(res.user?.fullName));
         localStorage.setItem("businessType", JSON.stringify(res.user?.businessType));
         localStorage.setItem("companyName", JSON.stringify(res.user?.companyName));
-        localStorage.setItem("address", JSON.stringify(res.user?.address));       
-        localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));      
+        localStorage.setItem("address", JSON.stringify(res.user?.address));
+        localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));
         localStorage.setItem("gstNo", JSON.stringify(res.user?.gstNo));
         localStorage.setItem("profileImage", res.user?.profileImage);
         console.log('Login Data:', res);
         this.ShareDataService.sendUserData(res);
-        console.log('User data emitted:',res);
-        alert('Profile updated successfully!');
+        console.log('User data emitted:', res);
+       this.profileSaveButtonDisable()
+        this.openSnackBar('Profile updated successfully!', "OK");
       },
       (error) => {
         console.error('Error updating user:', error);
@@ -194,7 +193,7 @@ console.log("CATCH>>>>>>>>")
       }
     );
   }
-  
+
 
   // Helper method to get form controls for easy access in the template
   get f() {
@@ -205,33 +204,46 @@ console.log("CATCH>>>>>>>>")
     return this.changePasswordForm.controls;
   }
 
-  async changePassword(){
-  if(this.changePasswordForm.valid){
+  async changePassword() {
+    if (this.changePasswordForm.valid) {
 
 
-    if(this.changePasswordForm.value.newPassword ===this.changePasswordForm.value.confirmPassword){
-      console.log("MATCH PASSWORD>>>>>>>>",this.changePasswordForm.value.newPassword)
-      const obj={
-        oldPassword:this.changePasswordForm.value.oldPassword,
-        newPassword:this.changePasswordForm.value.newPassword,
-        userId:this.userId
+      if (this.changePasswordForm.value.newPassword === this.changePasswordForm.value.confirmPassword) {
+        console.log(this.changePasswordForm.value.confirmPassword, "MATCH PASSWORD>>>>>>>>", this.changePasswordForm.value.newPassword)
+        const obj = {
+          oldPassword: this.changePasswordForm.value.oldPassword,
+          newPassword: this.changePasswordForm.value.newPassword,
+          userId: this.userId
+        }
+
+        await this.http.post("http://localhost:8000/auth/changeUserPassword", obj).subscribe(
+          (res: any) => {
+            console.log("PASSWORD is match >>>>>>>>", res)
+            this.openSnackBar(`Error! ${res.message}`, 'Close');
+            this.changePasswordForm.reset()
+          })
+
+      } else {
+        // console.log("CHANGE PASSWORD>>>>>>>>", this.changePasswordForm.valid)
+        this.openSnackBar('Error! New password and confirm password do not match.', 'Close');
       }
-      
-     await this.http.post("http://localhost:8000/auth/changeUserPassword",obj).subscribe(
-        (res:any) => {
-          console.log("PASSWORD is match >>>>>>>>",res)
-          this.changePasswordForm.reset()
-        })
-
     }else{
-      console.log("CHANGE PASSWORD>>>>>>>>",this.changePasswordForm.valid)
+      this.openSnackBar('Error! Passwords are required.', 'Close');
     }
+
+
+
+
   }
-
-  
-  
-
-}
+  // Method to show the snackbar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar'] // Add custom class
+    });
+  }
 
 
 }

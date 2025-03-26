@@ -1,3 +1,44 @@
+<div class="banner-carousel">
+    <div class="banners">
+        <!-- Dynamic banners using ngFor -->
+        <div *ngFor="let banner of banners; let i = index" 
+             class="banner" 
+             [class.active]="i === currentBannerIndex"
+             [style.background-image]="'url(' + banner.image + ')'">
+            <div class="banner-content">
+                <h2 *ngIf="i === 0">Premium Business Solutions</h2>
+                <p *ngIf="i === 0">Your trusted partner for all business needs</p>
+                
+                <h2 *ngIf="i === 1">Quality Services</h2>
+                <p *ngIf="i === 1">Delivering excellence since 2010</p>
+                
+                <h2 *ngIf="i === 2">Global Network</h2>
+                <p *ngIf="i === 2">Connecting businesses worldwide</p>
+                
+                <h2 *ngIf="i === 3">Innovative Solutions</h2>
+                <p *ngIf="i === 3">Cutting-edge technology for your business</p>
+                
+                <h2 *ngIf="i === 4">24/7 Support</h2>
+                <p *ngIf="i === 4">We're always here for you</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="banner-controls">
+        <button class="control-btn prev" (click)="prevBanner()">❮</button>
+        <div class="indicators">
+            <span *ngFor="let banner of banners; let i = index" 
+                  [class.active]="i === currentBannerIndex" 
+                  (click)="goToBanner(i)"></span>
+        </div>
+        <button class="control-btn next" (click)="nextBanner()">❯</button>
+    </div>
+</div>
+
+
+
+
+
 <div class="contact-container">
     <!-- First Container with Two Cards -->
     <div class="card-container" [class.swapped]="swapped">

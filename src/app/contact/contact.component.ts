@@ -11,6 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select';
 
+
 @Component({
     selector: 'app-contact',
     standalone: true,
@@ -63,6 +64,21 @@ import { MatSelectModule } from '@angular/material/select';
 export class ContactComponent implements OnInit, OnDestroy {
     swapped = false;
     private swapInterval: any;
+ // Banner carousel variables
+  // Banner carousel variables
+  currentBannerIndex = 0;
+  private bannerInterval: any;
+  banners = [
+      { id: 0, image: '/download2.png' },
+      { id: 1, image: '/download2.png' },
+      { id: 2, image: '/download3.png' },
+      { id: 3, image: '/download4.png' },
+      { id: 4, image: '/images5.png' }
+  ];
+
+
+
+
     countryCodes = [
         { name: 'Afghanistan', dial_code: '+93', code: 'AF' },
         { name: 'Albania', dial_code: '+355', code: 'AL' },
@@ -321,10 +337,40 @@ export class ContactComponent implements OnInit, OnDestroy {
       }
 
     ngOnInit() {
+         // Start banner rotation
+         this.startBannerRotation();
         this.swapInterval = setInterval(() => {
             this.swapped = !this.swapped;
         }, 60000);
+         // Banner auto-rotation
+         this.bannerInterval = setInterval(() => {
+            this.nextBanner();
+        }, 5000);
     }
+    
+    startBannerRotation() {
+        this.bannerInterval = setInterval(() => {
+            this.nextBanner();
+        }, 5000);
+    }
+
+    nextBanner() {
+        this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
+    }
+
+    prevBanner() {
+        this.currentBannerIndex = (this.currentBannerIndex - 1 + this.banners.length) % this.banners.length;
+    }
+
+    goToBanner(index: number) {
+        this.currentBannerIndex = index;
+        // Reset the timer when manually changing banner
+        clearInterval(this.bannerInterval);
+        this.startBannerRotation();
+    }
+
+
+
     onSubmit(){
         alert("ok")
     }
@@ -349,5 +395,9 @@ get f() {
         if (this.swapInterval) {
             clearInterval(this.swapInterval);
         }
+        if (this.bannerInterval) {
+            clearInterval(this.bannerInterval);
+        }
+        
     }
 }

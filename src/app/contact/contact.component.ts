@@ -29,7 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
                 opacity: 0
             })),
             transition('void => *', [
-                animate('0.8s 0.2s ease-out', style({
+                animate('10s 0.2s ease-out', style({
                     transform: 'translateX(0)',
                     opacity: 1
                 }))
@@ -41,7 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
                 opacity: 0
             })),
             transition('void => *', [
-                animate('0.8s 0.2s ease-out', style({
+                animate('5s 0.2s ease-out', style({
                     transform: 'translateX(0)',
                     opacity: 1
                 }))
@@ -53,7 +53,7 @@ import { MatSelectModule } from '@angular/material/select';
                 opacity: 0
             })),
             transition('void => *', [
-                animate('0.8s 0.4s ease-out', style({
+                animate('15s 0.4s ease-out', style({
                     transform: 'translateY(0)',
                     opacity: 1
                 }))

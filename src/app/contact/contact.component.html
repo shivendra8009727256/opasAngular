@@ -1,1 +1,209 @@
-<p>contact works!</p>
+<div class="contact-container">
+    <!-- First Container with Two Cards -->
+    <div class="card-container" [class.swapped]="swapped">
+        <!-- Contact Info Card -->
+        <div class="card text-card" [@slideInRight]>
+            <div class="card-header">
+                <h2>Opas Bizz Pvt. Ltd.</h2>
+                <div class="wave-container">
+                    <div class="wave wave-1"></div>
+                    <div class="wave wave-2"></div>
+                    <div class="wave wave-3"></div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="contact-info">
+                    <div class="contact-section">
+                        <h3><i class="material-icons">person</i> Contact Person</h3>
+                        <p>Mrs. Pallavi Verma</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">location_on</i> Address</h3>
+                        <p>Office no -F09, 1st floor, Anjuman House, 23, C Block, Sector 63, Noida, Uttar Pradesh 201301</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">call</i> Call Us</h3>
+                        <p>+91-9111001049<br>+91-6261868402</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">phone</i> Phone No.</h3>
+                        <p>+91-755-4856448</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="card image-card" [@slideInLeft]>
+            <div class="card-header">
+                <h2>Email & Web</h2>
+                <div class="wave-container">
+                    <div class="wave wave-1"></div>
+                    <div class="wave wave-2"></div>
+                    <div class="wave wave-3"></div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="contact-info">
+                    <div class="contact-section">
+                        <h3><i class="material-icons">email</i> Email</h3>
+                        <p>admin&#64;opasbizz.com</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">alternate_email</i> Alt. Email</h3>
+                        <p>info&#64;opasbizz.com</p>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">public</i> Web Address</h3>
+                        <a href="https://www.opasbizzpvtltd.in" target="_blank">www.opasbizzpvtltd.in</a>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3><i class="material-icons">link</i> Web Page</h3>
+                        <a href="https://www.exportersindia.com/opas-bizz/" target="_blank">Exporters India Profile</a><br>
+                        <a href="https://www.indianyellowpages.com/bhopal/opas-bizz-pvt-ltd-12598976/" target="_blank">Indian Yellow Pages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form Card -->
+    
+</div>
+<div class="send-container-wrapper">
+    <div class="card image-card" [@slideInLeft]>
+        <div class="card-header">
+            <h2>Send Message</h2>
+            <!-- <div class="wave-container">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+            </div> -->
+        </div>
+        <div class="card-content">
+            <div class="contact-form">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+                    <!-- Full Name -->
+                    <mat-form-field appearance="outline">
+                      <mat-label>Full Name</mat-label>
+                      <input matInput formControlName="fullName" required  />
+                      <mat-error *ngIf="f['fullName'].errors?.['required']">
+                        Full Name is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['fullName'].errors?.['minlength']">
+                        Full Name must be at least 3 characters long.
+                      </mat-error>
+                    </mat-form-field>
+              
+                    <!-- Email -->
+                    <mat-form-field appearance="outline">
+                      <mat-label>Email</mat-label>
+                      <input matInput formControlName="email" required  />
+                      <mat-error *ngIf="f['email'].errors?.['required']">
+                        Email is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['email'].errors?.['email']">
+                        Please enter a valid email address.
+                      </mat-error>
+                    </mat-form-field>
+                     <!-- Full Name -->
+                     <mat-form-field appearance="outline">
+                        <mat-label>Product Name</mat-label>
+                        <input matInput formControlName="productName" required  />
+                        <mat-error *ngIf="f['productName'].errors?.['required']">
+                            Product Name is required.
+                        </mat-error>
+                        <mat-error *ngIf="f['productName'].errors?.['minlength']">
+                            Product Name must be at least 3 characters long.
+                        </mat-error>
+                      </mat-form-field>
+              
+                    <!-- Phone Code Dropdown -->
+                    <mat-form-field appearance="outline" style="flex: 1;">
+                      <mat-label>Country Phone Code</mat-label>
+                      <mat-select formControlName="phoneCode" required >
+                        <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
+                          {{code.dial_code}} ({{code.name}})
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="f['phoneCode'].errors?.['required']">
+                        Country code is required.
+                      </mat-error>
+                    </mat-form-field>
+              
+                    <!-- Phone Number -->
+                    <mat-form-field appearance="outline">
+                      <mat-label>Phone Number</mat-label>
+                      <input matInput formControlName="phoneNumber" required  />
+                      <mat-error *ngIf="f['phoneNumber'].errors?.['required']">
+                        Phone Number is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['phoneNumber'].errors?.['pattern']">
+                        Phone Number must be 10 digits.
+                      </mat-error>
+                    </mat-form-field>
+                     <!-- Full Name -->
+                     <mat-form-field appearance="outline">
+                        <mat-label>"Your Inquiry Message"</mat-label>
+                        <textarea matInput formControlName="message" required></textarea>
+                        <mat-error *ngIf="f['message'].errors?.['required']">
+                            Message is required.
+                        </mat-error>
+                        <mat-error *ngIf="f['message'].errors?.['minlength']">
+                            Message must be at least 3 characters long.
+                        </mat-error>
+                      </mat-form-field>
+              
+                    <!-- Submit Button -->
+                    
+                    <button mat-raised-button type="submit"  class="submit-btn">
+                        <i class="material-icons">send</i> Send Inquiry
+                      </button>
+              
+              
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Map Card with Your Company Location -->
+<div class="map-container-wrapper">
+    <div class="card map-card" [@slideInUp]>
+        <div class="card-header" >
+            <h2>Visit Opasbizz</h2>
+            <div class="wave-container">
+                <!-- <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div> -->
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.715964784618!2d77.385239!3d28.617693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDM3JzAzLjciTiA3N8KwMjMnMDYuOSJF!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="100%"
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div class="location-info">
+                    <h3>Opasbizz Pvt Ltd</h3>
+                    <p><i class="material-icons">location_on</i> Office no -F09, 1st floor, Anjuman House, 23, C Block, Sector 63, Noida, Uttar Pradesh 201301 </p>
+                    <p>Noida, Uttar Pradesh - 201301, India</p>
+                    <p><i class="material-icons">access_time</i> Mon-Fri: 9:00 AM - 6:00 PM</p>
+                    <p><i class="material-icons">phone</i> +91 6261868402</p>
+                    <p><i class="material-icons">email</i> contact&#64;opasbizz.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

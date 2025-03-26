@@ -1,76 +1,71 @@
 <div class="parent">
-    <div class="profile-container">
-        <div class="profile-header">
-            <div class="profile-image-container">
-              <!-- Profile Image -->
-              <img [src]="profileImage" alt="Profile Image" class="profile-image" />
-              <!-- Edit Button -->
-              <button mat-icon-button class="edit-icon hover-effect" aria-label="Edit Profile Image" (click)="triggerFileInput()">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <!-- Hidden File Input -->
-              <input
-                type="file"
-                id="fileInput"
-                style="display: none"
-                accept="image/*"
-                (change)="onFileSelected($event)"
-              />
-            </div>
-          </div>
-      
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
-          <!-- Full Name -->
-          <mat-form-field appearance="outline">
-            <mat-label>Full Name</mat-label>
-            <input matInput formControlName="fullName" required  (input)="profileSaveButton()"/>
-            <mat-error *ngIf="f['fullName'].errors?.['required']">
-              Full Name is required.
-            </mat-error>
-            <mat-error *ngIf="f['fullName'].errors?.['minlength']">
-              Full Name must be at least 3 characters long.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- Email -->
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required  (input)="profileSaveButton()"/>
-            <mat-error *ngIf="f['email'].errors?.['required']">
-              Email is required.
-            </mat-error>
-            <mat-error *ngIf="f['email'].errors?.['email']">
-              Please enter a valid email address.
-            </mat-error>
-          </mat-form-field>
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-image-container">
+        <!-- Profile Image -->
+        <img [src]="profileImage" alt="Profile Image" class="profile-image" />
+        <!-- Edit Button -->
+        <button mat-icon-button class="edit-icon hover-effect" aria-label="Edit Profile Image"
+          (click)="triggerFileInput()">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <!-- Hidden File Input -->
+        <input type="file" id="fileInput" style="display: none" accept="image/*" (change)="onFileSelected($event)" />
+      </div>
+    </div>
 
-          <!-- Phone Code Dropdown -->
-  <mat-form-field appearance="outline" style="flex: 1;">
-    <mat-label>Country Phone Code</mat-label>
-    <mat-select formControlName="phoneCode" required (selectionChange)="profileSaveButton()">
-      <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
-        {{code.dial_code}} ({{code.name}})
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="f['phoneCode'].errors?.['required']">
-      Country code is required.
-    </mat-error>
-  </mat-form-field>
-      
-          <!-- Phone Number -->
-          <mat-form-field appearance="outline">
-            <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" required (input)="profileSaveButton()" />
-            <mat-error *ngIf="f['phoneNumber'].errors?.['required']">
-              Phone Number is required.
-            </mat-error>
-            <mat-error *ngIf="f['phoneNumber'].errors?.['pattern']">
-              Phone Number must be 10 digits.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- Password -->
-          <!-- <mat-form-field appearance="outline">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <!-- Full Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="fullName" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['fullName'].errors?.['required']">
+          Full Name is required.
+        </mat-error>
+        <mat-error *ngIf="f['fullName'].errors?.['minlength']">
+          Full Name must be at least 3 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['email'].errors?.['required']">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="f['email'].errors?.['email']">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Phone Code Dropdown -->
+      <mat-form-field appearance="outline" style="flex: 1;">
+        <mat-label>Country Phone Code</mat-label>
+        <mat-select formControlName="phoneCode" required (selectionChange)="profileSaveButton()">
+          <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
+            {{code.dial_code}} ({{code.name}})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="f['phoneCode'].errors?.['required']">
+          Country code is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Phone Number -->
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phoneNumber" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['phoneNumber'].errors?.['required']">
+          Phone Number is required.
+        </mat-error>
+        <mat-error *ngIf="f['phoneNumber'].errors?.['pattern']">
+          Phone Number must be 10 digits.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password -->
+      <!-- <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" required />
             <mat-error *ngIf="f['password'].errors?.['required']">
@@ -80,101 +75,100 @@
               Password must be at least 8 characters long.
             </mat-error>
           </mat-form-field> -->
-      
-          <!-- Business Type -->
-          <mat-form-field appearance="outline">
-            <mat-label>Business Type</mat-label>
-            <input matInput formControlName="businessType" required (input)="profileSaveButton()" />
-            <mat-error *ngIf="f['businessType'].errors?.['required']">
-              Business Type is required.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- GST No -->
-          <mat-form-field appearance="outline">
-            <mat-label>GST No</mat-label>
-            <input matInput formControlName="gstNo" required  (input)="profileSaveButton()"/>
-            <mat-error *ngIf="f['gstNo'].errors?.['required']">
-              GST No is required.
-            </mat-error>
-            <mat-error *ngIf="f['gstNo'].errors?.['pattern']">
-              Please enter a valid GST number.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- Company Name -->
-          <mat-form-field appearance="outline">
-            <mat-label>Company Name</mat-label>
-            <input matInput formControlName="companyName" required (input)="profileSaveButton()" />
-            <mat-error *ngIf="f['companyName'].errors?.['required']">
-              Company Name is required.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- Address -->
-          <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address" required (input)="profileSaveButton()"/>
-            <mat-error *ngIf="f['address'].errors?.['required']">
-              Address is required.
-            </mat-error>
-            <mat-error *ngIf="f['address'].errors?.['minlength']">
-              Address must be at least 10 characters long.
-            </mat-error>
-          </mat-form-field>
-      
-          <!-- Submit Button -->
-          <button mat-raised-button color="primary" type="submit" [disabled]="saveButton" class="hover-effect">
-            Save
-          </button>
 
-          
-        </form>
-      </div>
-      <div class="profile-container1">
-        <div class="passwordChange">
-            <h1>Change Password</h1>
-   <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
-     <!-- Password -->
-          <mat-form-field appearance="outline">
-            <mat-label>Old Password</mat-label>
-            <input matInput type="oldPassword" formControlName="oldPassword" required  />
-            <mat-error *ngIf="ff['oldPassword'].errors?.['required']">
-              Password is required.
-            </mat-error>
-            <mat-error *ngIf="ff['oldPassword'].errors?.['minlength']">
-              Password must be at least 8 characters long.
-            </mat-error>
-          </mat-form-field>
-          <!-- New password -->
-          <mat-form-field appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input matInput type="newPassword" formControlName="newPassword" required />
-            <mat-error *ngIf="ff['newPassword'].errors?.['required']">
-             New Password is required.
-            </mat-error>
-            <mat-error *ngIf="ff['newPassword'].errors?.['minlength']">
-             New Password must be at least 8 characters long.
-            </mat-error>
-          </mat-form-field>
-          <!-- confirm Password -->
-          <mat-form-field appearance="outline">
-            <mat-label>Confirm Password</mat-label>
-            <input matInput type="confirmPassword" formControlName="confirmPassword" required />
-            <mat-error *ngIf="ff['confirmPassword'].errors?.['required']">
+      <!-- Business Type -->
+      <mat-form-field appearance="outline">
+        <mat-label>Business Type</mat-label>
+        <input matInput formControlName="businessType" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['businessType'].errors?.['required']">
+          Business Type is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- GST No -->
+      <mat-form-field appearance="outline">
+        <mat-label>GST No</mat-label>
+        <input matInput formControlName="gstNo" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['gstNo'].errors?.['required']">
+          GST No is required.
+        </mat-error>
+        <mat-error *ngIf="f['gstNo'].errors?.['pattern']">
+          Please enter a valid GST number.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Company Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="companyName" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['companyName'].errors?.['required']">
+          Company Name is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Address -->
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" required (input)="profileSaveButton()" />
+        <mat-error *ngIf="f['address'].errors?.['required']">
+          Address is required.
+        </mat-error>
+        <mat-error *ngIf="f['address'].errors?.['minlength']">
+          Address must be at least 10 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="saveButton" class="hover-effect">
+        Save
+      </button>
+
+
+    </form>
+  </div>
+  <div class="profile-container1">
+    <div class="passwordChange">
+      <h1>Change Password</h1>
+      <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+        <!-- Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>Old Password</mat-label>
+          <input matInput type="oldPassword" formControlName="oldPassword" required />
+          <mat-error *ngIf="ff['oldPassword'].errors?.['required']">
+            Password is required.
+          </mat-error>
+          <mat-error *ngIf="ff['oldPassword'].errors?.['minlength']">
+            Password must be at least 8 characters long.
+          </mat-error>
+        </mat-form-field>
+        <!-- New password -->
+        <mat-form-field appearance="outline">
+          <mat-label>New Password</mat-label>
+          <input matInput type="newPassword" formControlName="newPassword" required />
+          <mat-error *ngIf="ff['newPassword'].errors?.['required']">
+            New Password is required.
+          </mat-error>
+          <mat-error *ngIf="ff['newPassword'].errors?.['minlength']">
+            New Password must be at least 8 characters long.
+          </mat-error>
+        </mat-form-field>
+        <!-- confirm Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="confirmPassword" formControlName="confirmPassword" required />
+          <mat-error *ngIf="ff['confirmPassword'].errors?.['required']">
             Confirm Password is required.
-            </mat-error>
-            <mat-error *ngIf="ff['confirmPassword'].errors?.['minlength']">
+          </mat-error>
+          <mat-error *ngIf="ff['confirmPassword'].errors?.['minlength']">
             Confirm Password must be at least 8 characters long.
-            </mat-error>
-          </mat-form-field>
-          <button mat-raised-button color="primary" class="hover-effect" style="width: 100%;" type="submit" [disabled]="this.changePasswordForm.invalid" >
-            Change Password
-          </button>
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="hover-effect" style="width: 100%;" type="submit"
+          [disabled]="this.changePasswordForm.invalid">
+          Change Password
+        </button>
 
-   </form>
-        </div>
-        </div>
+      </form>
+    </div>
+  </div>
 </div>
-
-

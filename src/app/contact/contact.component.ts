@@ -332,6 +332,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     ];
     http = inject(HttpClient);
     profileForm: FormGroup;
+    otpMail: any;
 
 
     constructor(private fb: FormBuilder, private snackBar: MatSnackBar,) {
@@ -396,7 +397,7 @@ export class ContactComponent implements OnInit, OnDestroy {
             console.log(this.profileForm.valid, "DATA OF ENQUIRY>>>>>>>>>", this.profileForm.value)
             const obj = {
                 fullName: this.profileForm.value.fullName,
-                email: this.profileForm.value.email,
+                email: this.otpMail,
                 productName: this.profileForm.value.productName,
                 phoneCode: this.profileForm.value.phoneCode,
                 phoneNumber: this.profileForm.value.phoneNumber,
@@ -410,6 +411,7 @@ export class ContactComponent implements OnInit, OnDestroy {
                         this.otpSent = false;
                         this.otpVerified = false;
                         this.otpResendDisabled = false;
+                        this.profileForm.get('email')?.enable(); 
                         // After successful save, reset the form
                        await this.resetForm();
                        await this.disableFormAfterVerification()
@@ -452,9 +454,11 @@ export class ContactComponent implements OnInit, OnDestroy {
 
         // In production, call your backend API here
         console.log('OTP would be sent to:', this.profileForm.value.email);
-        const obj={ email:this.profileForm.value.email}
-        this.http.post("http://localhost:8000/userInquiry/sendOTP",obj ).subscribe(async (res: any) => {
+        this.otpMail=this.profileForm.value.email
+        const obj={ email:this.otpMail}
+        this.http.post("http://localhost:8000/userInquiry/inquirySendMail",obj ).subscribe(async (res: any) => {
         this.otpSent = true;
+        this.profileForm.get('email')?.disable(); 
         this.startResendTimer();
         this.openSnackBar('OTP sent to your email', 'Close');
     })
@@ -481,16 +485,36 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   
 
-verifyOTP() {
+    async verifyOTP() {
   // In production, verify with your backend
   // For demo, we'll just check if OTP field is valid
   if (this.f['otp'].valid) {
-    this.otpVerified = true;
-    this.otpResendDisabled = true;
-    this.openSnackBar('OTP verified successfully', 'Close');
+    try{
+        const obj={
+            email:this.otpMail,
+            otp:this.profileForm.value.otp
+        }
+        console.log("VERIFY OTP>>>>>>",this.otpMail)
     
-    // Enable all form controls programmatically
-    this.enableFormAfterVerification();
+       await this.http.post("http://localhost:8000/userInquiry/inquiryVerifyOtp",obj).subscribe({
+        next: (res: any) => {
+          // Success case
+          this.otpVerified = true;
+          this.openSnackBar(res.message || 'OTP verified!', 'Close');
+          this.enableFormAfterVerification();
+        },
+        error: (err) => {
+          // Error case - show API error message or default message
+          const message = err.error?.message || err.message || 'OTP verification failed';
+          this.openSnackBar(message, 'Close');
+        }
+      });
+
+    }catch(err){
+        this.openSnackBar("Please! Enter valid OTP ...", 'Close');
+    }
+    
+   
   }
 }
 

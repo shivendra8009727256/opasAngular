@@ -1,35 +1,32 @@
 <div class="banner-carousel">
     <div class="banners">
         <!-- Dynamic banners using ngFor -->
-        <div *ngFor="let banner of banners; let i = index" 
-             class="banner" 
-             [class.active]="i === currentBannerIndex"
-             [style.background-image]="'url(' + banner.image + ')'">
+        <div *ngFor="let banner of banners; let i = index" class="banner" [class.active]="i === currentBannerIndex"
+            [style.background-image]="'url(' + banner.image + ')'">
             <div class="banner-content">
                 <h2 *ngIf="i === 0">Premium Business Solutions</h2>
                 <p *ngIf="i === 0">Your trusted partner for all business needs</p>
-                
+
                 <h2 *ngIf="i === 1">Quality Services</h2>
                 <p *ngIf="i === 1">Delivering excellence since 2010</p>
-                
+
                 <h2 *ngIf="i === 2">Global Network</h2>
                 <p *ngIf="i === 2">Connecting businesses worldwide</p>
-                
+
                 <h2 *ngIf="i === 3">Innovative Solutions</h2>
                 <p *ngIf="i === 3">Cutting-edge technology for your business</p>
-                
+
                 <h2 *ngIf="i === 4">24/7 Support</h2>
                 <p *ngIf="i === 4">We're always here for you</p>
             </div>
         </div>
     </div>
-    
+
     <div class="banner-controls">
         <button class="control-btn prev" (click)="prevBanner()">❮</button>
         <div class="indicators">
-            <span *ngFor="let banner of banners; let i = index" 
-                  [class.active]="i === currentBannerIndex" 
-                  (click)="goToBanner(i)"></span>
+            <span *ngFor="let banner of banners; let i = index" [class.active]="i === currentBannerIndex"
+                (click)="goToBanner(i)"></span>
         </div>
         <button class="control-btn next" (click)="nextBanner()">❯</button>
     </div>
@@ -61,7 +58,8 @@
 
                     <div class="contact-section">
                         <h3><i class="material-icons">location_on</i> Address</h3>
-                        <p>Office no -F09, 1st floor, Anjuman House, 23, C Block, Sector 63, Noida, Uttar Pradesh 201301</p>
+                        <p>Office no -F09, 1st floor, Anjuman House, 23, C Block, Sector 63, Noida, Uttar Pradesh 201301
+                        </p>
                     </div>
 
                     <div class="contact-section">
@@ -80,7 +78,7 @@
         <!-- Contact Form Card -->
         <div class="card image-card" [@slideInLeft]>
             <div class="card-header">
-                <h2>Email & Web</h2>
+                <h2>Contact Us</h2>
                 <div class="wave-container">
                     <div class="wave wave-1"></div>
                     <div class="wave wave-2"></div>
@@ -106,8 +104,10 @@
 
                     <div class="contact-section">
                         <h3><i class="material-icons">link</i> Web Page</h3>
-                        <a href="https://www.exportersindia.com/opas-bizz/" target="_blank">Exporters India Profile</a><br>
-                        <a href="https://www.indianyellowpages.com/bhopal/opas-bizz-pvt-ltd-12598976/" target="_blank">Indian Yellow Pages</a>
+                        <a href="https://www.exportersindia.com/opas-bizz/" target="_blank">Exporters India
+                            Profile</a><br>
+                        <a href="https://www.indianyellowpages.com/bhopal/opas-bizz-pvt-ltd-12598976/"
+                            target="_blank">Indian Yellow Pages</a>
                     </div>
                 </div>
             </div>
@@ -115,12 +115,12 @@
     </div>
 
     <!-- Contact Form Card -->
-    
+
 </div>
 <div class="send-container-wrapper">
     <div class="card image-card" [@slideInLeft]>
         <div class="card-header">
-            <h2>Send Message</h2>
+            <h2>Send Inquiry</h2>
             <!-- <div class="wave-container">
                 <div class="wave wave-1"></div>
                 <div class="wave wave-2"></div>
@@ -133,7 +133,7 @@
                     <!-- Full Name -->
                     <mat-form-field appearance="outline">
                       <mat-label>Full Name</mat-label>
-                      <input matInput formControlName="fullName" required  />
+                      <input matInput formControlName="fullName" required [disabled]="!otpVerified" />
                       <mat-error *ngIf="f['fullName'].errors?.['required']">
                         Full Name is required.
                       </mat-error>
@@ -141,11 +141,11 @@
                         Full Name must be at least 3 characters long.
                       </mat-error>
                     </mat-form-field>
-              
-                    <!-- Email -->
+                  
+                    <!-- Email Field (always enabled) -->
                     <mat-form-field appearance="outline">
                       <mat-label>Email</mat-label>
-                      <input matInput formControlName="email" required  />
+                      <input matInput formControlName="email" required />
                       <mat-error *ngIf="f['email'].errors?.['required']">
                         Email is required.
                       </mat-error>
@@ -153,22 +153,59 @@
                         Please enter a valid email address.
                       </mat-error>
                     </mat-form-field>
-                     <!-- Full Name -->
-                     <mat-form-field appearance="outline">
-                        <mat-label>Product Name</mat-label>
-                        <input matInput formControlName="productName" required  />
-                        <mat-error *ngIf="f['productName'].errors?.['required']">
-                            Product Name is required.
-                        </mat-error>
-                        <mat-error *ngIf="f['productName'].errors?.['minlength']">
-                            Product Name must be at least 3 characters long.
+                  
+                    <!-- Send OTP Button -->
+                    <div class="otp-action">
+                      <button type="button" mat-raised-button color="primary" 
+                              (click)="sendOTP()" 
+                              [disabled]="f['email'].invalid || otpSent"
+                              class="otp-button">
+                        {{ otpSent ? 'OTP Sent' : 'Send OTP' }}
+                      </button>
+                      <span *ngIf="otpSent" class="resend-text">
+                        Didn't receive code? 
+                        <button type="button" mat-button (click)="resendOTP()" [disabled]="otpResendDisabled" [hidden]="otpVerified">
+                          Resend {{ otpResendDisabled ? '(' + otpResendTimer + 's)' : '' }}
+                        </button>
+                      </span>
+                    </div>
+                  
+                    <!-- OTP Verification Field -->
+                    <div *ngIf="otpSent" class="otp-verification">
+                      <mat-form-field appearance="outline" [hidden]="otpVerified">
+                        <mat-label>Enter OTP</mat-label>
+                        <input matInput formControlName="otp" required maxlength="6"  />
+                        <mat-error *ngIf="f['otp'].errors?.['required']">
+                          OTP is required.
                         </mat-error>
                       </mat-form-field>
-              
-                    <!-- Phone Code Dropdown -->
+                      
+                      <button type="button" mat-raised-button color="accent" 
+                              (click)="verifyOTP()" 
+                              [disabled]="f['otp'].invalid"  [hidden]="otpVerified"
+                              class="verify-button">
+                        Verify OTP
+                      </button>
+                      
+                      <mat-icon *ngIf="otpVerified" class="verified-icon">check_circle</mat-icon>
+                    </div>
+                  
+                    <!-- Product Name (disabled until verified) -->
+                    <mat-form-field appearance="outline">
+                      <mat-label>Product Name</mat-label>
+                      <input matInput formControlName="productName" required [disabled]="!otpVerified" />
+                      <mat-error *ngIf="f['productName'].errors?.['required']">
+                        Product Name is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['productName'].errors?.['minlength']">
+                        Product Name must be at least 3 characters long.
+                      </mat-error>
+                    </mat-form-field>
+                  
+                    <!-- Phone Code Dropdown (disabled until verified) -->
                     <mat-form-field appearance="outline" style="flex: 1;">
                       <mat-label>Country Phone Code</mat-label>
-                      <mat-select formControlName="phoneCode" required >
+                      <mat-select formControlName="phoneCode" required [disabled]="!otpVerified">
                         <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
                           {{code.dial_code}} ({{code.name}})
                         </mat-option>
@@ -177,11 +214,11 @@
                         Country code is required.
                       </mat-error>
                     </mat-form-field>
-              
-                    <!-- Phone Number -->
+                  
+                    <!-- Phone Number (disabled until verified) -->
                     <mat-form-field appearance="outline">
                       <mat-label>Phone Number</mat-label>
-                      <input matInput formControlName="phoneNumber" required  />
+                      <input matInput formControlName="phoneNumber" required [disabled]="!otpVerified" />
                       <mat-error *ngIf="f['phoneNumber'].errors?.['required']">
                         Phone Number is required.
                       </mat-error>
@@ -189,25 +226,23 @@
                         Phone Number must be 10 digits.
                       </mat-error>
                     </mat-form-field>
-                     <!-- Full Name -->
-                     <mat-form-field appearance="outline">
-                        <mat-label>"Your Inquiry Message"</mat-label>
-                        <textarea matInput formControlName="message" required></textarea>
-                        <mat-error *ngIf="f['message'].errors?.['required']">
-                            Message is required.
-                        </mat-error>
-                        <mat-error *ngIf="f['message'].errors?.['minlength']">
-                            Message must be at least 3 characters long.
-                        </mat-error>
-                      </mat-form-field>
-              
-                    <!-- Submit Button -->
-                    
-                    <button mat-raised-button type="submit"  class="submit-btn">
-                        <i class="material-icons">send</i> Send Inquiry
-                      </button>
-              
-              
+                  
+                    <!-- Message (disabled until verified) -->
+                    <mat-form-field appearance="outline">
+                      <mat-label>Your Inquiry Message</mat-label>
+                      <textarea matInput formControlName="message" required [disabled]="!otpVerified"></textarea>
+                      <mat-error *ngIf="f['message'].errors?.['required']">
+                        Message is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['message'].errors?.['minlength']">
+                        Message must be at least 3 characters long.
+                      </mat-error>
+                    </mat-form-field>
+                  
+                    <!-- Submit Button (disabled until verified) -->
+                    <button mat-raised-button type="submit" [disabled]="profileForm.invalid || !otpVerified" style="color: aliceblue;" class="submit-btn">
+                      <i class="material-icons">send</i> Send Inquiry
+                    </button>
                   </form>
             </div>
         </div>
@@ -217,7 +252,7 @@
 <!-- Map Card with Your Company Location -->
 <div class="map-container-wrapper">
     <div class="card map-card" [@slideInUp]>
-        <div class="card-header" >
+        <div class="card-header">
             <h2>Visit Opasbizz</h2>
             <div class="wave-container">
                 <!-- <div class="wave wave-1"></div>
@@ -227,18 +262,15 @@
         </div>
         <div class="card-content">
             <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.715964784618!2d77.385239!3d28.617693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDM3JzAzLjciTiA3N8KwMjMnMDYuOSJF!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
-                    width="100%" 
-                    height="100%"
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.715964784618!2d77.385239!3d28.617693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDM3JzAzLjciTiA3N8KwMjMnMDYuOSJF!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
                 <div class="location-info">
                     <h3>Opasbizz Pvt Ltd</h3>
-                    <p><i class="material-icons">location_on</i> Office no -F09, 1st floor, Anjuman House, 23, C Block, Sector 63, Noida, Uttar Pradesh 201301 </p>
+                    <p><i class="material-icons">location_on</i> Office no -F09, 1st floor, Anjuman House, 23, C Block,
+                        Sector 63, Noida, Uttar Pradesh 201301 </p>
                     <p>Noida, Uttar Pradesh - 201301, India</p>
                     <p><i class="material-icons">access_time</i> Mon-Fri: 9:00 AM - 6:00 PM</p>
                     <p><i class="material-icons">phone</i> +91 6261868402</p>

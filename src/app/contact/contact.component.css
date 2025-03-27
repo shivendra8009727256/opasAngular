@@ -14,7 +14,7 @@
   }
   .submit-btn {
     background: linear-gradient(to right, #4b6cb7, #182848);
-    color: white;
+    color: hsl(0, 0%, 100%);
     border: none;
     padding: 12px 24px;
     border-radius: 6px;
@@ -322,10 +322,11 @@
 }
 
 .banner-controls {
-    position: absolute;
+    background-color: black;
+    /* position: absolute;
     bottom: 20px;
     left: 0;
-    right: 0;
+    right: 0; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -415,3 +416,48 @@
         padding: 20px;
     }
 }
+/* OTP Section Styles */
+.otp-action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .otp-button {
+    margin-right: 10px;
+  }
+  
+  .resend-text {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .resend-text button {
+    padding: 0;
+    min-width: auto;
+    line-height: 1;
+  }
+  
+  .otp-verification {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .otp-verification mat-form-field {
+    flex: 1;
+    max-width: 200px;
+  }
+  
+  .verified-icon {
+    color: #4CAF50;
+    margin-left: 8px;
+  }
+  
+  /* Style for disabled fields */
+  mat-form-field.mat-form-field-disabled .mat-form-field-outline {
+    background-color: #f5f5f5;
+  }
+

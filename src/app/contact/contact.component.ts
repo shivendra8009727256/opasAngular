@@ -19,7 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
         ReactiveFormsModule, MatIconModule,
         MatButtonModule,
         MatFormFieldModule,
-        MatInputModule,MatSelectModule],
+        MatInputModule, MatSelectModule],
     templateUrl: './contact.component.html',
     styleUrls: ['./contact.component.css'],
     animations: [
@@ -64,17 +64,32 @@ import { MatSelectModule } from '@angular/material/select';
 export class ContactComponent implements OnInit, OnDestroy {
     swapped = false;
     private swapInterval: any;
- // Banner carousel variables
-  // Banner carousel variables
-  currentBannerIndex = 0;
-  private bannerInterval: any;
-  banners = [
-      { id: 0, image: '/download2.png' },
-      { id: 1, image: '/download2.png' },
-      { id: 2, image: '/download3.png' },
-      { id: 3, image: '/download4.png' },
-      { id: 4, image: '/images5.png' }
-  ];
+    // Banner carousel variables
+    // Banner carousel variables
+    currentBannerIndex = 0;
+    private bannerInterval: any;
+    otpSent = false;
+    otpVerified = false;
+    otpResendDisabled = false;
+    otpResendTimer = 30;
+    otpTimer: any;
+
+    banners = [
+        { id: 0, image: '/banner1.png' },
+        { id: 1, image: '/banner2.png' },
+        { id: 2, image: '/banner3.png' },
+        { id: 3, image: '/banner4.png' },
+        { id: 4, image: '/banner3.png' }
+    ];
+
+    private initialFormValues = {
+        fullName: '',
+        productName: '',
+        email: '',
+        phoneCode: '+91', // Maintain default
+        phoneNumber: '',
+        message: ''
+    };
 
 
 
@@ -314,40 +329,45 @@ export class ContactComponent implements OnInit, OnDestroy {
         { name: 'Yemen', dial_code: '+967', code: 'YE' },
         { name: 'Zambia', dial_code: '+260', code: 'ZM' },
         { name: 'Zimbabwe', dial_code: '+263', code: 'ZW' }
-      ];
-      http = inject(HttpClient);
-      profileForm: FormGroup;
+    ];
+    http = inject(HttpClient);
+    profileForm: FormGroup;
 
 
-      constructor(private fb: FormBuilder, private snackBar: MatSnackBar,){
-        this.profileForm=this.fb.group({
-            fullName: ['', [Validators.required, Validators.minLength(3)]],
-           
-            productName: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      phoneCode: ['+91', [Validators.required]], // Default to India
-      phoneNumber: [
-        '',
-        [Validators.required, Validators.pattern(/^[0-9]{10}$/)], // 10-digit phone number
-      ],
-      message: ['', [Validators.required, Validators.minLength(3)]],
+    constructor(private fb: FormBuilder, private snackBar: MatSnackBar,) {
+        this.profileForm = this.fb.group({
+            fullName: ["", [Validators.required, Validators.minLength(3)]],
+            email: ['', [Validators.required, Validators.email]],
+            otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+            productName: [{value: '', disabled: true}, [Validators.required, Validators.minLength(3)]],
+            phoneCode: [{value: '+91', disabled: true}, [Validators.required]],
+            phoneNumber: [{value: '', disabled: true}, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+            message: [{value: '', disabled: true}, [Validators.required, Validators.minLength(3)]]
+          });
 
-        })
+    }
 
-      }
+    // Reset form method
+    resetForm() {
+        this.profileForm.reset(this.initialFormValues); // Reset to initial values
+        this.profileForm.markAsPristine();
+        this.profileForm.markAsUntouched();
+    }
+
+
 
     ngOnInit() {
-         // Start banner rotation
-         this.startBannerRotation();
+        // Start banner rotation
+        this.startBannerRotation();
         this.swapInterval = setInterval(() => {
             this.swapped = !this.swapped;
         }, 60000);
-         // Banner auto-rotation
-         this.bannerInterval = setInterval(() => {
+        // Banner auto-rotation
+        this.bannerInterval = setInterval(() => {
             this.nextBanner();
         }, 5000);
     }
-    
+
     startBannerRotation() {
         this.bannerInterval = setInterval(() => {
             this.nextBanner();
@@ -371,33 +391,140 @@ export class ContactComponent implements OnInit, OnDestroy {
 
 
 
-    onSubmit(){
-        alert("ok")
+    onSubmit() {
+        if (this.profileForm.valid) {
+            console.log(this.profileForm.valid, "DATA OF ENQUIRY>>>>>>>>>", this.profileForm.value)
+            const obj = {
+                fullName: this.profileForm.value.fullName,
+                email: this.profileForm.value.email,
+                productName: this.profileForm.value.productName,
+                phoneCode: this.profileForm.value.phoneCode,
+                phoneNumber: this.profileForm.value.phoneNumber,
+                message: this.profileForm.value.message,
+                status: "pendding"
+            }
+            this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe(async (res: any) => {
+                try {
+                    if (res) {
+                      
+                        this.otpSent = false;
+                        this.otpVerified = false;
+                        this.otpResendDisabled = false;
+                        // After successful save, reset the form
+                       await this.resetForm();
+                       await this.disableFormAfterVerification()
+                       this.openSnackBar(res.message, "close")
+
+                    }
+                } catch (err) {
+                    this.openSnackBar("Check All Field...", "close")
+                }
+            })
+
+        } else {
+            this.profileForm.markAllAsTouched(); // Show validation errors
+        }
+
+
     }
 
 
-// Helper method to get form controls for easy access in the template
-get f() {
-    return this.profileForm.controls;
-  }
+    // Helper method to get form controls for easy access in the template
+    get f() {
+        return this.profileForm.controls;
+    }
     // Method to show the snackbar
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-      panelClass: ['custom-snackbar'] // Add custom class
-    });
+    openSnackBar(message: string, action: string) {
+        this.snackBar.open(message, action, {
+            duration: 2000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['custom-snackbar'] // Add custom class
+        });
+    }
+
+    // OTP Methods
+    sendOTP() {
+        if (this.f['email'].invalid) {
+            this.openSnackBar('Please enter a valid email first', 'Close');
+            return;
+        }
+
+        // In production, call your backend API here
+        console.log('OTP would be sent to:', this.profileForm.value.email);
+        const obj={ email:this.profileForm.value.email}
+        this.http.post("http://localhost:8000/userInquiry/sendOTP",obj ).subscribe(async (res: any) => {
+        this.otpSent = true;
+        this.startResendTimer();
+        this.openSnackBar('OTP sent to your email', 'Close');
+    })
+}
+
+    
+
+    resendOTP() {
+        this.sendOTP();
+    }
+
+    startResendTimer() {
+        this.otpResendDisabled = true;
+        this.otpResendTimer = 30;
+
+        this.otpTimer = setInterval(() => {
+            this.otpResendTimer--;
+            if (this.otpResendTimer <= 0) {
+                clearInterval(this.otpTimer);
+                this.otpResendDisabled = false;
+            }
+        }, 1000);
+    }
+
+  
+
+verifyOTP() {
+  // In production, verify with your backend
+  // For demo, we'll just check if OTP field is valid
+  if (this.f['otp'].valid) {
+    this.otpVerified = true;
+    this.otpResendDisabled = true;
+    this.openSnackBar('OTP verified successfully', 'Close');
+    
+    // Enable all form controls programmatically
+    this.enableFormAfterVerification();
   }
+}
+
+enableFormAfterVerification() {
+
+  this.profileForm.get('productName')?.enable();
+  this.profileForm.get('phoneCode')?.enable();
+  this.profileForm.get('phoneNumber')?.enable();
+  this.profileForm.get('message')?.enable();
+}
+disableFormAfterVerification() {
+
+  this.profileForm.get('productName')?.disable();
+  this.profileForm.get('phoneCode')?.disable();
+  this.profileForm.get('phoneNumber')?.disable();
+  this.profileForm.get('message')?.disable();
+}
+
+// Update your form initialization to disable fields initially
+
+
 
 
     ngOnDestroy() {
+        // Add to ngOnDestroy
+        if (this.otpTimer) {
+            clearInterval(this.otpTimer);
+        }
         if (this.swapInterval) {
             clearInterval(this.swapInterval);
         }
         if (this.bannerInterval) {
             clearInterval(this.bannerInterval);
         }
-        
+
     }
 }

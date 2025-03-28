@@ -70,9 +70,11 @@ export class ContactComponent implements OnInit, OnDestroy {
     private bannerInterval: any;
     otpSent = false;
     otpVerified = false;
+    
     otpResendDisabled = false;
     otpResendTimer = 30;
     otpTimer: any;
+    otpHide = false
 
     banners = [
         { id: 0, image: '/banner1.png' },
@@ -90,10 +92,6 @@ export class ContactComponent implements OnInit, OnDestroy {
         phoneNumber: '',
         message: ''
     };
-
-
-
-
     countryCodes = [
         { name: 'Afghanistan', dial_code: '+93', code: 'AF' },
         { name: 'Albania', dial_code: '+355', code: 'AL' },
@@ -333,31 +331,33 @@ export class ContactComponent implements OnInit, OnDestroy {
     http = inject(HttpClient);
     profileForm: FormGroup;
     otpMail: any;
+    userId: any = "";
 
 
     constructor(private fb: FormBuilder, private snackBar: MatSnackBar,) {
+
+
+        this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+
+
+
+
+
         this.profileForm = this.fb.group({
             fullName: ["", [Validators.required, Validators.minLength(3)]],
             email: ['', [Validators.required, Validators.email]],
             otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
-            productName: [{value: '', disabled: true}, [Validators.required, Validators.minLength(3)]],
-            phoneCode: [{value: '+91', disabled: true}, [Validators.required]],
-            phoneNumber: [{value: '', disabled: true}, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-            message: [{value: '', disabled: true}, [Validators.required, Validators.minLength(3)]]
-          });
+            productName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]],
+            phoneCode: [{ value: '+91', disabled: true }, [Validators.required]],
+            phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+            message: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]]
+        });
 
     }
-
-    // Reset form method
-    resetForm() {
-        this.profileForm.reset(this.initialFormValues); // Reset to initial values
-        this.profileForm.markAsPristine();
-        this.profileForm.markAsUntouched();
-    }
-
-
-
     ngOnInit() {
+        if (this.userId != "") {
+            this.getUser(this.userId)
+        }
         // Start banner rotation
         this.startBannerRotation();
         this.swapInterval = setInterval(() => {
@@ -368,6 +368,79 @@ export class ContactComponent implements OnInit, OnDestroy {
             this.nextBanner();
         }, 5000);
     }
+
+    /////////get user details?????//////////
+
+    getUser(item: any) {
+        try {
+            let params = new HttpParams().set('userId', item);
+            this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe({
+                next: async (res: any) => {
+                    console.log("NEXT>>>>>>>>>>>>>>>>>>", res?.user?.fullName)
+                    // Update form values and disable fields
+                    this.profileForm.patchValue({
+                        fullName: res.user.fullName,
+                        email: res.user.email,
+                        phoneCode: res.user.phoneCode,
+                        phoneNumber: res.user.phoneNumber,
+
+                    });
+
+                    // Disable these fields since we're using the user's registered info
+                    await  this.profileForm.get('fullName')?.disable();
+                    await this.profileForm.get('email')?.disable();
+                   await this.profileForm.get('phoneCode')?.disable();
+                   await  this.profileForm.get('phoneNumber')?.disable();
+
+
+                    ///////////enable field////////////
+                    await this.profileForm.get('productName')?.enable();
+                    await this.profileForm.get('message')?.enable();
+
+                    // Store the email for OTP verification
+                    this.otpMail = res.user.email;
+                    this.otpHide = true;
+                    this.otpVerified=true
+                   
+                    // alert(this.otpHide)
+
+
+                    // For debugging
+                    console.log("User data loaded:", res.user);
+
+
+                },
+                error: (err) => {
+                    // Error case - show API error message or default message
+                    const message = err.error?.message || err.message || 'User not fetch';
+                    this.openSnackBar(message, 'Close');
+                }
+            });
+
+        } catch (err) {
+
+        }
+
+
+    }
+
+    // Reset form method
+    async resetForm() {
+        await this.profileForm.reset();
+        // Clear all validators temporarily
+  Object.keys(this.profileForm.controls).forEach(key => {
+    const control = this.profileForm.get(key);
+    control?.clearValidators();
+    control?.updateValueAndValidity();
+  });
+        // this.profileForm.reset(this.initialFormValues); // Reset to initial values
+        // this.profileForm.markAsPristine();
+        // this.profileForm.markAsUntouched();
+    }
+
+
+
+
 
     startBannerRotation() {
         this.bannerInterval = setInterval(() => {
@@ -392,58 +465,74 @@ export class ContactComponent implements OnInit, OnDestroy {
 
 
 
-    onSubmit() {
-        if (this.profileForm.valid) {
-            console.log(this.profileForm.valid, "DATA OF ENQUIRY>>>>>>>>>", this.profileForm.value)
-            const obj = {
-                fullName: this.profileForm.value.fullName,
-                email: this.otpMail,
-                productName: this.profileForm.value.productName,
-                phoneCode: this.profileForm.value.phoneCode,
-                phoneNumber: this.profileForm.value.phoneNumber,
-                message: this.profileForm.value.message,
-                status: "pendding"
-            }
-            this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe(async (res: any) => {
-                try {
-                    if (res) {
-                      
-                        this.otpSent = false;
-                        this.otpVerified = false;
-                        this.otpResendDisabled = false;
-                        this.profileForm.get('email')?.enable(); 
-                        // After successful save, reset the form
-                       await this.resetForm();
-                       await this.disableFormAfterVerification()
-                       this.openSnackBar(res.message, "close")
+    // In your ContactComponent class:
 
-                    }
-                } catch (err) {
-                    this.openSnackBar("Check All Field...", "close")
-                }
-            })
-
-        } else {
-            this.profileForm.markAllAsTouched(); // Show validation errors
-        }
-
-
+onSubmit() {
+    // Get the raw value including disabled fields
+    const formValue = this.profileForm.getRawValue();
+    
+    // Manually validate required fields since disabled fields are excluded from normal validation
+    if (
+        (!formValue.fullName && !this.userId) || // Only validate fullName if not logged in
+        !this.otpMail || // Email is required (stored in otpMail after OTP verification)
+        !formValue.productName ||
+        !formValue.phoneNumber ||
+        !formValue.message
+    ) {
+        this.openSnackBar('Please fill all required fields', 'Close');
+        return;
     }
+
+    
+   
+    const obj = {
+        fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
+        email: this.otpMail,
+        productName: formValue.productName,
+        phoneCode: formValue.phoneCode,
+        phoneNumber: formValue.phoneNumber,
+        message: formValue.message,
+        status: "pending",
+        userId: this.userId
+    };
+    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+        next: async (res: any) => {
+            if (res) {
+                console.log("IF USER IS LOG IN >>>>>>>>",res)
+                this.otpSent = false;
+                this.otpVerified = false;
+                this.otpResendDisabled = false;
+                
+                // Re-enable fields for new submissions
+                this.profileForm.get('email')?.enable();
+                if (!this.userId) {
+                    this.profileForm.get('fullName')?.enable();
+                }
+                
+                await this.resetForm();
+                await this.disableFormAfterVerification();
+                 if (this.userId != "") {
+                    await this.getUser(this.userId)
+                }
+               await this.openSnackBar(res.message, "close");
+            }
+        },
+        error: (err) => {
+            this.openSnackBar("Error submitting form. Please try again.", "close");
+            console.error("Submission error:", err);
+        }
+    });
+}
+
+
 
 
     // Helper method to get form controls for easy access in the template
     get f() {
         return this.profileForm.controls;
     }
-    // Method to show the snackbar
-    openSnackBar(message: string, action: string) {
-        this.snackBar.open(message, action, {
-            duration: 2000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['custom-snackbar'] // Add custom class
-        });
-    }
+
 
     // OTP Methods
     sendOTP() {
@@ -454,17 +543,17 @@ export class ContactComponent implements OnInit, OnDestroy {
 
         // In production, call your backend API here
         console.log('OTP would be sent to:', this.profileForm.value.email);
-        this.otpMail=this.profileForm.value.email
-        const obj={ email:this.otpMail}
-        this.http.post("http://localhost:8000/userInquiry/inquirySendMail",obj ).subscribe(async (res: any) => {
-        this.otpSent = true;
-        this.profileForm.get('email')?.disable(); 
-        this.startResendTimer();
-        this.openSnackBar('OTP sent to your email', 'Close');
-    })
-}
+        this.otpMail = this.profileForm.value.email
+        const obj = { email: this.otpMail }
+        this.http.post("http://localhost:8000/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
+            this.otpSent = true;
+            this.profileForm.get('email')?.disable();
+            this.startResendTimer();
+            this.openSnackBar('OTP sent to your email', 'Close');
+        })
+    }
 
-    
+
 
     resendOTP() {
         this.sendOTP();
@@ -483,59 +572,67 @@ export class ContactComponent implements OnInit, OnDestroy {
         }, 1000);
     }
 
-  
+
 
     async verifyOTP() {
-  // In production, verify with your backend
-  // For demo, we'll just check if OTP field is valid
-  if (this.f['otp'].valid) {
-    try{
-        const obj={
-            email:this.otpMail,
-            otp:this.profileForm.value.otp
-        }
-        console.log("VERIFY OTP>>>>>>",this.otpMail)
-    
-       await this.http.post("http://localhost:8000/userInquiry/inquiryVerifyOtp",obj).subscribe({
-        next: (res: any) => {
-          // Success case
-          this.otpVerified = true;
-          this.openSnackBar(res.message || 'OTP verified!', 'Close');
-          this.enableFormAfterVerification();
-        },
-        error: (err) => {
-          // Error case - show API error message or default message
-          const message = err.error?.message || err.message || 'OTP verification failed';
-          this.openSnackBar(message, 'Close');
-        }
-      });
+        // In production, verify with your backend
+        // For demo, we'll just check if OTP field is valid
+        if (this.f['otp'].valid) {
+            try {
+                const obj = {
+                    email: this.otpMail,
+                    otp: this.profileForm.value.otp
+                }
+                console.log("VERIFY OTP>>>>>>", this.otpMail)
 
-    }catch(err){
-        this.openSnackBar("Please! Enter valid OTP ...", 'Close');
+                await this.http.post("http://localhost:8000/userInquiry/inquiryVerifyOtp", obj).subscribe({
+                    next: (res: any) => {
+                        // Success case
+                        this.otpVerified = true;
+                        this.openSnackBar(res.message || 'OTP verified!', 'Close');
+                        this.enableFormAfterVerification();
+                    },
+                    error: (err) => {
+                        // Error case - show API error message or default message
+                        const message = err.error?.message || err.message || 'OTP verification failed';
+                        this.openSnackBar(message, 'Close');
+                    }
+                });
+
+            } catch (err) {
+                this.openSnackBar("Please! Enter valid OTP ...", 'Close');
+            }
+
+
+        }
     }
-    
-   
-  }
-}
 
-enableFormAfterVerification() {
+    enableFormAfterVerification() {
 
-  this.profileForm.get('productName')?.enable();
-  this.profileForm.get('phoneCode')?.enable();
-  this.profileForm.get('phoneNumber')?.enable();
-  this.profileForm.get('message')?.enable();
-}
-disableFormAfterVerification() {
+        this.profileForm.get('productName')?.enable();
+        this.profileForm.get('phoneCode')?.enable();
+        this.profileForm.get('phoneNumber')?.enable();
+        this.profileForm.get('message')?.enable();
+    }
+    disableFormAfterVerification() {
 
-  this.profileForm.get('productName')?.disable();
-  this.profileForm.get('phoneCode')?.disable();
-  this.profileForm.get('phoneNumber')?.disable();
-  this.profileForm.get('message')?.disable();
-}
-
-// Update your form initialization to disable fields initially
+        this.profileForm.get('productName')?.disable();
+        this.profileForm.get('phoneCode')?.disable();
+        this.profileForm.get('phoneNumber')?.disable();
+        this.profileForm.get('message')?.disable();
+    }
 
 
+
+    // Method to show the snackbar
+    openSnackBar(message: string, action: string) {
+        this.snackBar.open(message, action, {
+            duration: 2000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['custom-snackbar'] // Add custom class
+        });
+    }
 
 
     ngOnDestroy() {

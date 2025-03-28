@@ -156,8 +156,8 @@
                     </mat-form-field>
                   
                     <!-- Send OTP Button -->
-                    <div class="otp-action">
-                      <button type="button" mat-raised-button color="primary" 
+                    <div class="otp-action" [hidden]="otpHide">
+                      <button type="button" mat-raised-button color="primary"  
                               (click)="sendOTP()" 
                               [disabled]="f['email'].invalid || otpSent"
                               class="otp-button">
@@ -191,22 +191,12 @@
                       <mat-icon *ngIf="otpVerified" class="verified-icon">check_circle</mat-icon>
                     </div>
                   
-                    <!-- Product Name (disabled until verified) -->
-                    <mat-form-field appearance="outline">
-                      <mat-label>Product Name</mat-label>
-                      <input matInput formControlName="productName" required [disabled]="!otpVerified" />
-                      <mat-error *ngIf="f['productName'].errors?.['required']">
-                        Product Name is required.
-                      </mat-error>
-                      <mat-error *ngIf="f['productName'].errors?.['minlength']">
-                        Product Name must be at least 3 characters long.
-                      </mat-error>
-                    </mat-form-field>
+                   
                   
                     <!-- Phone Code Dropdown (disabled until verified) -->
                     <mat-form-field appearance="outline" style="flex: 1;">
                       <mat-label>Country Phone Code</mat-label>
-                      <mat-select formControlName="phoneCode" required [disabled]="!otpVerified">
+                      <mat-select formControlName="phoneCode" required >
                         <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
                           {{code.dial_code}} ({{code.name}})
                         </mat-option>
@@ -227,6 +217,18 @@
                         Phone Number must be 10 digits.
                       </mat-error>
                     </mat-form-field>
+
+                     <!-- Product Name (disabled until verified) -->
+                     <mat-form-field appearance="outline">
+                      <mat-label>Product Name</mat-label>
+                      <input matInput formControlName="productName" required [disabled]="!otpVerified" />
+                      <mat-error *ngIf="f['productName'].errors?.['required']">
+                        Product Name is required.
+                      </mat-error>
+                      <mat-error *ngIf="f['productName'].errors?.['minlength']">
+                        Product Name must be at least 3 characters long.
+                      </mat-error>
+                    </mat-form-field>
                   
                     <!-- Message (disabled until verified) -->
                     <mat-form-field appearance="outline">
@@ -241,7 +243,7 @@
                     </mat-form-field>
                   
                     <!-- Submit Button (disabled until verified) -->
-                    <button mat-raised-button type="submit" [disabled]="profileForm.invalid || !otpVerified" style="color: aliceblue;" class="submit-btn">
+                    <button mat-raised-button type="submit"  [disabled]="!otpVerified" style="color: aliceblue;" class="submit-btn">
                       <i class="material-icons">send</i> Send Inquiry
                     </button>
                   </form>

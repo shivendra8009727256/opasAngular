@@ -13,13 +13,13 @@
   <div class="container">
     <div class="form-container">
       <div class="toggle-buttons">
-        <button (click)="toggleForm('login')" [class.active]="isLoginActive">Login</button>
-        <button (click)="toggleForm('register')" [class.active]="!isLoginActive">Register</button>
+        <button (click)="toggleForm('login')" [class.active]="isLoginActive">Sign In</button>
+        <button (click)="toggleForm('register')" [class.active]="!isLoginActive">Sign Up</button>
       </div>
 
       <!-- Login Form -->
       <form [formGroup]="loginForm" *ngIf="isLoginActive" class="form active" (ngSubmit)="login()">
-        <h2>Login</h2>
+        <!-- <h2>Sign In</h2> -->
         <div class="input-group">
           <label for="login-email"><span class="text-danger">*</span>Email:</label>
           <input type="email" formControlName="email" placeholder="Enter your email">
@@ -48,12 +48,12 @@
         <div class="forgot-password">
           <a routerLink="/forgotPassword">Forgot Password?</a>
         </div>
-        <button type="submit" class="submit-btn">Login</button>
+        <button type="submit" class="submit-btn">Sign In</button>
       </form>
 
       <!-- Registration Form -->
       <form *ngIf="!isLoginActive" class="form" (ngSubmit)="register()" [formGroup]="registerForm">
-        <h2>Register</h2>
+        <!-- <h2>Sign Up</h2> -->
         
         <!-- Name Field -->
         <mat-form-field appearance="outline" class="full-width">

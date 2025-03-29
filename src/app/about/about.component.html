@@ -1,34 +1,48 @@
-<div class="card inquiry-card">
-    <div class="inquiry-header">
-      <h2>Send Inquiry</h2>
-      <div class="inquiry-wave"></div>
-    </div>
+<!-- about.component.html -->
+<div class="about-container">
+  <div class="video-card">
+    <!-- Background Video -->
+    <video class="video-background" autoplay loop muted>
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-computer-circuit-board-12232-large.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    
+    <!-- Card Content Overlay -->
     <div class="card-content">
-      <form class="inquiry-form">
-        <div class="form-group">
-          <input type="text" placeholder="Your Name" required>
+      <div class="company-info">
+        <h1>{{ companyDetails.name }}</h1>
+        <p><strong>Founded:</strong> {{ companyDetails.founded }}</p>
+        <p><strong>Employees:</strong> {{ companyDetails.employees }}</p>
+        
+        <div class="mission-section">
+          <h2>Our Mission</h2>
+          <p>{{ companyDetails.mission }}</p>
         </div>
-        <div class="form-group">
-          <input type="email" placeholder="Your Email" required>
+        
+        <div class="values-section">
+          <h2>Our Values</h2>
+          <ul>
+            @for (value of companyDetails.values; track value) {
+              <li>{{ value }}</li>
+            }
+          </ul>
         </div>
-        <div class="form-group">
-          <input type="tel" placeholder="Phone Number">
+      </div>
+      
+      <div class="certificates-section">
+        <h2>Our Certifications</h2>
+        <div class="certificates-grid">
+          <!-- Replace *ngFor with @for -->
+<div class="certificates-grid">
+  @for (cert of certificates; track cert.title) {
+    <div class="certificate">
+      <img [src]="cert.image" [alt]="cert.title">
+      <p>{{ cert.title }}</p>
+    </div>
+  }
+</div>
         </div>
-        <div class="form-group">
-          <select>
-            <option value="">Product Interest</option>
-            <option value="wheat">Wheat</option>
-            <option value="rice">Rice</option>
-            <option value="corn">Corn</option>
-            <option value="pulses">Pulses</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <textarea placeholder="Your Inquiry Message" rows="4" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">
-          <i class="material-icons">send</i> Send Inquiry
-        </button>
-      </form>
+      </div>
     </div>
   </div>
+</div>

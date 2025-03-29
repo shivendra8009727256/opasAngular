@@ -342,9 +342,7 @@
 		  }
 
 		  ul {
-			list-style: none;
-			display: flex;
-			justify-content: space-between;
+			
 			margin-left: 40px;
 		  }
 

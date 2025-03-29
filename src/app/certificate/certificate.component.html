@@ -1,48 +1,65 @@
 <!-- about.component.html -->
-<div class="about-container">
-    <div class="video-card">
-      <!-- Background Video -->
-      <video class="video-background" autoplay loop muted>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-computer-circuit-board-12232-large.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      
-      <!-- Card Content Overlay -->
-      <div class="card-content">
-        <div class="company-info">
-          <h1>{{ companyDetails.name }}</h1>
-          <p><strong>Founded:</strong> {{ companyDetails.founded }}</p>
-          <p><strong>Employees:</strong> {{ companyDetails.employees }}</p>
-          
-          <div class="mission-section">
-            <h2>Our Mission</h2>
-            <p>{{ companyDetails.mission }}</p>
-          </div>
-          
-          <div class="values-section">
-            <h2>Our Values</h2>
-            <ul>
-              @for (value of companyDetails.values; track value) {
+
+
+<div class="certificate-container">
+  <video #bgVideo class="background-video" loop muted autoplay>
+    <source src="/video2.mp4" type="video/mp4">
+
+  </video>
+  <div class="content">
+
+    <div class="about-container">
+      <div class="video-card">
+        <div class="card-content">
+          <div class="company-info">
+            <h1>{{ companyDetails.name }}</h1>
+            <p><strong>Founded:</strong> {{ companyDetails.founded }}</p>
+            <p><strong>Employees:</strong> {{ companyDetails.employees }}</p>
+
+            <div class="mission-section">
+              <h2>Our Mission</h2>
+              <p>{{ companyDetails.mission }}</p>
+            </div>
+
+            <div class="values-section">
+              <h2>Our Values</h2>
+              <ul>
+                @for (value of companyDetails.values; track value) {
                 <li>{{ value }}</li>
-              }
-            </ul>
+                }
+              </ul>
+            </div>
+          </div>
+
+          <div class="certificates-section">
+            <h2>Our Certifications</h2>
+            <div class="certificates-grid">
+              <!-- Replace *ngFor with @for -->
+              <div class="certificates-grid">
+                @for (cert of certificates; track cert.title) {
+                <div class="certificate">
+                  <img [src]="cert.image" [alt]="cert.title">
+                  <p>{{ cert.title }}</p>
+                </div>
+                }
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div class="certificates-section">
-          <h2>Our Certifications</h2>
-          <div class="certificates-grid">
-            <!-- Replace *ngFor with @for -->
-  <div class="certificates-grid">
-    @for (cert of certificates; track cert.title) {
-      <div class="certificate">
-        <img [src]="cert.image" [alt]="cert.title">
-        <p>{{ cert.title }}</p>
       </div>
-    }
-  </div>
-          </div>
-        </div>
-      </div>
+
+
     </div>
+
+
+
+
+
+
+
+
+
+    <!-- Card Content Overlay -->
+
   </div>
+</div>

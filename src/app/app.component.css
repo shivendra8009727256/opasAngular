@@ -21,7 +21,7 @@ html, body {
   flex-grow: 1; /* Makes content take up remaining space */
   /* padding: 20px; */
   /* margin-top: 65px;  */
-  background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca);
+  /* background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca); */
   background-repeat: no-repeat;
   background-size: 100% 200%;
   background-position: center;

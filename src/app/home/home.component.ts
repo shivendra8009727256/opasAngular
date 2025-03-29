@@ -97,8 +97,9 @@ export class HomeComponent {
   // this.img4="/opasLogo.png"
   // this.img5="/logo3.png"
 
-  ngOnInit(){
+  async ngOnInit(){
     this.getAllImage()
+    await this.getUserstatus()
   }
   getAllImage(){
     this.http.get("http://localhost:8000/opas/getImage").subscribe(async (res:any)=>{
@@ -119,17 +120,17 @@ export class HomeComponent {
             this.userDataStatus = res.user.userStatus
            
   
-            console.log(res.user, 'API Response:', this.userDataStatus)
+            console.log("USER STATUS>>>>",res.user, 'API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
             console.log(this.userDataStatus ==="admin")
             if(this.userDataStatus =="user"){
               this.hideButton=true
-              console.log("1")
+              console.log("11111111111111111")
             }else if(this.userDataStatus =="admin"){
         this.hideButton=false
-        console.log("2")
+        console.log("2222222222222222222222222222")
             }else{
               this.hideButton=true
-              console.log("3")
+              console.log("333333333333333333333333333")
             }
   
   

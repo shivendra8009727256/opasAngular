@@ -1,48 +1,153 @@
-<!-- about.component.html -->
-<div class="about-container">
-  <div class="video-card">
-    <!-- Background Video -->
-    <video class="video-background" autoplay loop muted>
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-computer-circuit-board-12232-large.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    
-    <!-- Card Content Overlay -->
-    <div class="card-content">
-      <div class="company-info">
-        <h1>{{ companyDetails.name }}</h1>
-        <p><strong>Founded:</strong> {{ companyDetails.founded }}</p>
-        <p><strong>Employees:</strong> {{ companyDetails.employees }}</p>
-        
-        <div class="mission-section">
-          <h2>Our Mission</h2>
-          <p>{{ companyDetails.mission }}</p>
-        </div>
-        
-        <div class="values-section">
-          <h2>Our Values</h2>
-          <ul>
-            @for (value of companyDetails.values; track value) {
-              <li>{{ value }}</li>
-            }
-          </ul>
-        </div>
-      </div>
-      
-      <div class="certificates-section">
-        <h2>Our Certifications</h2>
-        <div class="certificates-grid">
-          <!-- Replace *ngFor with @for -->
-<div class="certificates-grid">
-  @for (cert of certificates; track cert.title) {
-    <div class="certificate">
-      <img [src]="cert.image" [alt]="cert.title">
-      <p>{{ cert.title }}</p>
-    </div>
-  }
-</div>
+<!-- choose  section -->
+<div class="choose ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="titlepage">
+          <h2>Why Choose Us? </h2>
+          <p>At Opas Bizz Pvt Ltd, we specialize in the global trade of high-quality grains, connecting trusted suppliers with buyers worldwide. With 5 years of expertise in import, export, and distribution, we ensure seamless transactions, competitive pricing, and reliable delivery—making us your ideal grain trading partner. </p>
         </div>
       </div>
     </div>
   </div>
+  <div class="container-fluid">
+    <div class="row d_flex">
+      <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+        <div class="padding_with">
+          <div class="row">
+            <div class="col-md-6 padding_bottom">
+              <div class="choose_box">
+                <i><img src="/global.png" alt="#" /></i>
+                <div class="choose_text">
+                  <h3>Global Partners</h3>
+                  <p>We have established strong relationships with farmers, millers, and bulk buyers across key grain-producing and consuming regions, ensuring a steady supply of wheat, rice, corn, barley, and specialty grains.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 padding_bottom">
+              <div class="choose_box">
+                <i><img src="/best-price.png" alt="#" /></i>
+                <div class="choose_text">
+                  <h3>Best Prices</h3>
+                  <p> Our deep market insights and bulk purchasing power allow us to offer cost-effective pricing without compromising on quality.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 padding_bottom2">
+              <div class="choose_box">
+                <i><img src="/top-rated.png" alt="#" /></i>
+                <div class="choose_text">
+                  <h3>Top Quality</h3>
+                  <p>Rigorous quality checks for moisture/purity, full compliance with ISO/FSSAI standards, and complete export documentation handling.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="choose_box">
+                <i><img src="/fast-delivery.png" alt="#" /></i>
+                <div class="choose_text">
+                  <h3>Fast Shipping</h3>
+                  <p> Efficient logistics ensure timely deliveries, minimizing delays. Choose reliability, quality, and speed with us.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+        <div class="choose_img">
+          <figure><img src="/img1.png" alt="#" /></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <a class="read_more" href="#">Read More</a>
+      </div>
+    </div>
+  </div> -->
+
 </div>
+
+  <!-- about -->
+  <div class="about">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-12">
+             <div class="titlepage">
+                <h2>Our Team</h2>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-12">
+             <div id="myCarousel" class="carousel slide about_Carousel " data-ride="carousel">
+                <ol class="carousel-indicators">
+                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                   <li data-target="#myCarousel" data-slide-to="1"></li>
+                   <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                   <div class="carousel-item active">
+                      <div class="container">
+                         <div class="carousel-caption ">
+                            <div class="row">
+                               <div class="col-md-12">
+                                  <div class="test_box">
+                                     <i><img style="width: 200px; border-radius: 50%" src="/sourabh.png" alt="#"/></i>
+                                     <h4>Sourabh Priyadarshi</h4>
+                                     <h6>(General Manager)</h6>
+                                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,</p>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="carousel-item">
+                      <div class="container">
+                         <div class="carousel-caption">
+                            <div class="row">
+                               <div class="col-md-12">
+                                  <div class="test_box">
+                                     <i><img style="width: 200px; border-radius: 50%" src="/sourabh.png" alt="#"/></i>
+                                     <h4>jhone Du</h4>
+                                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,</p>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="carousel-item">
+                      <div class="container">
+                         <div class="carousel-caption">
+                            <div class="row">
+                               <div class="col-md-12">
+                                  <div class="test_box">
+                                     <i><img style="width: 200px; border-radius: 50%" src="/sourabh.png" alt="#"/></i>
+                                     <h4>jhone Du</h4>
+                                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,</p>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <!-- end about -->

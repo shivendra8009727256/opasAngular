@@ -128,10 +128,6 @@
   padding-top: 65px;
 }
 
-.about_box {
-  text-align: center;
-}
-
 .test_box {
   padding: 30px 40px 40px 42px;
   background: url(/te.png);
@@ -142,28 +138,24 @@
 
 .about_Carousel .test_box h4 {
   font-size: 20px;
-  color: #1d1c1c;
+  color: #1d1d1c;
   line-height: 18px;
   display: block;
-  text-align: center;
   text-transform: uppercase;
   font-weight: 600;
   padding: 23px 0px 0px 0px;
   text-align: left;
 }
+
 .about_Carousel .test_box h6 {
- 
   color: #22389c;
-  /* line-height: 18px; */
   display: block;
-  text-align: center;
   text-transform: uppercase;
-  /* font-weight: 600; */
-  /* padding: 23px 0px 0px 0px; */
   text-align: left;
 }
 
 .about_Carousel .test_box i {
+  width: 200px;
   text-align: left;
   float: left;
   margin-bottom: -12px;
@@ -184,6 +176,8 @@
 
 .about_Carousel .carousel-indicators {
   bottom: -50px;
+  margin: 0;
+  list-style: none;
 }
 
 .about_Carousel .carousel-indicators li {
@@ -191,20 +185,12 @@
   height: 15px;
   border-radius: 20px;
   background: #f4cb1e;
+  text-indent: 0;
+  margin: 0 5px;
 }
 
 .about_Carousel .carousel-indicators li.active {
   background: #040403;
 }
 
-#myCarousel .carousel-control-next-icon,
-#myCarousel .carousel-control-prev-icon {
-  display: none;
-}
-
-
 /** end about section **/
-
-
-
-  

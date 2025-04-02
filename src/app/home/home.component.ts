@@ -1,9 +1,13 @@
 import { NgFor } from '@angular/common';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Carousel } from 'bootstrap';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, AfterViewInit, inject } from '@angular/core';
+import {  AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button'
 import { Router } from '@angular/router';
+
+declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
   selector: 'app-home',
   imports: [MatButtonModule,ReactiveFormsModule,NgFor],
@@ -11,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  @ViewChild('carousel') carousel!: ElementRef;
   private http = inject(HttpClient);
   uploadForm: FormGroup;
   fileToUpload: File | null = null;
@@ -28,6 +33,38 @@ export class HomeComponent {
   hideButton:boolean=true
   userId:any
   userDataStatus: any;
+
+ 
+  carouselInstance: any;
+
+  teamMembers = [
+    {
+      name: 'Sourabh Priyadarshi',
+      position: 'General Manager',
+      image: '/sourabh.png',
+      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+    },
+    {
+      name: 'Anand Kumar',
+      position: 'C A',
+      image: '/sourabh.png',
+      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+    },
+    {
+      name: 'Avinash Kumar',
+      position: 'Market Head',
+      image: '/sourabh.png',
+      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+    }
+  ];
+
+  initCarousel() {
+    this.carouselInstance = new Carousel(this.carousel.nativeElement, {
+      interval: 2000, // Auto-slide every 3 seconds
+      ride: 'carousel',
+      wrap: true
+    });
+  }
 
   
   constructor(private fb: FormBuilder,private router: Router) {
@@ -75,6 +112,7 @@ export class HomeComponent {
     this.fileToUpload = event.target.files[0];
   }
   ngAfterViewInit(): void {
+    
   const slideshowImages = document.querySelectorAll<HTMLImageElement>(".intro-slideshow img");
 
     const nextImageDelay = 5000;
@@ -98,6 +136,12 @@ export class HomeComponent {
   // this.img5="/logo3.png"
 
   async ngOnInit(){
+    // Initialize carousel after view is initialized
+    setTimeout(() => {
+      this.initCarousel();
+    });
+
+
     this.getAllImage()
     await this.getUserstatus()
   }

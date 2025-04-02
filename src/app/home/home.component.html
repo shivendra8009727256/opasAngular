@@ -16,61 +16,75 @@
   <div>
     <h4>Welcome to OpasBizz Pvt. Ltd</h4>
     <div class="textContent">
-      <p>OpasBizz Pvt Ltd is the reputed Manufacturer, Exporter and Supplier of Food Grains from India. The variety of grains that we bring forth is inclusive of basmati rice, non basmati rice, maida flour, semolina, wheat flour, wheat seeds, and yellow maize. Processed as per the well-defined industry norms & standards, our food grains are high on counts of purity, nutritional value, taste and shelf life. Hence, they are extensively demanded all across the world. Our wide & loyal client base from all across the world speaks volumes about our client-focused approach and quality-centeredness. Rely on us!</p>
+      <p>OpasBizz Pvt Ltd is the reputed Manufacturer, Exporter and Supplier of Food Grains from India. The variety of
+        grains that we bring forth is inclusive of basmati rice, non basmati rice, maida flour, semolina, wheat flour,
+        wheat seeds, and yellow maize. Processed as per the well-defined industry norms & standards, our food grains are
+        high on counts of purity, nutritional value, taste and shelf life. Hence, they are extensively demanded all
+        across the world. Our wide & loyal client base from all across the world speaks volumes about our client-focused
+        approach and quality-centeredness. Rely on us!</p>
     </div>
   </div>
   <div class="textContent1">
     <div>
-      <h4 style="font-size: 100px;" ><i class="bi bi-gear-wide-connected"></i></h4>
-     <h4>Overview</h4> 
-     <div>
-     <p>Using the finest Manufacturing facilities "SRRU" manufactures quality basmati rice, Foods...</p> </div>
+      <h4 style="font-size: 100px;"><i class="bi bi-gear-wide-connected"></i></h4>
+      <h4>Overview</h4>
+      <div>
+        <p>Using the finest Manufacturing facilities "SRRU" manufactures quality basmati rice, Foods...</p>
+      </div>
 
     </div>
     <div>
-      <h4 style="font-size: 100px;" ><i class="bi bi-shield-slash-fill"></i></h4>
-     <h4>Quality Policy</h4> 
-     <div>
-     <p>SRRU is synonymous with the trust and reliability inherent in the word Quality. Quality is ingrained in the...</p> </div>
+      <h4 style="font-size: 100px;"><i class="bi bi-shield-slash-fill"></i></h4>
+      <h4>Quality Policy</h4>
+      <div>
+        <p>SRRU is synonymous with the trust and reliability inherent in the word Quality. Quality is ingrained in
+          the...</p>
+      </div>
 
     </div>
     <div>
-      <h4 style="font-size: 100px;" ><i class="bi bi-buildings-fill"></i></h4>
-     <h4>Manufacturing facility</h4> 
-     <div>
-     <p>We never rest on our laurels, our passion for excellence driven us to continuously improve practices so that... </p> </div>
+      <h4 style="font-size: 100px;"><i class="bi bi-buildings-fill"></i></h4>
+      <h4>Manufacturing facility</h4>
+      <div>
+        <p>We never rest on our laurels, our passion for excellence driven us to continuously improve practices so
+          that... </p>
+      </div>
 
     </div>
     <div>
-      <h4 style="font-size: 100px;" ><i class="bi bi-reception-4"></i></h4>
-     <h4>our network </h4> 
-     <div>
-     <p>We have an extensive distribution network, reaching out to millions of retail outlets, super distributors ... </p> </div>
+      <h4 style="font-size: 100px;"><i class="bi bi-reception-4"></i></h4>
+      <h4>our network </h4>
+      <div>
+        <p>We have an extensive distribution network, reaching out to millions of retail outlets, super distributors ...
+        </p>
+      </div>
 
     </div>
   </div>
- 
+
 </div>
 <div>
   <!-- Trigger the modal with a button -->
-<button type="button" style="width: 100%;" class="btn btn-success btn-lg btn-block" (click)="openModal()" [hidden]="hideButton">Add New Product </button>
+  <button type="button" style="width: 100%;" class="btn btn-success btn-lg btn-block" (click)="openModal()"
+    [hidden]="hideButton">Add New Product </button>
 </div>
 
 
 <div class="card-container">
-  <div class="card" *ngFor="let item of images" >
+  <div class="card" *ngFor="let item of images">
     <div class="card-content">
       <img style="height: 210px; width: 250px;" [src]="'http://localhost:8000/uploads/'+item.image">
       <div style="cursor: pointer; " (click)="goToProduct(item)">
-        <h3 style="cursor: pointer;" >{{ item.productName }}</h3>
+        <h3 style="cursor: pointer;">{{ item.productName }}</h3>
         <p> *Price: <span style="color: rgb(238, 8, 8); ">${{ item.price }}</span> /Kilogram</p>
-  
+
       </div>
-     
+
       <!-- Buttons for Edit and Delete -->
 
-      <button class="btn btn-success" style="left: 20px;" (click)="openEditModal(item)"  [hidden]="hideButton" >Edit</button>
-      <button style="right: 20px" (click)="deleteData(item._id)"  [hidden]="hideButton"  >Delete</button>
+      <button class="btn btn-success" style="left: 20px;" (click)="openEditModal(item)"
+        [hidden]="hideButton">Edit</button>
+      <button style="right: 20px" (click)="deleteData(item._id)" [hidden]="hideButton">Delete</button>
     </div>
   </div>
 </div>
@@ -86,71 +100,71 @@
         <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Product Name</label>
-            <input type="text" id="productNameEdit" formControlName="productNameEdit" class="form-control"  />
+            <input type="text" id="productNameEdit" formControlName="productNameEdit" class="form-control" />
           </div>
           <!--  -->
-          
-          
+
+
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Price</label>
-            <input type="number" id="priceEdit" formControlName="priceEdit" class="form-control"  />
+            <input type="number" id="priceEdit" formControlName="priceEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Business Type</label>
-            <input type="text" id="businessTypeEdit" formControlName="businessTypeEdit" class="form-control"  />
+            <input type="text" id="businessTypeEdit" formControlName="businessTypeEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="certification"> <span style="color: red;">*</span>Certification</label>
-            <input type="text" id="certificationEdit" formControlName="certificationEdit" class="form-control"  />
+            <input type="text" id="certificationEdit" formControlName="certificationEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="cultivationType"> <span style="color: red;">*</span>Cultivation Type</label>
-            <input type="text" id="cultivationTypeEdit" formControlName="cultivationTypeEdit" class="form-control"  />
+            <input type="text" id="cultivationTypeEdit" formControlName="cultivationTypeEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="shelfLife"> <span style="color: red;">*</span>Shelf Life</label>
-            <input type="text" id="shelfLifeEdit" formControlName="shelfLifeEdit" class="form-control"  />
+            <input type="text" id="shelfLifeEdit" formControlName="shelfLifeEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="feature"> <span style="color: red;">*</span>Feature</label>
-            <input type="text" id="featureEdit" formControlName="featureEdit" class="form-control"  />
+            <input type="text" id="featureEdit" formControlName="featureEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="moisture"> <span style="color: red;">*</span>Moisture</label>
-            <input type="text" id="moistureEdit" formControlName="moistureEdit" class="form-control"  />
+            <input type="text" id="moistureEdit" formControlName="moistureEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="size"> <span style="color: red;">*</span>Size</label>
-            <input type="text" id="sizeEdit" formControlName="sizeEdit" class="form-control"  />
+            <input type="text" id="sizeEdit" formControlName="sizeEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="broken"> <span style="color: red;">*</span>Broken</label>
-            <input type="text" id="brokenEdit" formControlName="brokenEdit" class="form-control"  />
+            <input type="text" id="brokenEdit" formControlName="brokenEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="location"> <span style="color: red;">*</span>Location</label>
-            <input type="text" id="locationEdit" formControlName="locationEdit" class="form-control"  />
+            <input type="text" id="locationEdit" formControlName="locationEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="packagingType"> <span style="color: red;">*</span>Packaging Type</label>
-            <input type="text" id="packagingTypeEdit" formControlName="packagingTypeEdit" class="form-control"  />
+            <input type="text" id="packagingTypeEdit" formControlName="packagingTypeEdit" class="form-control" />
           </div>
           <div class="form-group">
             <label for="packSize"> <span style="color: red;">*</span>Pack Size</label>
-            <input type="text" id="packSizeEdit" formControlName="packSizeEdit" class="form-control"  />
+            <input type="text" id="packSizeEdit" formControlName="packSizeEdit" class="form-control" />
           </div>
-      
+
           <div class="form-group">
             <label for="editColor">Color</label>
             <input type="text" id="editColorEdit" formControlName="colorEdit" class="form-control" required />
           </div>
-      
+
           <div class="form-group">
             <label for="editImage">Choose Image</label>
             <input type="file" id="editImage" (change)="onFileSelected($event)" class="form-control" />
           </div>
           <br>
-      
+
           <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
             Update
           </button>
@@ -177,61 +191,61 @@
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Product Name</label>
-            <input type="text" id="productName" formControlName="productName" class="form-control"  />
+            <input type="text" id="productName" formControlName="productName" class="form-control" />
           </div>
           <!--  -->
-          
-          
+
+
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Price</label>
-            <input type="number" id="price" formControlName="price" class="form-control"  />
+            <input type="number" id="price" formControlName="price" class="form-control" />
           </div>
           <div class="form-group">
             <label for="name"> <span style="color: red;">*</span>Business Type</label>
-            <input type="text" id="businessType" formControlName="businessType" class="form-control"  />
+            <input type="text" id="businessType" formControlName="businessType" class="form-control" />
           </div>
           <div class="form-group">
             <label for="certification"> <span style="color: red;">*</span>Certification</label>
-            <input type="text" id="certification" formControlName="certification" class="form-control"  />
+            <input type="text" id="certification" formControlName="certification" class="form-control" />
           </div>
           <div class="form-group">
             <label for="cultivationType"> <span style="color: red;">*</span>Cultivation Type</label>
-            <input type="text" id="cultivationType" formControlName="cultivationType" class="form-control"  />
+            <input type="text" id="cultivationType" formControlName="cultivationType" class="form-control" />
           </div>
           <div class="form-group">
             <label for="shelfLife"> <span style="color: red;">*</span>Shelf Life</label>
-            <input type="text" id="shelfLife" formControlName="shelfLife" class="form-control"  />
+            <input type="text" id="shelfLife" formControlName="shelfLife" class="form-control" />
           </div>
           <div class="form-group">
             <label for="feature"> <span style="color: red;">*</span>Feature</label>
-            <input type="text" id="feature" formControlName="feature" class="form-control"  />
+            <input type="text" id="feature" formControlName="feature" class="form-control" />
           </div>
           <div class="form-group">
             <label for="moisture"> <span style="color: red;">*</span>Moisture</label>
-            <input type="text" id="moisture" formControlName="moisture" class="form-control"  />
+            <input type="text" id="moisture" formControlName="moisture" class="form-control" />
           </div>
           <div class="form-group">
             <label for="size"> <span style="color: red;">*</span>Size</label>
-            <input type="text" id="size" formControlName="size" class="form-control"  />
+            <input type="text" id="size" formControlName="size" class="form-control" />
           </div>
           <div class="form-group">
             <label for="broken"> <span style="color: red;">*</span>Broken</label>
-            <input type="text" id="broken" formControlName="broken" class="form-control"  />
+            <input type="text" id="broken" formControlName="broken" class="form-control" />
           </div>
           <div class="form-group">
             <label for="location"> <span style="color: red;">*</span>Location</label>
-            <input type="text" id="location" formControlName="location" class="form-control"  />
+            <input type="text" id="location" formControlName="location" class="form-control" />
           </div>
           <div class="form-group">
             <label for="packagingType"> <span style="color: red;">*</span>Packaging Type</label>
-            <input type="text" id="packagingType" formControlName="packagingType" class="form-control"  />
+            <input type="text" id="packagingType" formControlName="packagingType" class="form-control" />
           </div>
           <div class="form-group">
             <label for="packSize"> <span style="color: red;">*</span>Pack Size</label>
-            <input type="text" id="packSize" formControlName="packSize" class="form-control"  />
+            <input type="text" id="packSize" formControlName="packSize" class="form-control" />
           </div>
-          
-          
+
+
           <!-- <div class="form-group">
             <label for=""> <span style="color: red;">*</span>Pack Size</label>
             <input type="text" id="packSize" formControlName="packSize" class="form-control" required />
@@ -241,18 +255,18 @@
 
 
 
-      <!--  -->
+          <!--  -->
           <div class="form-group">
             <label for="color">Color</label>
-            <input type="text" id="color" formControlName="color" class="form-control"  />
+            <input type="text" id="color" formControlName="color" class="form-control" />
           </div>
-      
+
           <div class="form-group">
             <label for="image">Choose Image</label>
             <input type="file" id="image" (change)="onFileSelected($event)" class="form-control" required />
           </div>
-        <br>
-      
+          <br>
+
           <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid" (click)="closeModal()">
             Upload
           </button>
@@ -294,191 +308,148 @@
 
 </div> -->
 
-<div >
+<div>
 
   <!-- choose  section -->
-<div class="choose ">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="titlepage">
-          <h2>Why Choose Us? </h2>
-          <p>At Opas Bizz Pvt Ltd, we specialize in the global trade of high-quality grains, connecting trusted suppliers with buyers worldwide. With 5 years of expertise in import, export, and distribution, we ensure seamless transactions, competitive pricing, and reliable delivery—making us your ideal grain trading partner. </p>
+  <div class="choose ">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="titlepage">
+            <h2>Why Choose Us? </h2>
+            <p>At Opas Bizz Pvt Ltd, we specialize in the global trade of high-quality grains, connecting trusted
+              suppliers with buyers worldwide. With 5 years of expertise in import, export, and distribution, we ensure
+              seamless transactions, competitive pricing, and reliable delivery—making us your ideal grain trading
+              partner. </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container-fluid">
-    <div class="row d_flex">
-      <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-        <div class="padding_with">
-          <div class="row">
-            <div class="col-md-6 padding_bottom">
-              <div class="choose_box">
-                <i><img src="/global.png" alt="#" /></i>
-                <div class="choose_text">
-                  <h3>Global Partners</h3>
-                  <p>We have established strong relationships with farmers, millers, and bulk buyers across key grain-producing and consuming regions, ensuring a steady supply of wheat, rice, corn, barley, and specialty grains.</p>
+    <div class="container-fluid">
+      <div class="row d_flex">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+          <div class="padding_with">
+            <div class="row">
+              <div class="col-md-6 padding_bottom">
+                <div class="choose_box">
+                  <i><img src="/global.png" alt="#" /></i>
+                  <div class="choose_text">
+                    <h3>Global Partners</h3>
+                    <p>We have established strong relationships with farmers, millers, and bulk buyers across key
+                      grain-producing and consuming regions, ensuring a steady supply of wheat, rice, corn, barley, and
+                      specialty grains.</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6 padding_bottom">
-              <div class="choose_box">
-                <i><img src="/best-price.png" alt="#" /></i>
-                <div class="choose_text">
-                  <h3>Best Prices</h3>
-                  <p> Our deep market insights and bulk purchasing power allow us to offer cost-effective pricing without compromising on quality.</p>
+              <div class="col-md-6 padding_bottom">
+                <div class="choose_box">
+                  <i><img src="/best-price.png" alt="#" /></i>
+                  <div class="choose_text">
+                    <h3>Best Prices</h3>
+                    <p> Our deep market insights and bulk purchasing power allow us to offer cost-effective pricing
+                      without compromising on quality.</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6 padding_bottom2">
-              <div class="choose_box">
-                <i><img src="/top-rated.png" alt="#" /></i>
-                <div class="choose_text">
-                  <h3>Top Quality</h3>
-                  <p>Rigorous quality checks for moisture/purity, full compliance with ISO/FSSAI standards, and complete export documentation handling.</p>
+              <div class="col-md-6 padding_bottom2">
+                <div class="choose_box">
+                  <i><img src="/top-rated.png" alt="#" /></i>
+                  <div class="choose_text">
+                    <h3>Top Quality</h3>
+                    <p>Rigorous quality checks for moisture/purity, full compliance with ISO/FSSAI standards, and
+                      complete export documentation handling.</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="choose_box">
-                <i><img src="/fast-delivery.png" alt="#" /></i>
-                <div class="choose_text">
-                  <h3>Fast Shipping</h3>
-                  <p> Efficient logistics ensure timely deliveries, minimizing delays. Choose reliability, quality, and speed with us.</p>
+              <div class="col-md-6">
+                <div class="choose_box">
+                  <i><img src="/fast-delivery.png" alt="#" /></i>
+                  <div class="choose_text">
+                    <h3>Fast Shipping</h3>
+                    <p> Efficient logistics ensure timely deliveries, minimizing delays. Choose reliability, quality,
+                      and speed with us.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-        <div class="choose_img">
-          <figure><img src="/img1.png" alt="#" /></figure>
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+          <div class="choose_img">
+            <figure><img src="/img1.png" alt="#" /></figure>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- <div class="container">
+    <!-- <div class="container">
     <div class="row">
       <div class="col-md-5">
         <a class="read_more" href="#">Read More</a>
       </div>
     </div>
   </div> -->
-</div>
+  </div>
 </div>
 
 <!-- /* inquiry send  */ -->
- <div class="inquiryBox">
-  
+<div class="inquiryBox">
+
   <!-- clients -->
   <div id="testimonial" class="clients">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title">
-                    <!-- <h2>testimonial</h2> -->
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title">
+            <!-- <h2>testimonial</h2> -->
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<div class="clients_red">
+  </div>
+
+
+  <!-- client      -->
+  <div class="clients_red">
     <div class="container">
-        <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ul class="carousel-indicators">
-                <li data-target="#testimonial_slider" data-slide-to="0" class=""></li>
-                <li data-target="#testimonial_slider" data-slide-to="1" class="active"></li>
-                <li data-target="#testimonial_slider" data-slide-to="2" class=""></li>
-            </ul>
-            <!-- The slideshow -->
-            <div class="carousel-inner">
-                <div class="carousel-item">
-                    <div class="testomonial_section">
-
-                        <div class="full testimonial_cont text_align_center cross_layout">
-                            <div class="row">
-                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 pa_right">
-                                    <div class="testomonial_img">
-                                        <i><img src="/sourabh.png"  alt="#"/></i>
-                                    </div>
-                                </div>
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 pa_left">
-                                    <div class="cross_inner">
-                                      <h3>Sourabh Priyadarshi<br><strong class="ornage_color">(General Manager)</strong></h3>
-                                        <p><img src="/1.png" alt="#" />ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            <img src="/2.png" alt="#" />
-                                        </p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <div id="testimonial_slider" class="carousel slide" data-bs-ride="carousel" #carousel>
+        <!-- Indicators -->
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+          <li *ngFor="let member of teamMembers; let i = index" 
+              data-bs-target="#testimonial_slider" 
+              [attr.data-bs-slide-to]="i" 
+              [class.active]="i === 0"></li>
+      </ul>
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div class="carousel-item" *ngFor="let member of teamMembers; let i = index" [class.active]="i === 0">
+            <div class="testomonial_section">
+              <div class="full testimonial_cont text_align_center cross_layout">
+                <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 pa_right">
+                    <div class="testomonial_img">
+                      <i><img [src]="member.image" alt="#" /></i>
                     </div>
-                </div>
-
-                <div class="carousel-item active">
-
-                    <div class="testomonial_section">
-                        <div class="full center">
-                        </div>
-                        <div class="full testimonial_cont text_align_center cross_layout">
-                            <div class="row">
-                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 pa_right">
-                                    <div class="testomonial_img">
-                                        <i><img src="/sourabh.png"  alt="#"/></i>
-                                    </div>
-                                </div>
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 pa_left">
-                                    <div class="cross_inner">
-                                      <h3>Sourabh Priyadarshi<br><strong class="ornage_color">(General Manager)</strong></h3>
-                                        <p><img src="/1.png" alt="#" />ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            <img src="/2.png" alt="#" />
-                                        </p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 pa_left">
+                    <div class="cross_inner">
+                      <h3>{{member.name}}<br><strong class="ornage_color">({{member.position}})</strong></h3>
+                      <p>
+                        <img src="/1.png" alt="#" />
+                        {{member.description}}
+                        <img src="/2.png" alt="#" />
+                      </p>
                     </div>
-
+                  </div>
                 </div>
-
-                <div class="carousel-item">
-
-                    <div class="testomonial_section">
-                        <div class="full center">
-                        </div>
-                        <div class="full testimonial_cont text_align_center cross_layout">
-                            <div class="row">
-                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 pa_right">
-                                    <div class="testomonial_img">
-                                        <i><img src="/sourabh.png"  alt="#"/></i>
-                                    </div>
-                                </div>
-                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 pa_left">
-                                    <div class="cross_inner"> 
-                                     
-                                        <h3>Sourabh Priyadarshi<br><strong class="ornage_color">(General Manager)</strong></h3>
-                                        <p><img src="/1.png" alt="#" />ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            <img src="/2.png" alt="#" />
-                                        </p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+              </div>
             </div>
-
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- end clients -->
+
 </div>
-
-<!-- end clients -->
-
- </div>

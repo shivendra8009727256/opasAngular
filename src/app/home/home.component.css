@@ -412,3 +412,9 @@ z-index: 9999;
 /* transform: skew(190deg); */
 
 .testimonial_cont h3 { color: #000; font-family: poppins;}
+/* Removes the dot styling but keeps the <li> element */
+#testimonial_slider .carousel-indicators li::marker {
+  display: none !important;
+  content: "" !important;
+}
+

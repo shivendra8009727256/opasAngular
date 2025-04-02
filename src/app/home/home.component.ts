@@ -47,20 +47,26 @@ export class HomeComponent {
     {
       name: 'Anand Kumar',
       position: 'C A',
-      image: '/sourabh.png',
+      image: '/sourabh1.png',
       description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
     },
     {
       name: 'Avinash Kumar',
       position: 'Market Head',
-      image: '/sourabh.png',
+      image: '/sourabh2.png',
+      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+    },
+    {
+      name: 'Sourabh Priyadarshi',
+      position: 'Market Head',
+      image: '/sourabh3.png',
       description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
     }
   ];
 
   initCarousel() {
     this.carouselInstance = new Carousel(this.carousel.nativeElement, {
-      interval: 2000, // Auto-slide every 3 seconds
+      interval: 3000, // Auto-slide every 3 seconds
       ride: 'carousel',
       wrap: true
     });

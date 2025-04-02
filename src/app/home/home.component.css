@@ -408,7 +408,7 @@ right: 0px;
 bottom: -61px;;
 z-index: 9999;
 }
-.testomonial_img i img { border: #4bc714 solid 13px; width: 100%;}
+.testomonial_img i img { border: #4bc714 solid 13px; width: 100%; height: 190px;}
 /* transform: skew(190deg); */
 
 .testimonial_cont h3 { color: #000; font-family: poppins;}

@@ -194,3 +194,84 @@
 }
 
 /** end about section **/
+
+/* logo showing */
+
+.containerLogo {
+  background-color: rgba(108, 211, 194, 0.89);
+  padding: 40px 0; /* 0px side padding (no start/end gap) */
+  width: 100%;
+  text-align: center;
+}
+
+.partners-section-title {
+  /* display: inline-block; */
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 auto 30px;
+  padding: 15px 25px;
+  background-color: rgb(202, 139, 98);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%; /* Full width with no side gaps */
+  margin: 0; /* No margin */
+}
+
+/* Column styling - removes all default spacing */
+.col-lg-2,
+.col-md-4,
+.col-6 {
+  padding: 0;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.partners-image {
+  width: 100px !important;
+  height: 100px !important;
+  object-fit: contain;
+  margin: 0 5px; /* 10px gap between logos (5px each side) */
+  transition: all 0.3s ease;
+  filter: grayscale(100%);
+  opacity: 0.8;
+}
+
+/* Remove gap for first and last logos */
+.row > div:first-child .partners-image {
+  margin-left: 0;
+}
+.row > div:last-child .partners-image {
+  margin-right: 0;
+}
+
+.partners-image:hover {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .containerLogo {
+    padding: 30px 0;
+  }
+  .partners-section-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .partners-image {
+    width: 80px !important;
+    height: 80px !important;
+  }
+}
+
+/* end logo showing */

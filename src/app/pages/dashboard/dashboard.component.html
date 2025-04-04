@@ -1,12 +1,27 @@
-<h1> Show User Data:</h1>
-<div>
-    User Name:{{fullName}}
-</div>
-<div>
-    Email:{{email}}
-</div>
-<div>
-    Company Name:{{companyName}}
-</div>
-<div> Business Type:{{businessType}}</div>
-<div>User Address:{{address}}</div>
+<div [class.sent]="isSent">
+    <small>Enter message (optional) and click button "Send"</small>
+    <div class="wrapper centered">
+      <article class="letter">
+        <div class="side">
+          <h1>Contact us</h1>
+          <p>
+            <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
+          </p>
+        </div>
+        <div class="side">
+          <p>
+            <input type="text" placeholder="Your name" [(ngModel)]="name" required>
+          </p>
+          <p>
+            <input type="email" placeholder="Your email" [(ngModel)]="email" required>
+          </p>
+          <p>
+            <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
+          </p>
+        </div>
+      </article>
+      <div class="envelope front"></div>
+      <div class="envelope back"></div>
+    </div>
+    <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+  </div>

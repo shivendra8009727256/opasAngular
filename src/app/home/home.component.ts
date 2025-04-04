@@ -7,15 +7,25 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {MatButtonModule} from '@angular/material/button'
 import { Router } from '@angular/router';
 
+import { FormsModule } from '@angular/forms';
+
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule,ReactiveFormsModule,NgFor],
+  imports: [MatButtonModule,ReactiveFormsModule,NgFor,FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
   @ViewChild('carousel') carousel!: ElementRef;
+  ///////////////////////////
+  @ViewChild('formContainer') formContainer!: ElementRef;
+
+  name: string = '';
+  email: string = '';
+  message: string = '';
+  isSent: boolean = false;
+  ///////////////////////////////////////////////
   private http = inject(HttpClient);
   uploadForm: FormGroup;
   fileToUpload: File | null = null;
@@ -372,5 +382,36 @@ export class HomeComponent {
   goToProduct(item: any) {
     this.router.navigate(['/product', item._id], { state: { product: item } });
   }
+
+  // ?/////////////////////email card ////////////////
+  isFormValid(): boolean {
+    return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
+  }
+
+  sendLetter(): void {
+    if (!this.isFormValid()) return;
+    
+    this.isSent = true;
+    
+    // Optional: You could send the data to a service here
+    console.log('Form submitted:', {
+      name: this.name,
+      email: this.email,
+      message: this.message
+    });
+    
+    // Reset form after animation completes
+    setTimeout(() => {
+      this.resetForm();
+    }, 6000);
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.email = '';
+    this.message = '';
+    this.isSent = false;
+  }
+  //////////////////////////email card end //////////////////////////
   
 }

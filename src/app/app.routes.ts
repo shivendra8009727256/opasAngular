@@ -18,7 +18,8 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
+  // { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'about', component: AboutComponent },

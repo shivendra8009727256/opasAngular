@@ -470,13 +470,16 @@
             </div>
             <div class="side">
               <p>
-                <input type="text" placeholder="Your name" [(ngModel)]="name" required>
+                <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
               </p>
               <p>
-                <input type="text" placeholder="Your name" [(ngModel)]="name" required>
+                <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
               </p>
               <p>
-                <input type="email" placeholder="Your email" [(ngModel)]="email" required>
+                <input type="email" placeholder="Email" [(ngModel)]="email" required>
+              </p>
+              <p>
+                <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
               </p>
               <p>
                 <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>

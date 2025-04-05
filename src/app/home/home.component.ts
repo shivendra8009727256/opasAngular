@@ -2,9 +2,9 @@ import { NgFor } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Carousel } from 'bootstrap';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {  AfterViewInit, inject } from '@angular/core';
+import { AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button'
 import { Router } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule,ReactiveFormsModule,NgFor,FormsModule],
+  imports: [MatButtonModule, ReactiveFormsModule, NgFor, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -22,6 +22,8 @@ export class HomeComponent {
   @ViewChild('formContainer') formContainer!: ElementRef;
 
   name: string = '';
+  mobile: string = '';
+  product: string = '';
   email: string = '';
   message: string = '';
   isSent: boolean = false;
@@ -31,20 +33,20 @@ export class HomeComponent {
   fileToUpload: File | null = null;
   uploadSuccess = false;
   uploadError = false;
-  images: any=[];
+  images: any = [];
   editForm: FormGroup;
   selectedItem: any = null;
-  img1:any=null;
-  img2:any=null;
-  img3:any=null;
-  img4:any=null;
-  img5:any=null;
+  img1: any = null;
+  img2: any = null;
+  img3: any = null;
+  img4: any = null;
+  img5: any = null;
   userStatus: string | null;
-  hideButton:boolean=true
-  userId:any
+  hideButton: boolean = true
+  userId: any
   userDataStatus: any;
 
- 
+
   carouselInstance: any;
 
   teamMembers = [
@@ -82,11 +84,11 @@ export class HomeComponent {
     });
   }
 
-  
-  constructor(private fb: FormBuilder,private router: Router) {
+
+  constructor(private fb: FormBuilder, private router: Router) {
     this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
-    this.userStatus=localStorage.getItem("userStatus")
-    console.log("UserSTATUS>>>>>>>>>>>",typeof(this.userStatus))
+    this.userStatus = localStorage.getItem("userStatus")
+    console.log("UserSTATUS>>>>>>>>>>>", typeof (this.userStatus))
     this.uploadForm = this.fb.group({
       productName: ['', [Validators.required]],
       price: ['', [Validators.required]],
@@ -116,9 +118,9 @@ export class HomeComponent {
       locationEdit: ['', [Validators.required]],
       packagingTypeEdit: ['', [Validators.required]],
       packSizeEdit: ['', [Validators.required]],
-      colorEdit: ['', [Validators.required]],      
-      sizeEdit: ['', [Validators.required]],      
-      brokenEdit: ['', [Validators.required]],      
+      colorEdit: ['', [Validators.required]],
+      sizeEdit: ['', [Validators.required]],
+      brokenEdit: ['', [Validators.required]],
       image: [null],
     });
   }
@@ -128,8 +130,8 @@ export class HomeComponent {
     this.fileToUpload = event.target.files[0];
   }
   ngAfterViewInit(): void {
-    
-  const slideshowImages = document.querySelectorAll<HTMLImageElement>(".intro-slideshow img");
+
+    const slideshowImages = document.querySelectorAll<HTMLImageElement>(".intro-slideshow img");
 
     const nextImageDelay = 5000;
     let currentImageCounter = 0;
@@ -151,7 +153,7 @@ export class HomeComponent {
   // this.img4="/opasLogo.png"
   // this.img5="/logo3.png"
 
-  async ngOnInit(){
+  async ngOnInit() {
     // Initialize carousel after view is initialized
     setTimeout(() => {
       this.initCarousel();
@@ -161,57 +163,57 @@ export class HomeComponent {
     this.getAllImage()
     await this.getUserstatus()
   }
-  getAllImage(){
-    this.http.get("http://localhost:8000/opas/getImage").subscribe(async (res:any)=>{
+  getAllImage() {
+    this.http.get("http://localhost:8000/opas/getImage").subscribe(async (res: any) => {
       this.images = res.data; // Store the fetched images
       console.log('Images fetched successfully', this.images);
       await this.getUserstatus()
     })
   }
 
-  
-  
-  getUserstatus(){
-      try {
-        let params = new HttpParams().set('userId', this.userId);
-        this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
-          (res: any) => {
-  
-            this.userDataStatus = res.user.userStatus
-           
-  
-            console.log("USER STATUS>>>>",res.user, 'API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
-            console.log(this.userDataStatus ==="admin")
-            if(this.userDataStatus =="user"){
-              this.hideButton=true
-              console.log("11111111111111111")
-            }else if(this.userDataStatus =="admin"){
-        this.hideButton=false
-        console.log("2222222222222222222222222222")
-            }else{
-              this.hideButton=true
-              console.log("333333333333333333333333333")
-            }
-  
-  
-          });
-  
-      } catch (err) {
-        console.log("CATCH>>>>>>>>")
-      }
-  
+
+
+  getUserstatus() {
+    try {
+      let params = new HttpParams().set('userId', this.userId);
+      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+        (res: any) => {
+
+          this.userDataStatus = res.user.userStatus
+
+
+          console.log("USER STATUS>>>>", res.user, 'API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
+          console.log(this.userDataStatus === "admin")
+          if (this.userDataStatus == "user") {
+            this.hideButton = true
+            console.log("11111111111111111")
+          } else if (this.userDataStatus == "admin") {
+            this.hideButton = false
+            console.log("2222222222222222222222222222")
+          } else {
+            this.hideButton = true
+            console.log("333333333333333333333333333")
+          }
+
+
+        });
+
+    } catch (err) {
+      console.log("CATCH>>>>>>>>")
     }
-   
+
+  }
 
 
-   // Submit the form
+
+  // Submit the form
   onSubmit() {
-    console.log("THIS>?>>>>>>>>>>",this.uploadForm.value)
+    console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
     if (this.uploadForm.invalid) {
-      console.log("THIS>?>>>>>>>>>>",this.uploadForm.value)
+      console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
       return;
     }
-    
+
 
     const formData = new FormData();
     formData.append('productName', this.uploadForm.get('productName')?.value);
@@ -228,7 +230,7 @@ export class HomeComponent {
     formData.append('location', this.uploadForm.get('location')?.value);
     formData.append('packagingType', this.uploadForm.get('packagingType')?.value);
     formData.append('packSize', this.uploadForm.get('packSize')?.value);
-   
+
 
     // Append the file
     if (this.fileToUpload) {
@@ -237,10 +239,10 @@ export class HomeComponent {
 
     // Make the HTTP request to upload the image
     this.http.post('http://localhost:8000/opas/upload', formData).subscribe(
-      async (response:any) => {
+      async (response: any) => {
         this.uploadSuccess = true;
         this.uploadError = false;
-       await this.uploadForm.reset()
+        await this.uploadForm.reset()
         console.log('Product uploaded successfully', response);
         await this.getAllImage()
       },
@@ -252,19 +254,19 @@ export class HomeComponent {
     );
   }
   //////delete data /////////
-  async deleteData(item:any){
-    const id=item;
-   await this.http.delete("http://localhost:8000/opas/delete/"+id).subscribe(async (res:any)=>{
-      console.log("DELETE API>>>>>>>",res)
+  async deleteData(item: any) {
+    const id = item;
+    await this.http.delete("http://localhost:8000/opas/delete/" + id).subscribe(async (res: any) => {
+      console.log("DELETE API>>>>>>>", res)
       await this.getAllImage()
     })
 
   }
 
-  
 
-  
-   // Update image file and details
+
+
+  // Update image file and details
   //  updateImageWithDetails(item: any) {
   //   const id = item._id;
   //   const formData = new FormData();
@@ -307,7 +309,7 @@ export class HomeComponent {
 
   openEditModal(item: any) {
     this.selectedItem = item;
-    console.log("ITEM>>>>>>>",this.selectedItem)
+    console.log("ITEM>>>>>>>", this.selectedItem)
     this.editForm.patchValue({
       productNameEdit: item.productName,
       priceEdit: item.price,
@@ -341,7 +343,7 @@ export class HomeComponent {
     }
   }
 
-  
+
 
   onEditSubmit() {
     if (this.editForm.invalid || !this.selectedItem) return;
@@ -361,7 +363,7 @@ export class HomeComponent {
     formData.append('color', this.editForm.get('colorEdit')?.value);
     formData.append('size', this.editForm.get('sizeEdit')?.value);
     formData.append('broken', this.editForm.get('brokenEdit')?.value);
-    
+
     if (this.fileToUpload) {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);
     }
@@ -390,28 +392,57 @@ export class HomeComponent {
 
   sendLetter(): void {
     if (!this.isFormValid()) return;
-    
-    this.isSent = true;
-    
-    // Optional: You could send the data to a service here
-    console.log('Form submitted:', {
-      name: this.name,
+    const obj = {
+      fullName: this.name,
       email: this.email,
-      message: this.message
+      productName: this.product,
+      phoneCode: "formValue.phoneCode",
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "pending",
+      userId: this.userId ||null
+    };
+    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+      next: async (res: any) => {
+        if (res) {
+          this.isSent = true;
+          console.log("IF USER IS LOG IN >>>>>>>>", res)
+          // Reset form after animation completes
+          setTimeout(() => {
+            this.resetForm();
+          }, 6000);
+        }
+      },
+      error: (err) => {
+        // this.openSnackBar("Error submitting form. Please try again.", "close");
+        console.error("Submission error:", err);
+      }
     });
-    
+    // this.isSent = true;
+
+    // // Optional: You could send the data to a service here
+    // console.log('Form submitted:', {
+    //   name: this.name,
+    //   mobile: this.mobile,
+    //   email: this.email,
+    //   message: this.message
+    // });
+
     // Reset form after animation completes
-    setTimeout(() => {
-      this.resetForm();
-    }, 6000);
+    // setTimeout(() => {
+    //   this.resetForm();
+    // }, 6000);
   }
 
   private resetForm(): void {
     this.name = '';
+    this.mobile = '';
+    this.product = '';
     this.email = '';
     this.message = '';
-    this.isSent = false;
+    // this.isSent = false;
   }
   //////////////////////////email card end //////////////////////////
-  
+
 }

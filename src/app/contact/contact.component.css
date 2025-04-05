@@ -489,7 +489,7 @@
 
 .containerLogo {
     margin-top: 20px;
-    background-color: rgba(108, 211, 194, 0.89);
+    background-color: #d5dbe1;
     padding: 40px 0; /* 0px side padding (no start/end gap) */
     width: 100%;
     text-align: center;

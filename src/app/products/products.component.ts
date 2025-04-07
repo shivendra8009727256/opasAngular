@@ -23,6 +23,16 @@ declare var Razorpay: any;
 })
 export class ProductsComponent  {
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  @ViewChild('formContainer') formContainer!: ElementRef;
+
+  
+  
+    name: string = '';
+    mobile: string = '';
+    productName: string = '';
+    email: string = '';
+    message: string = '';
+    isSent: boolean = false;
   product: any;
   http=inject(HttpClient);
   router = inject(Router);
@@ -546,5 +556,64 @@ openPdfInNewWindow() {
   }
 }
 
+// /////////////////////add send query /////////////////////
+// ?/////////////////////email card ////////////////
+isFormValid(): boolean {
+  return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
+}
+
+sendLetter(): void {
+  if (!this.isFormValid()) return;
+  const obj = {
+    fullName: this.name,
+    email: this.email,
+    productName: this.productName,
+    phoneCode: "formValue.phoneCode",
+    phoneNumber: this.mobile,
+    message: this.message,
+    status: "pending",
+    userId: this.userId ||null
+  };
+  console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+  this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+    next: async (res: any) => {
+      if (res) {
+        this.isSent = true;
+        console.log("IF USER IS LOG IN >>>>>>>>", res)
+        // Reset form after animation completes
+        setTimeout(() => {
+          this.resetForm();
+        }, 6000);
+      }
+    },
+    error: (err) => {
+      // this.openSnackBar("Error submitting form. Please try again.", "close");
+      console.error("Submission error:", err);
+    }
+  });
+  // this.isSent = true;
+
+  // // Optional: You could send the data to a service here
+  // console.log('Form submitted:', {
+  //   name: this.name,
+  //   mobile: this.mobile,
+  //   email: this.email,
+  //   message: this.message
+  // });
+
+  // Reset form after animation completes
+  // setTimeout(() => {
+  //   this.resetForm();
+  // }, 6000);
+}
+
+private resetForm(): void {
+  this.name = '';
+  this.mobile = '';
+  this.productName = '';
+  this.email = '';
+  this.message = '';
+  this.isSent = false;
+}
 
 }

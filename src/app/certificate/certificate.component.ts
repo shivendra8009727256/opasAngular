@@ -1,5 +1,5 @@
 import {  inject, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-certificate',
-  imports: [MatButtonModule,  NgFor, FormsModule],
+  imports: [MatButtonModule, FormsModule],
   templateUrl: './certificate.component.html',
   styleUrl: './certificate.component.css'
 })

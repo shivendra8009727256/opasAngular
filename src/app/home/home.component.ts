@@ -441,7 +441,7 @@ export class HomeComponent {
     this.product = '';
     this.email = '';
     this.message = '';
-    // this.isSent = false;
+    this.isSent = false;
   }
   //////////////////////////email card end //////////////////////////
 

@@ -1,17 +1,31 @@
 
-import {  OnInit } from '@angular/core';
+import {  inject, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 
 @Component({
   selector: 'app-about',
-  imports: [CommonModule, ],
+  imports: [MatButtonModule,  NgFor, FormsModule],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
   @ViewChild('carouselElement', { static: true }) carousel!: ElementRef;
+  @ViewChild('formContainer') formContainer!: ElementRef;
+
+private http = inject(HttpClient);
+
+  name: string = '';
+  mobile: string = '';
+  product: string = '';
+  email: string = '';
+  message: string = '';
+  isSent: boolean = false;
 
   teamMembers = [
     {
@@ -39,6 +53,7 @@ export class AboutComponent {
       description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
     }
   ];
+  userId: string;
 
   ngAfterViewInit() {
     const carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
@@ -46,6 +61,71 @@ export class AboutComponent {
       ride: 'carousel'
     });
   }
+
+  constructor(private fb: FormBuilder, private router: Router){
+    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+  }
+
+
+  // ?/////////////////////email card ////////////////
+  isFormValid(): boolean {
+    return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
+  }
+
+  sendLetter(): void {
+    if (!this.isFormValid()) return;
+    const obj = {
+      fullName: this.name,
+      email: this.email,
+      productName: this.product,
+      phoneCode: "formValue.phoneCode",
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "pending",
+      userId: this.userId ||null
+    };
+    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+      next: async (res: any) => {
+        if (res) {
+          this.isSent = true;
+          console.log("IF USER IS LOG IN >>>>>>>>", res)
+          // Reset form after animation completes
+          setTimeout(() => {
+            this.resetForm();
+          }, 6000);
+        }
+      },
+      error: (err) => {
+        // this.openSnackBar("Error submitting form. Please try again.", "close");
+        console.error("Submission error:", err);
+      }
+    });
+    // this.isSent = true;
+
+    // // Optional: You could send the data to a service here
+    // console.log('Form submitted:', {
+    //   name: this.name,
+    //   mobile: this.mobile,
+    //   email: this.email,
+    //   message: this.message
+    // });
+
+    // Reset form after animation completes
+    // setTimeout(() => {
+    //   this.resetForm();
+    // }, 6000);
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.mobile = '';
+    this.product = '';
+    this.email = '';
+    this.message = '';
+    this.isSent = false;
+  }
+  //////////////////////////email card end //////////////////////////
 }
  
 

@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import {  inject, OnInit } from '@angular/core';
+import { CommonModule, NgFor } from '@angular/common';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-certificate',
-  imports: [],
+  imports: [MatButtonModule,  NgFor, FormsModule],
   templateUrl: './certificate.component.html',
   styleUrl: './certificate.component.css'
 })
 export class CertificateComponent {
+   @ViewChild('formContainer') formContainer!: ElementRef;
+  
+  private http = inject(HttpClient);
+  
+    name: string = '';
+    mobile: string = '';
+    product: string = '';
+    email: string = '';
+    message: string = '';
+    isSent: boolean = false;
   
   certificates = [
     { 
@@ -33,6 +49,7 @@ export class CertificateComponent {
       'Market Adaptability'
     ]
   };
+  userId: string;
 
   ngOnInit(): void {
     // You might want to preload the video here
@@ -41,5 +58,71 @@ export class CertificateComponent {
   handleVideoError() {
     console.error('Video failed to load');
   }
+
+
+  constructor(private fb: FormBuilder, private router: Router){
+      this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+    }
+  
+  
+    // ?/////////////////////email card ////////////////
+    isFormValid(): boolean {
+      return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
+    }
+  
+    sendLetter(): void {
+      if (!this.isFormValid()) return;
+      const obj = {
+        fullName: this.name,
+        email: this.email,
+        productName: this.product,
+        phoneCode: "formValue.phoneCode",
+        phoneNumber: this.mobile,
+        message: this.message,
+        status: "pending",
+        userId: this.userId ||null
+      };
+      console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+      this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+        next: async (res: any) => {
+          if (res) {
+            this.isSent = true;
+            console.log("IF USER IS LOG IN >>>>>>>>", res)
+            // Reset form after animation completes
+            setTimeout(() => {
+              this.resetForm();
+            }, 6000);
+          }
+        },
+        error: (err) => {
+          // this.openSnackBar("Error submitting form. Please try again.", "close");
+          console.error("Submission error:", err);
+        }
+      });
+      // this.isSent = true;
+  
+      // // Optional: You could send the data to a service here
+      // console.log('Form submitted:', {
+      //   name: this.name,
+      //   mobile: this.mobile,
+      //   email: this.email,
+      //   message: this.message
+      // });
+  
+      // Reset form after animation completes
+      // setTimeout(() => {
+      //   this.resetForm();
+      // }, 6000);
+    }
+  
+    private resetForm(): void {
+      this.name = '';
+      this.mobile = '';
+      this.product = '';
+      this.email = '';
+      this.message = '';
+      this.isSent = false;
+    }
+    //////////////////////////email card end //////////////////////////
 
 }

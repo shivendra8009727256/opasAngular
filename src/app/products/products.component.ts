@@ -11,18 +11,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { LoaderComponent } from '../loader/loader.component'; // Adjust path as needed
 
 
 
 declare var Razorpay: any;
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, MatCardModule, MatButtonModule,FormsModule, MatFormFieldModule, MatSelectModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule,FormsModule, MatFormFieldModule, MatSelectModule,LoaderComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent  {
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  isLoading = false; // Add loading state
   @ViewChild('formContainer') formContainer!: ElementRef;
 
   
@@ -377,7 +379,7 @@ this.payWithRazorpay()
   async payWithRazorpay() {
     
     // const price= this.product.color
-    
+   this.isLoading = true; // Add loading state
     const obj={
       amount:this.totalAmount,
       currency:this.selectedCurrency
@@ -469,9 +471,10 @@ paymentSuccess(response: any,item:any) {
     
     this.quantity=0;
     this.calculateTotalAmount()
+    
 
   })
-  
+  this.isLoading = false; // Add loading state
   this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
 
   // Here you can redirect the user or perform any other action
@@ -488,9 +491,11 @@ paymentFailed(item:any) {
   }
   this.http.post('http://localhost:8000/payment/payment-failed',obj).subscribe((res:any)=>{
     console.log("Payment failed!");
+    this.isLoading = false; // Add loading state
   this.openSnackBar("Payment failed! Please try again.", "Retry"); 
   })
   console.log("Payment failed!");
+  this.isLoading = false; // Add loading state
   this.openSnackBar("Payment failed! Please try again.", "Retry");
   
 }
@@ -545,12 +550,15 @@ scrollRight() {
 
 
 openPdfInNewWindow() {
+  this.isLoading = true; // Add loading state
   const pdfUrl = this.baseUrl + this.invoiceUrl;
   console.log('Generated PDF URL:', pdfUrl); // Log to check if the URL is correct
 
   if (this.invoiceUrl) {
+    this.isLoading = false; // Add loading state
     window.open(pdfUrl, '_blank');
   } else {
+    this.isLoading = false; // Add loading state
     this.openSnackBar("Invoice not found. Please try again later.", "Retry");
     console.error('Invalid URL:', pdfUrl);
   }
@@ -564,6 +572,7 @@ isFormValid(): boolean {
 
 sendLetter(): void {
   if (!this.isFormValid()) return;
+  // this.isLoading = true; // Add loading state
   const obj = {
     fullName: this.name,
     email: this.email,
@@ -582,6 +591,7 @@ sendLetter(): void {
         console.log("IF USER IS LOG IN >>>>>>>>", res)
         // Reset form after animation completes
         setTimeout(() => {
+          // this.isLoading = false; // Add loading state
           this.resetForm();
         }, 6000);
       }

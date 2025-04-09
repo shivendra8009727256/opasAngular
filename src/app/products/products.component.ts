@@ -379,7 +379,7 @@ this.payWithRazorpay()
   async payWithRazorpay() {
     
     // const price= this.product.color
-   this.isLoading = true; // Add loading state
+  //  this.isLoading = true; // Add loading state
     const obj={
       amount:this.totalAmount,
       currency:this.selectedCurrency

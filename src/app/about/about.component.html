@@ -1,3 +1,5 @@
+<div>
+
 <!-- banner Start -->
 <!-- In your component's HTML file -->
 <div class="banner-container">
@@ -12,7 +14,10 @@
       <div class="col-md-8">
         <div class="titlepage">
           <h2>Why Choose Us? </h2>
-          <p>At Opas Bizz Pvt Ltd, we specialize in the global trade of high-quality grains, connecting trusted suppliers with buyers worldwide. With 5 years of expertise in import, export, and distribution, we ensure seamless transactions, competitive pricing, and reliable delivery—making us your ideal grain trading partner. </p>
+          <p>At Opas Bizz Pvt Ltd, we specialize in the global trade of high-quality grains, connecting trusted
+            suppliers with buyers worldwide. With 5 years of expertise in import, export, and distribution, we ensure
+            seamless transactions, competitive pricing, and reliable delivery—making us your ideal grain trading
+            partner. </p>
         </div>
       </div>
     </div>
@@ -27,7 +32,9 @@
                 <i><img src="/global.png" alt="#" /></i>
                 <div class="choose_text">
                   <h3>Global Partners</h3>
-                  <p>We have established strong relationships with farmers, millers, and bulk buyers across key grain-producing and consuming regions, ensuring a steady supply of wheat, rice, corn, barley, and specialty grains.</p>
+                  <p>We have established strong relationships with farmers, millers, and bulk buyers across key
+                    grain-producing and consuming regions, ensuring a steady supply of wheat, rice, corn, barley, and
+                    specialty grains.</p>
                 </div>
               </div>
             </div>
@@ -36,7 +43,8 @@
                 <i><img src="/best-price.png" alt="#" /></i>
                 <div class="choose_text">
                   <h3>Best Prices</h3>
-                  <p> Our deep market insights and bulk purchasing power allow us to offer cost-effective pricing without compromising on quality.</p>
+                  <p> Our deep market insights and bulk purchasing power allow us to offer cost-effective pricing
+                    without compromising on quality.</p>
                 </div>
               </div>
             </div>
@@ -45,7 +53,8 @@
                 <i><img src="/top-rated.png" alt="#" /></i>
                 <div class="choose_text">
                   <h3>Top Quality</h3>
-                  <p>Rigorous quality checks for moisture/purity, full compliance with ISO/FSSAI standards, and complete export documentation handling.</p>
+                  <p>Rigorous quality checks for moisture/purity, full compliance with ISO/FSSAI standards, and complete
+                    export documentation handling.</p>
                 </div>
               </div>
             </div>
@@ -54,7 +63,8 @@
                 <i><img src="/fast-delivery.png" alt="#" /></i>
                 <div class="choose_text">
                   <h3>Fast Shipping</h3>
-                  <p> Efficient logistics ensure timely deliveries, minimizing delays. Choose reliability, quality, and speed with us.</p>
+                  <p> Efficient logistics ensure timely deliveries, minimizing delays. Choose reliability, quality, and
+                    speed with us.</p>
                 </div>
               </div>
             </div>
@@ -78,7 +88,7 @@
 
 </div>
 
- 
+
 <div class="about">
   <div class="container">
     <div class="row">
@@ -93,24 +103,21 @@
         <div #carouselElement id="myCarousel" class="carousel slide about_Carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-            <li *ngFor="let member of teamMembers; let i = index"
-                [class.active]="i === 0"
-                data-bs-target="#myCarousel"
-                [attr.data-bs-slide-to]="i">
+            <li *ngFor="let member of teamMembers; let i = index" [class.active]="i === 0" data-bs-target="#myCarousel"
+              [attr.data-bs-slide-to]="i">
             </li>
           </ol>
 
           <!-- Slides -->
           <div class="carousel-inner">
-            <div *ngFor="let member of teamMembers; let i = index"
-                 class="carousel-item"
-                 [class.active]="i === 0">
+            <div *ngFor="let member of teamMembers; let i = index" class="carousel-item" [class.active]="i === 0">
               <div class="container">
                 <div class="carousel-caption">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="test_box">
-                        <i><img [src]="member.image" alt="{{ member.name }}" style="width: 200px; border-radius: 50%" /></i>
+                        <i><img [src]="member.image" alt="{{ member.name }}"
+                            style="width: 200px; border-radius: 50%" /></i>
                         <h4>{{ member.name }}</h4>
                         <h6>({{ member.position }})</h6>
                         <p>{{ member.description }}</p>
@@ -129,48 +136,48 @@
 
 
 <!-- end clients -->
-  <!-- email card start -->
-  <div class="email-section"> <!-- Add this wrapper -->
+<!-- email card start -->
+<div class="email-section"> <!-- Add this wrapper -->
 
-    
-    <div >
-      <img src="/inquiry2.png" class="image-container"  >
-    </div>
 
-    <div [class.sent]="isSent">
-      <!-- <small>Enter message (optional) and click button "Send"</small> -->
-      <div class="wrapper centered">
-        <div class="letter">
-          <div class="side">
-            <h1>Contact us</h1>
-            <p>
-              <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
-            </p>
-          </div>
-          <div class="side">
-            <p>
-              <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
-            </p>
-            <p>
-              <input type="email" placeholder="Email" [(ngModel)]="email" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
-            </p>
-            <p>
-              <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
-            </p>
-          </div>
+  <div>
+    <img src="/inquiry2.png" class="image-container">
+  </div>
+
+  <div [class.sent]="isSent">
+    <!-- <small>Enter message (optional) and click button "Send"</small> -->
+    <div class="wrapper centered">
+      <div class="letter">
+        <div class="side">
+          <h1>Contact us</h1>
+          <p>
+            <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
+          </p>
         </div>
-        <div class="envelope front"></div>
-        <div class="envelope back"></div>
+        <div class="side">
+          <p>
+            <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
+          </p>
+          <p>
+            <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
+          </p>
+          <p>
+            <input type="email" placeholder="Email" [(ngModel)]="email" required>
+          </p>
+          <p>
+            <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
+          </p>
+          <p>
+            <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
+          </p>
+        </div>
       </div>
-      <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+      <div class="envelope front"></div>
+      <div class="envelope back"></div>
     </div>
- 
+    <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+  </div>
+
 </div>
 
 <!-- email card end -->
@@ -181,30 +188,38 @@
 <div class="containerLogo">
   <div class="row justify-content-center align-items-center">
 
-      <div class="col-lg-12 col-12">
-          <h4 class="partners-section-title bg-white shadow-lg">Trusted by companies</h4>
-      </div>
+    <div class="col-lg-12 col-12">
+      <h4 class="partners-section-title bg-white shadow-lg">Trusted by companies</h4>
+    </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-          <img src="images/toprak-leasing.svg" class="partners-image img-fluid">
-      </div>
+    <div class="col-lg-2 col-md-4 col-6">
+      <img src="images/toprak-leasing.svg" class="partners-image img-fluid">
+    </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-          <img src="images/glorix.svg" class="partners-image img-fluid">
-      </div>
+    <div class="col-lg-2 col-md-4 col-6">
+      <img src="images/glorix.svg" class="partners-image img-fluid">
+    </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-          <img src="images/woocommerce.svg" class="partners-image img-fluid">
-      </div>
+    <div class="col-lg-2 col-md-4 col-6">
+      <img src="images/woocommerce.svg" class="partners-image img-fluid">
+    </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-          <img src="images/rolf-leasing.svg" class="partners-image img-fluid">
-      </div>
+    <div class="col-lg-2 col-md-4 col-6">
+      <img src="images/rolf-leasing.svg" class="partners-image img-fluid">
+    </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-          <img src="images/unilabs.svg" class="partners-image img-fluid">
-      </div>
+    <div class="col-lg-2 col-md-4 col-6">
+      <img src="images/unilabs.svg" class="partners-image img-fluid">
+    </div>
 
   </div>
 </div>
 <!-- end logo carousel -->
+
+<!-- Loading overlay - shown when isLoading is true -->
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loader-wrapper">
+    <app-loader></app-loader>
+  </div>
+</div>
+</div>

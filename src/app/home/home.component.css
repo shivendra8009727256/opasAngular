@@ -534,7 +534,8 @@ textarea {
 }
 
 input {
-  width: 50%;
+  /* width: 100%;
+  max-width: 100%; */
   /* margin-bottom: 1rem; */
 }
 

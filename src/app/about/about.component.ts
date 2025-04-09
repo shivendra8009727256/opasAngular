@@ -1,22 +1,24 @@
 
 import {  inject, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { LoaderComponent } from '../loader/loader.component'; // Adjust path as needed
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 
 @Component({
   selector: 'app-about',
-  imports: [MatButtonModule,  NgFor, FormsModule],
+  imports: [MatButtonModule,  NgFor, FormsModule,LoaderComponent,NgIf],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
   @ViewChild('carouselElement', { static: true }) carousel!: ElementRef;
   @ViewChild('formContainer') formContainer!: ElementRef;
+  isLoading = false; // Add loading state
 
 private http = inject(HttpClient);
 
@@ -74,6 +76,7 @@ private http = inject(HttpClient);
 
   sendLetter(): void {
     if (!this.isFormValid()) return;
+    this.isLoading = true; // Start loading
     const obj = {
       fullName: this.name,
       email: this.email,
@@ -99,6 +102,7 @@ private http = inject(HttpClient);
       error: (err) => {
         // this.openSnackBar("Error submitting form. Please try again.", "close");
         console.error("Submission error:", err);
+        this.isLoading = false; // end loading
       }
     });
     // this.isSent = true;
@@ -124,6 +128,7 @@ private http = inject(HttpClient);
     this.email = '';
     this.message = '';
     this.isSent = false;
+    this.isLoading = false; // end loading
   }
   //////////////////////////email card end //////////////////////////
 }

@@ -10,12 +10,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
 @Component({
   selector: 'app-register',
-  imports: [NgIf, FormsModule, ReactiveFormsModule, NgFor,RouterLink,MatSelectModule,MatFormFieldModule,MatInputModule],
+  imports: [NgIf, FormsModule, ReactiveFormsModule, NgFor,RouterLink,MatSelectModule,MatFormFieldModule,MatInputModule,MatIconModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -23,6 +24,7 @@ export class RegisterComponent {
   submitted = false;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  showPassword: boolean = false;
 
 
   countries  = [

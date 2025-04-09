@@ -35,13 +35,20 @@
 
         <div class="input-group">
           <label for="login-password"><span class="text-danger">*</span>Password:</label>
-          <input type="password" id="password" formControlName="password" placeholder="Enter your password" required>
-          <!-- Password Validation Errors -->
-          <!-- Password Validation Errors -->
+          <div class="password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" 
+                   id="password" 
+                   formControlName="password" 
+                   placeholder="Enter your password" 
+                   required>
+            <span class="eye-icon" (click)="showPassword = !showPassword">
+              <i class="material-icons">{{ showPassword ? 'visibility' : 'visibility_off' }}</i>
+            </span>
+          </div>
+          <!-- Validation Errors -->
           <div class="text-danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
             <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
-            <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6
-              characters.</small>
+            <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
           </div>
         </div>
         <!-- Forget Password Link (Aligned to Right) -->

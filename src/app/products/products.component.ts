@@ -399,7 +399,7 @@ this.payWithRazorpay()
             order_id: order.id, // Fix: Ensure order.id exists
             handler: async (response: any) => {
               console.log("PAYMENT RESPONSE >>>>", response);
-              
+              this.isLoading=true;
               const verifyPayload = {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -444,9 +444,34 @@ this.payWithRazorpay()
 
     
   }
+
+
+
+
+  /////////////////////////////sending Invoice In User Email ////////////////////////////
+  sendInvoiceInEmail(item:any){
+    this.isLoading=true;
+    const obj={
+      fullName:this.fullName,
+      email:this.userEmail,
+      invoiceURL:item
+    }
+
+    this.http.post("http://localhost:8000/auth/mailSender", obj).subscribe(
+      { next:async (res: any) => {
+      console.log("AFTER SENDING MAIL>>>>>>>>",res)
+      this.openSnackBar('Invoice sent to your email', 'Close');
+      this.isLoading=false;
+  }, error:(error)=>{
+    console.log("ERROR FIND >>>>>>>>>",error)
+  }
+})
+
+  } 
   
 /////////////////////////////////////////////////////////////////////////
 paymentSuccess(response: any,item:any) {
+  this.isLoading=true;
   console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
   const obj={
     quantity:this.quantity,
@@ -463,12 +488,12 @@ paymentSuccess(response: any,item:any) {
     }
     console.log("OBJECT USER>>>>>>>>>>>",obj)
      
-  this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe((res:any)=>{
+  this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe(async (res:any)=>{
   
     this.invoiceUrl=res?.invoiceUrl
    
     console.log(res,"Payment was successful!", this.invoiceUrl); 
-    
+    await this.sendInvoiceInEmail(this.invoiceUrl);
     this.quantity=0;
     this.calculateTotalAmount()
     

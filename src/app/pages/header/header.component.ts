@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import{ShareDataService} from '../../share-data.service';
 import { Subscription } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { SecureStorageService } from '../../services/secure-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -57,18 +58,19 @@ export class HeaderComponent {
   }
 
 
-   constructor(private ShareDataService:ShareDataService){
+   constructor(private ShareDataService:ShareDataService ,private secureStorage: SecureStorageService){
    // Retrieve values from localStorage and remove double quotes
-const rawUserName = localStorage.getItem("fullName")?.replace(/"/g, '') || '';
-this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+const rawUserName = this.secureStorage.getItem("fullName")?.replace(/"/g, '') || '';
+
+this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
 
 // Capitalize the first letter of each word in the name
 this.userName = rawUserName
   .split(' ') // Split the name into an array of words
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+  .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
   .join(' '); // Join the words back into a single string
 
-this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
+this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
    }
    ngOnInit() {
     this.getUser()
@@ -124,7 +126,7 @@ this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
   // Example method to handle logout (replace with actual logic)
   logout() {
     this.isLoggedIn = false;
-    localStorage.clear();
+    this.secureStorage.clear();
     this.router.navigateByUrl('/home')
     // Clear user details
   }
@@ -137,6 +139,13 @@ this.gstNo = localStorage.getItem("gstNo")?.replace(/"/g, '') || '';
     console.log('Navigate to Profile');
     this.isDropdownOpen = false;
     this.router.navigateByUrl('/profile') 
+
+  }
+  navigateToHistory() {
+    // Navigate to the profile page
+    console.log('Navigate to Profile');
+    this.isDropdownOpen = false;
+    this.router.navigateByUrl('/history') 
 
   }
 }

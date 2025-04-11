@@ -9,6 +9,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ShareDataService } from '../../share-data.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select';
+import { SecureStorageService } from '../../services/secure-storage.service';
 
 
 @Component({
@@ -272,8 +273,10 @@ export class ProfileComponent {
 
 
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private ShareDataService: ShareDataService) {
-    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private ShareDataService: ShareDataService,private secureStorage: SecureStorageService,) {
+    // this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+    this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
+    
 
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', [Validators.required, Validators.minLength(8)]],

@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { LoaderComponent } from '../loader/loader.component'; // Adjust path as needed
+import { SecureStorageService } from '../services/secure-storage.service';
 
 
 
@@ -235,21 +236,21 @@ export class ProductsComponent  {
   
   
 
-  constructor(private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
+  constructor(private secureStorage: SecureStorageService,private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
     const navigation = window.history.state;
     this.product = navigation.product;
     
      this.getProductDetails(this.product)
      this.getAllProductsList()
-     this.userEmail=localStorage.getItem("email");
-     this.isActive= localStorage.getItem("isActive");
-     this.fullName=localStorage.getItem("fullName");
-     this.businessType= localStorage.getItem("businessType");
-     this.companyName= localStorage.getItem("companyName");
-     this.address= localStorage.getItem("address");
-     this.token=localStorage.getItem("token");
-     this.phoneNumber=localStorage.getItem("phoneNumber");
-     this.userId=localStorage.getItem("userId");
+     this.userEmail=this.secureStorage.getItem("email");
+     this.isActive= this.secureStorage.getItem("isActive");
+     this.fullName=this.secureStorage.getItem("fullName");
+     this.businessType= this.secureStorage.getItem("businessType");
+     this.companyName= this.secureStorage.getItem("companyName");
+     this.address= this.secureStorage.getItem("address");
+     this.token=this.secureStorage.getItem("token");
+     this.phoneNumber=this.secureStorage.getItem("phoneNumber");
+     this.userId=this.secureStorage.getItem("userId");
 
 
 
@@ -471,7 +472,7 @@ this.payWithRazorpay()
   
 /////////////////////////////////////////////////////////////////////////
 paymentSuccess(response: any,item:any) {
-  this.isLoading=true;
+  // this.isLoading=true;
   console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
   const obj={
     quantity:this.quantity,
@@ -499,7 +500,7 @@ paymentSuccess(response: any,item:any) {
     
 
   })
-  this.isLoading = false; // Add loading state
+  // this.isLoading = false; // Add loading state
   this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
 
   // Here you can redirect the user or perform any other action
@@ -516,11 +517,11 @@ paymentFailed(item:any) {
   }
   this.http.post('http://localhost:8000/payment/payment-failed',obj).subscribe((res:any)=>{
     console.log("Payment failed!");
-    this.isLoading = false; // Add loading state
+    // this.isLoading = false; // Add loading state
   this.openSnackBar("Payment failed! Please try again.", "Retry"); 
   })
   console.log("Payment failed!");
-  this.isLoading = false; // Add loading state
+  // this.isLoading = false; // Add loading state
   this.openSnackBar("Payment failed! Please try again.", "Retry");
   
 }

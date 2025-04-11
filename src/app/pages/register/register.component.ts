@@ -11,6 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { SecureStorageService } from '../../services/secure-storage.service';
+
+
 
 
 
@@ -269,7 +272,7 @@ export class RegisterComponent {
   selectedCountry = signal<string>('India');
   selectedCountryCode = signal<string>('+91');
 
-  constructor(private fb: FormBuilder, private ShareDataService:ShareDataService) {
+  constructor(private fb: FormBuilder, private ShareDataService:ShareDataService, private secureStorage: SecureStorageService,) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -307,17 +310,18 @@ export class RegisterComponent {
       try {
         if (res) {
           console.log('<<<<<<<<<<<<<<<<<...RSPONCE....>>>>>>>>>>>>>>>>>>>>>>',res);
-          localStorage.setItem("email", JSON.stringify(res.user?.email));
-          localStorage.setItem("isActive", JSON.stringify(res.user?.isActive));
-          localStorage.setItem("fullName", JSON.stringify(res.user?.fullName));
-          localStorage.setItem("businessType", JSON.stringify(res.user?.businessType));
-          localStorage.setItem("companyName", JSON.stringify(res.user?.companyName));
-          localStorage.setItem("address", JSON.stringify(res.user?.address));
-          localStorage.setItem("token", JSON.stringify(res.token));
-          localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));
-          localStorage.setItem("userId", JSON.stringify(res.user?._id));
-          localStorage.setItem("userStatus", JSON.stringify(res.user?.userStatus));
-          localStorage.setItem("gstNo", JSON.stringify(res.user?.gstNo));
+         // Store data securely using SecureStorageService
+        this.secureStorage.setItem("email", res.user?.email);
+        this.secureStorage.setItem("isActive", res.user?.isActive);
+        this.secureStorage.setItem("fullName", res.user?.fullName);
+        this.secureStorage.setItem("businessType", res.user?.businessType);
+        this.secureStorage.setItem("companyName", res.user?.companyName);
+        this.secureStorage.setItem("address", res.user?.address);
+        this.secureStorage.setItem("token", res.token);
+        this.secureStorage.setItem("phoneNumber", res.user?.phoneNumber);
+        this.secureStorage.setItem("userId", res.user?._id);
+        this.secureStorage.setItem("userStatus", res.user?.userStatus);
+        this.secureStorage.setItem("gstNo", res.user?.gstNo);
           console.log('Login Data:', res);
           this.ShareDataService.sendUserData(res);
           console.log('User data emitted:',res);
@@ -380,19 +384,20 @@ console.log("OBJ>>>>>>>>>>",obj1)
         try {
           if (res) {
             console.log('<<<<<<<<<<<<<<<<<...RSPONCE....>>>>>>>>>>>>>>>>>>>>>>',res);
-            localStorage.setItem("email", JSON.stringify(res.user?.email));
-            localStorage.setItem("isActive", JSON.stringify(res.user?.isActive));
-            localStorage.setItem("fullName", JSON.stringify(res.user?.fullName));
-            localStorage.setItem("businessType", JSON.stringify(res.user?.businessType));
-            localStorage.setItem("companyName", JSON.stringify(res.user?.companyName));
-            localStorage.setItem("address", JSON.stringify(res.user?.address));
-            localStorage.setItem("token", JSON.stringify(res.token));
-            localStorage.setItem("phoneNumber", JSON.stringify(res.user?.phoneNumber));
-            localStorage.setItem("userId", JSON.stringify(res.user?._id));
-            localStorage.setItem("userStatus", JSON.stringify(res.user?.userStatus));
-            localStorage.setItem("gstNo", JSON.stringify(res.user?.gstNo));
+             // Store data securely
+             this.secureStorage.setItem("email", res.user?.email);
+             this.secureStorage.setItem("isActive", res.user?.isActive);
+             this.secureStorage.setItem("fullName", res.user?.fullName);
+             this.secureStorage.setItem("businessType", res.user?.businessType);
+             this.secureStorage.setItem("companyName", res.user?.companyName);
+             this.secureStorage.setItem("address", res.user?.address);
+             this.secureStorage.setItem("token", res.token);
+             this.secureStorage.setItem("phoneNumber", res.user?.phoneNumber);
+             this.secureStorage.setItem("userId", res.user?._id);
+             this.secureStorage.setItem("userStatus", res.user?.userStatus);
+             this.secureStorage.setItem("gstNo", res.user?.gstNo);
            
-            await     this.ShareDataService.sendUserData(res);
+             await this.ShareDataService.sendUserData(res);
            
            
             await  this.registerForm.reset({ country: 'India' }); 

@@ -13,6 +13,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ForgotPasswordComponent } from './forget-password/forgot-password.component';
 import { authGuard } from '../service/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'history', component: HistoryComponent },
   { path: 'about', component: AboutComponent },
   { path: 'product/:id', component: ProductsComponent },
   { path: 'certificate', component: CertificateComponent },

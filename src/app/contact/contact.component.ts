@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select';
+import { SecureStorageService } from '../services/secure-storage.service';
 
 
 @Component({
@@ -334,10 +335,11 @@ export class ContactComponent implements OnInit, OnDestroy {
     userId: any = "";
 
 
-    constructor(private fb: FormBuilder, private snackBar: MatSnackBar,) {
+    constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private secureStorage: SecureStorageService) {
 
 
-        this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+        // this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+        this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
 
 
 

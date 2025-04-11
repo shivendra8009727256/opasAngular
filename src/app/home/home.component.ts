@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { Router } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
+import { SecureStorageService } from '../services/secure-storage.service';
 
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
@@ -85,9 +86,9 @@ export class HomeComponent {
   }
 
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
-    this.userStatus = localStorage.getItem("userStatus")
+  constructor(private fb: FormBuilder, private router: Router,private secureStorage: SecureStorageService) {
+    this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
+    this.userStatus = this.secureStorage.getItem("userStatus")
     console.log("UserSTATUS>>>>>>>>>>>", typeof (this.userStatus))
     this.uploadForm = this.fb.group({
       productName: ['', [Validators.required]],

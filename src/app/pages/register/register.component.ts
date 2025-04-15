@@ -380,7 +380,7 @@ export class RegisterComponent {
   };
 console.log("OBJ>>>>>>>>>>",obj1)
     try {
-      this.http.post("http://localhost:8000/auth/register", obj1).subscribe(async(res: any) => {
+      this.http.post("https://opasbizz.in/api/auth/register", obj1).subscribe(async(res: any) => {
         try {
           if (res) {
             console.log('<<<<<<<<<<<<<<<<<...RSPONCE....>>>>>>>>>>>>>>>>>>>>>>',res);

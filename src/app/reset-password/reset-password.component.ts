@@ -57,7 +57,7 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    this.http.post(`http://localhost:8000/auth/changePassword/${this.token}`, { newPassword })
+    this.http.post(`https://opasbizz.in/api/auth/changePassword/${this.token}`, { newPassword })
       .subscribe({
         next: (response) => {
           console.log('Password reset successful', response);

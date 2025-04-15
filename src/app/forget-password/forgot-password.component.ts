@@ -35,7 +35,7 @@ export class ForgotPasswordComponent {
     this.isLoading = true; // Start loading
     const email = this.forgetPasswordForm.get('email')?.value;
 
-    this.http.post(`http://localhost:8000/auth/resetPassword`, { email })
+    this.http.post(`https://opasbizz.in/api/auth/resetPassword`, { email })
       .subscribe({
         next: (response) => {
           console.log('Password reset successful', response);

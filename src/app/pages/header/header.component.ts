@@ -89,7 +89,7 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
   getUser() {
       try{
         let params = new HttpParams().set('userId', this.userId);
-      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+      this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe(
         (res: any) => {
           
           this.userName=res.user.fullName;

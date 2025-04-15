@@ -165,7 +165,7 @@ export class HomeComponent {
     await this.getUserstatus()
   }
   getAllImage() {
-    this.http.get("http://localhost:8000/opas/getImage").subscribe(async (res: any) => {
+    this.http.get("https://opasbizz.in/api/opas/getImage").subscribe(async (res: any) => {
       this.images = res.data; // Store the fetched images
       console.log('Images fetched successfully', this.images);
       await this.getUserstatus()
@@ -177,7 +177,7 @@ export class HomeComponent {
   getUserstatus() {
     try {
       let params = new HttpParams().set('userId', this.userId);
-      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+      this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe(
         (res: any) => {
 
           this.userDataStatus = res.user.userStatus
@@ -239,7 +239,7 @@ export class HomeComponent {
     }
 
     // Make the HTTP request to upload the image
-    this.http.post('http://localhost:8000/opas/upload', formData).subscribe(
+    this.http.post('https://opasbizz.in/api/opas/upload', formData).subscribe(
       async (response: any) => {
         this.uploadSuccess = true;
         this.uploadError = false;
@@ -257,7 +257,7 @@ export class HomeComponent {
   //////delete data /////////
   async deleteData(item: any) {
     const id = item;
-    await this.http.delete("http://localhost:8000/opas/delete/" + id).subscribe(async (res: any) => {
+    await this.http.delete("https://opasbizz.in/api/opas/delete/" + id).subscribe(async (res: any) => {
       console.log("DELETE API>>>>>>>", res)
       await this.getAllImage()
     })
@@ -279,7 +279,7 @@ export class HomeComponent {
   //     formData.append('image', this.fileToUpload, this.fileToUpload.name);
   //   }
 
-  //   this.http.patch(`http://localhost:8000/opas/updateImage/${id}`, formData).subscribe(
+  //   this.http.patch(`https://opasbizz.in/api/opas/updateImage/${id}`, formData).subscribe(
   //     async (response: any) => {
   //       console.log('Image and details updated successfully', response);
   //       await this.getAllImage();
@@ -369,7 +369,7 @@ export class HomeComponent {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);
     }
 
-    this.http.patch(`http://localhost:8000/opas/updateImage/${this.selectedItem._id}`, formData).subscribe(
+    this.http.patch(`https://opasbizz.in/api/opas/updateImage/${this.selectedItem._id}`, formData).subscribe(
       async () => {
         console.log('Image updated successfully');
         await this.getAllImage();
@@ -404,7 +404,7 @@ export class HomeComponent {
       userId: this.userId ||null
     };
     console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
       next: async (res: any) => {
         if (res) {
           this.isSent = true;

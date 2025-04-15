@@ -231,7 +231,7 @@ export class ProductsComponent  {
   phoneNumber: string | null;
   userId: string | null;
   invoiceUrl: any | null;
-  baseUrl: string = 'http://localhost:8000'; // Base URL
+  baseUrl: string = 'https://opasbizz.in/api'; // Base URL
 
   
   
@@ -262,7 +262,7 @@ export class ProductsComponent  {
   }
 
  async getAllProductsList(){
- await this.http.get("http://localhost:8000/opas/getImage").subscribe((res:any)=>{
+ await this.http.get("https://opasbizz.in/api/opas/getImage").subscribe((res:any)=>{
     this.getAllList = res.data; // Store the fetched images
     console.log('Images fetched successfully', this.getAllList);
   })
@@ -275,7 +275,7 @@ export class ProductsComponent  {
   async getProductDetails(item:any){
     console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>")
     const id=item._id
-   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+   await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
       this.quantity=0
@@ -287,7 +287,7 @@ export class ProductsComponent  {
   // async getProductOne(item:any){
   //   console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
   //   const id=item
-  //  await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+  //  await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
   //     this.products=res?.data;
   //     console.log('ONE Products Data successfully',res.data);
   //     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -386,7 +386,7 @@ this.payWithRazorpay()
       currency:this.selectedCurrency
     }
     try{
-      this.http.post('http://localhost:8000/payment/create-order', obj)
+      this.http.post('https://opasbizz.in/api/payment/create-order', obj)
       .subscribe(async (order: any) => {
         try{
           console.log("ORDER RESPONSE >>>>", order);
@@ -407,7 +407,7 @@ this.payWithRazorpay()
                 razorpay_signature: response.razorpay_signature
               };
     
-             await this.http.post('http://localhost:8000/payment/verify-payment', verifyPayload)
+             await this.http.post('https://opasbizz.in/api/payment/verify-payment', verifyPayload)
                 .subscribe(async (res: any) => {
                   console.log("VERIFY PAYMENT RESPONSE >>>>", res);
                   if (res.success) {
@@ -458,7 +458,7 @@ this.payWithRazorpay()
       invoiceURL:item
     }
 
-    this.http.post("http://localhost:8000/auth/mailSender", obj).subscribe(
+    this.http.post("https://opasbizz.in/api/auth/mailSender", obj).subscribe(
       { next:async (res: any) => {
       console.log("AFTER SENDING MAIL>>>>>>>>",res)
       this.openSnackBar('Invoice sent to your email', 'Close');
@@ -489,7 +489,7 @@ paymentSuccess(response: any,item:any) {
     }
     console.log("OBJECT USER>>>>>>>>>>>",obj)
      
-  this.http.post('http://localhost:8000/payment/payment-success',obj).subscribe(async (res:any)=>{
+  this.http.post('https://opasbizz.in/api/payment/payment-success',obj).subscribe(async (res:any)=>{
   
     this.invoiceUrl=res?.invoiceUrl
    
@@ -515,7 +515,7 @@ paymentFailed(item:any) {
     status: "Failed",
     errorDetails:item.error,
   }
-  this.http.post('http://localhost:8000/payment/payment-failed',obj).subscribe((res:any)=>{
+  this.http.post('https://opasbizz.in/api/payment/payment-failed',obj).subscribe((res:any)=>{
     console.log("Payment failed!");
     // this.isLoading = false; // Add loading state
   this.openSnackBar("Payment failed! Please try again.", "Retry"); 
@@ -610,7 +610,7 @@ sendLetter(): void {
     userId: this.userId ||null
   };
   console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-  this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+  this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
     next: async (res: any) => {
       if (res) {
         this.isSent = true;

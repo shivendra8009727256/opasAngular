@@ -88,7 +88,7 @@ private http = inject(HttpClient);
       userId: this.userId ||null
     };
     console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
       next: async (res: any) => {
         if (res) {
           this.isSent = true;

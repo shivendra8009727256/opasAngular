@@ -376,7 +376,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     getUser(item: any) {
         try {
             let params = new HttpParams().set('userId', item);
-            this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe({
+            this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe({
                 next: async (res: any) => {
                     console.log("NEXT>>>>>>>>>>>>>>>>>>", res?.user?.fullName)
                     // Update form values and disable fields
@@ -498,7 +498,7 @@ onSubmit() {
         userId: this.userId
     };
     console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-    this.http.post("http://localhost:8000/userInquiry/inquirySave", obj).subscribe({
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
         next: async (res: any) => {
             if (res) {
                 console.log("IF USER IS LOG IN >>>>>>>>",res)
@@ -547,7 +547,7 @@ onSubmit() {
         console.log('OTP would be sent to:', this.profileForm.value.email);
         this.otpMail = this.profileForm.value.email
         const obj = { email: this.otpMail }
-        this.http.post("http://localhost:8000/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
+        this.http.post("https://opasbizz.in/api/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
             this.otpSent = true;
             this.profileForm.get('email')?.disable();
             this.startResendTimer();
@@ -587,7 +587,7 @@ onSubmit() {
                 }
                 console.log("VERIFY OTP>>>>>>", this.otpMail)
 
-                await this.http.post("http://localhost:8000/userInquiry/inquiryVerifyOtp", obj).subscribe({
+                await this.http.post("https://opasbizz.in/api/userInquiry/inquiryVerifyOtp", obj).subscribe({
                     next: (res: any) => {
                         // Success case
                         this.otpVerified = true;

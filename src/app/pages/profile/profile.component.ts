@@ -316,7 +316,7 @@ export class ProfileComponent {
   getUser() {
     try {
       let params = new HttpParams().set('userId', this.userId);
-      this.http.get('http://localhost:8000/auth/getUser', { params }).subscribe(
+      this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe(
         (res: any) => {
           console.log('API Response:', res);
 
@@ -334,7 +334,7 @@ export class ProfileComponent {
             // Set profile image if it exists in the response
             if (res.user.profileImage) {
 
-              this.profileImage = `http://localhost:8000${res.user.profileImage}`;
+              this.profileImage = `https://opasbizz.in/api${res.user.profileImage}`;
               console.log("GET USER IMAGE >>>>>>>>", this.profileImage)
             } else {
               this.profileImage = 'userLogo.png'; // Default image
@@ -413,7 +413,7 @@ export class ProfileComponent {
     }
 console.log("EDIT PROFILR DETAILS>>>>>>>>>",this.profileForm)
 
-    this.http.patch(`http://localhost:8000/auth/updateUser/${this.userId}`, formData).subscribe(
+    this.http.patch(`https://opasbizz.in/api/auth/updateUser/${this.userId}`, formData).subscribe(
       (res: any) => {
         console.log('User data updated successfully', res);
         localStorage.setItem("email", JSON.stringify(res.user?.email));
@@ -459,7 +459,7 @@ console.log("EDIT PROFILR DETAILS>>>>>>>>>",this.profileForm)
           userId: this.userId
         }
 
-        await this.http.post("http://localhost:8000/auth/changeUserPassword", obj).subscribe(
+        await this.http.post("https://opasbizz.in/api/auth/changeUserPassword", obj).subscribe(
           (res: any) => {
             console.log("PASSWORD is match >>>>>>>>", res)
             this.openSnackBar(`Error! ${res.message}`, 'Close');

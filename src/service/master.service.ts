@@ -11,10 +11,10 @@ export class MasterService {
   
   login(obj:user){
     console.log("OBJ>>>",obj)
-    return this.http.post("http://localhost:8000/auth/login",obj)
+    return this.http.post("https://opasbizz.in/api/auth/login",obj)
   }
   getData(){
-        return this.http.get("http://localhost:8000/opas/get")
+        return this.http.get("https://opasbizz.in/api/opas/get")
   }
   
   

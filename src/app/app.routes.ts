@@ -34,5 +34,5 @@ export const routes: Routes = [
   { path: 'forgotPassword', component: ForgotPasswordComponent },
 
   // Catch-all wildcard route (optional: redirect to home or 404 page)
-  { path: '**', redirectTo: 'home' }  
+  { path: '**', component: HomeComponent  }  
 ];

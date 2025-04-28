@@ -58,7 +58,7 @@
 
 .card {
     flex: 1 1 45%;
-    min-width: 300px;
+    min-width: 200px;
     background: linear-gradient(to right, #f5f6f8, #62708b);
     /* background: white; */
     border-radius: 12px;

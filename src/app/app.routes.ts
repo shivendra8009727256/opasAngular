@@ -16,7 +16,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { HistoryComponent } from './pages/history/history.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
+  { path: '', pathMatch: 'full', component: HomeComponent }, // Default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   // { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },

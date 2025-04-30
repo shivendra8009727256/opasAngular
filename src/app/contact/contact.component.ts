@@ -362,9 +362,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         }
         // Start banner rotation
         this.startBannerRotation();
-        this.swapInterval = setInterval(() => {
-            this.swapped = !this.swapped;
-        }, 60000);
+        // this.swapInterval = setInterval(() => {
+        //     this.swapped = !this.swapped;
+        // }, 60000);
         // Banner auto-rotation
         this.bannerInterval = setInterval(() => {
             this.nextBanner();

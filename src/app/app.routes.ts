@@ -14,6 +14,8 @@ import { ForgotPasswordComponent } from './forget-password/forgot-password.compo
 import { authGuard } from '../service/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HistoryComponent } from './pages/history/history.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent }, // Default route
@@ -32,6 +34,8 @@ export const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
   { path: 'forgotPassword', component: ForgotPasswordComponent },
+  { path: 'privacy_policy', component: PrivacyPolicyComponent },
+  { path: 'terms&conditions', component: TermsAndConditionsComponent },
 
   // Catch-all wildcard route (optional: redirect to home or 404 page)
   { path: '**', component: HomeComponent  }  

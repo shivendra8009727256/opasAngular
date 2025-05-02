@@ -26,12 +26,12 @@ export class CertificateComponent {
   
   certificates = [
     { 
-      title: 'Quality Excellence 2023', 
-      image: 'https://picsum.photos/id/10/150/200' 
+      title: 'FSSAI Certificate', 
+      image: '/certificate/fssaci_img.png' 
     },
     { 
-      title: 'Innovation Award 2022', 
-      image: 'https://picsum.photos/id/11/150/200' 
+      title: 'GST Certificate', 
+      image: '/certificate/gst_img.png' 
     },
     
   ];

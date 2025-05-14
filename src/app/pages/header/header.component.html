@@ -1,6 +1,6 @@
 <nav [class.hidden]="isHidden" (mouseleave)="closeMenuOnMouseLeave()">
   <!-- Left: Company Logo -->
-  <div routerLink="/register" class="logo-container" (click)="closeMenuOnMouseLeave()">
+  <div  class="logo-container" (click)="closeMenuOnMouseLeave()">
     <img style="cursor: pointer;" src="/opasLogo.png" alt="Company Logo" class="logo-img">
   </div>
 
@@ -42,6 +42,7 @@
     <div class="dropdown-menu" *ngIf="isDropdownOpen">
       <a (click)="navigateToProfile()">Profile</a>
       <a (click)="navigateToHistory()">History</a>
+      <a (click)="navigateToEnquiry()">Enquiry</a>
       <a (click)="logout()">Logout</a>
     </div>
   </div>

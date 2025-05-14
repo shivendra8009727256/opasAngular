@@ -1,0 +1,146 @@
+<div class="parent">
+
+<div class="enquiry-container">
+  <h2>Enquiry List</h2>
+  
+  <!-- Search and Filter Bar -->
+  <div class="search-filter-bar">
+    <input 
+      type="text" 
+      [(ngModel)]="searchText" 
+      placeholder="Search across all fields..."
+      class="search-input"
+      (input)="currentPage = 1"
+    >
+    
+    <select 
+      [(ngModel)]="statusFilter"
+      class="status-select"
+      (change)="currentPage = 1"
+    >
+      <option value="">All Statuses</option>
+      <option *ngFor="let status of statusOptions" [value]="status">
+        {{status}}
+      </option>
+    </select>
+    
+    <button 
+      (click)="clearFilters()" 
+      class="clear-btn"
+      [disabled]="!searchText && !statusFilter"
+    >
+      Clear
+    </button>
+  </div>
+  
+  <!-- Enquiry Table -->
+  <div class="enquiry-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Sr. No</th>
+          <th>Name</th>
+          <th>Product Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Message</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let enquiry of paginatedEnquiries">
+          <td>{{ enquiry.srNo }}</td>
+          <td>{{ enquiry.name }}</td>
+          <td>{{ enquiry.productName }}</td>
+          <td>{{ enquiry.email }}</td>
+          <td>{{ enquiry.phoneNumber }}</td>
+          <td>
+            <div class="message-container">
+              {{ enquiry.message }}
+            </div>
+          </td>
+          <td>
+            <select 
+              [(ngModel)]="enquiry.status" 
+              (change)="updateStatus(enquiry, enquiry.status)"
+              [ngStyle]="{'background-color': getStatusColor(enquiry.status)}"
+              class="status-dropdown"
+            >
+              <option *ngFor="let status of statusOptions" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <div class="page-size-controls">
+      <span>Items per page:</span>
+      <button 
+        *ngFor="let size of pageSizeOptions" 
+        (click)="changePageSize(size)"
+        [class.active]="itemsPerPage === size"
+      >
+        {{ size === -1 ? 'All' : size }}
+      </button>
+      
+    </div>
+
+    <div class="page-navigation">
+      <button 
+        (click)="goToPage(1)" 
+        [disabled]="currentPage === 1"
+      >
+        First
+      </button>
+      <button 
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+
+      <span *ngIf="totalPages <= 5">
+        <button 
+          *ngFor="let page of pageNumbers" 
+          (click)="goToPage(page)"
+          [class.active]="page === currentPage"
+        >
+          {{ page }}
+        </button>
+      </span>
+
+      <span *ngIf="totalPages > 5">
+        <button 
+          *ngFor="let page of getVisiblePages()" 
+          (click)="goToPage(page)"
+          [class.active]="page === currentPage"
+          [class.ellipsis]="page === -1"
+        >
+          {{ page === -1 ? '...' : page }}
+        </button>
+      </span>
+
+      <button 
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+      <button 
+        (click)="goToEnd()"
+        [disabled]="currentPage === totalPages"
+      >
+        Last
+      </button>
+    </div>
+
+    
+  </div>
+</div>
+
+</div>

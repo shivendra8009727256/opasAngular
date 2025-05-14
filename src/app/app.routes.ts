@@ -16,6 +16,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { EnquiryComponent } from './pages/enquiry/enquiry.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent }, // Default route
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'history', component: HistoryComponent },
+  {path:"enquiry", component:EnquiryComponent},
   { path: 'about', component: AboutComponent },
   { path: 'product/:id', component: ProductsComponent },
   { path: 'certificate', component: CertificateComponent },

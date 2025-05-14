@@ -148,4 +148,11 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
     this.router.navigateByUrl('/history') 
 
   }
+  navigateToEnquiry() {
+    // Navigate to the profile page
+    console.log('Navigate to Enquiry');
+    this.isDropdownOpen = false;
+    this.router.navigateByUrl('/enquiry') 
+
+  }
 }

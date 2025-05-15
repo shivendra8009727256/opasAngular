@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 interface Enquiry {
+  _id:string;
   srNo: number;
-  name: string;
+  fullName: string;
   productName: string;
   email: string;
   phoneNumber: string;
   message: string;
   status: 'Pending' | 'In Progress' | 'Resolved';
+  date?: Date; // Optional date field if your API returns it
 }
 
 @Component({
@@ -19,557 +24,19 @@ interface Enquiry {
   templateUrl: './enquiry.component.html',
   styleUrls: ['./enquiry.component.css']
 })
-export class EnquiryComponent {
-  enquiries: Enquiry[] = [
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 1,
-      name: 'John Doe',
-      productName: 'Angular Course',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      message: 'Want to compare Angular and React Interested in learning Angular Want to compare Angular and React',
-      status: 'Pending'
-    },
-    {
-      srNo: 2,
-      name: 'Jane Smith',
-      productName: 'React Course',
-      email: 'jane@example.com',
-      phoneNumber: '9876543210',
-      message: 'Want to compare Angular and React Want to compare Angular and React Want to compare Angular and React',
-      status: 'In Progress'
-    },
-    {
-      srNo: 3,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 4,
-      name: 'Mike Johnson',
-      productName: 'Vue dfdfdffff Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    },
-    {
-      srNo: 5,
-      name: 'Mike Johnson',
-      productName: 'Vue Course',
-      email: 'mike@example.com',
-      phoneNumber: '5551234567',
-      message: 'Want to compare Angular and React Looking for Vue.js training Want to compare Angular and React',
-      status: 'Resolved'
-    }
-  ];
+export class EnquiryComponent implements OnInit {
+  enquiries: Enquiry[] = [];
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
-   searchText: string = '';
+  // Search and filter properties
+  searchText: string = '';
   statusFilter: string = '';
+  
   // Pagination properties
   currentPage: number = 1;
   itemsPerPage: number = 10;
-  pageSizeOptions = [10, 50, 100, 200, -1]; // -1 represents "All"
-  showEndOption: boolean = false;
+  pageSizeOptions = [ 10, 50, 100, 200, -1]; // -1 represents "All"
 
   statusOptions: ('Pending' | 'In Progress' | 'Resolved')[] = [
     'Pending', 
@@ -577,19 +44,67 @@ export class EnquiryComponent {
     'Resolved'
   ];
 
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchEnquiries();
+  }
+
+  fetchEnquiries(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    // this.http.get<Enquiry[]>("http://localhost:8000/userInquiry/inquiryGet")
+    this.http.get<Enquiry[]>("https://opasbizz.in/api/userInquiry/inquiryGet")
+      .pipe(
+        catchError(error => {
+          this.errorMessage = 'Failed to load enquiries. Please try again later.';
+          console.error('API Error:', error);
+          return of([]); // Return empty array on error
+        })
+      )
+      .subscribe({
+        next: (data) => { 
+          console.log("INQUIRY DATA GET >>>>",data)
+          this.enquiries = data.map((item, index) => ({
+            ...item,
+            srNo: index + 1, // Generate serial numbers
+            date: item.date ? new Date(item.date) : new Date() // Handle date if exists
+          }));
+          console.log("INQUIRY this.enquiries >>>>",this.enquiries)
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+  }
+
+   updateStatus(id:any, newStatus: 'Pending' | 'In Progress' | 'Resolved') {
+        
+    const obj={
+      id:id,
+      status:newStatus
+    }
+console.log("FOR UPDATE >>>>>>",obj)
+    this.http.post("https://opasbizz.in/api/userInquiry/inquiryUpdate",obj).subscribe((res:any)=>{
+      console.log(obj,"after UPADTE DATA>>>>",res)
+    })
+    // this.http.post("http://localhost:8000/userInquiry/inquiryUpadte",obj).subscribe((res:any)=>{
+    //   console.log(obj,"after UPADTE DATA>>>>",res)
+    // })
+  }
+
   get filteredEnquiries(): Enquiry[] {
     const searchLower = this.searchText.toLowerCase();
     return this.enquiries.filter(enquiry => {
-      // Check status filter first (exact match)
       const statusMatch = this.statusFilter ? 
         enquiry.status === this.statusFilter : true;
       
-      // If search text is empty, only apply status filter
       if (!this.searchText) return statusMatch;
       
-      // Check all fields for search text (case-insensitive)
       return (
-        enquiry.name.toLowerCase().includes(searchLower) ||
+        enquiry.fullName.toLowerCase().includes(searchLower) ||
         enquiry.email.toLowerCase().includes(searchLower) ||
         enquiry.phoneNumber.includes(this.searchText) ||
         enquiry.productName.toLowerCase().includes(searchLower) ||
@@ -598,18 +113,16 @@ export class EnquiryComponent {
     });
   }
 
-
-
   get paginatedEnquiries(): Enquiry[] {
-    if (this.itemsPerPage === -1) {
-      return this.filteredEnquiries;
-    }
+    if (this.itemsPerPage === -1) return this.filteredEnquiries;
+    if (this.itemsPerPage === 0) return [];
+    
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredEnquiries.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   get totalPages(): number {
-    if (this.itemsPerPage === -1) return 1;
+    if (this.itemsPerPage <= 0) return 0;
     return Math.ceil(this.filteredEnquiries.length / this.itemsPerPage);
   }
 
@@ -619,7 +132,7 @@ export class EnquiryComponent {
 
   changePageSize(size: number): void {
     this.itemsPerPage = size;
-    this.currentPage = 1; // Reset to first page when changing page size
+    this.currentPage = 1;
   }
 
   goToPage(page: number): void {
@@ -631,10 +144,8 @@ export class EnquiryComponent {
   goToEnd(): void {
     this.currentPage = this.totalPages;
   }
-  updateStatus(enquiry: Enquiry, newStatus: 'Pending' | 'In Progress' | 'Resolved') {
-    enquiry.status = newStatus;
-    console.log(`Status updated for ${enquiry.name}: ${newStatus}`);
-  }
+
+ 
 
   getStatusColor(status: string): string {
     switch(status) {
@@ -648,27 +159,32 @@ export class EnquiryComponent {
   clearFilters(): void {
     this.searchText = '';
     this.statusFilter = '';
+    this.currentPage = 1;
   }
 
   getVisiblePages(): number[] {
-  const visiblePages: number[] = [];
-  const total = this.totalPages;
-  const current = this.currentPage;
-  
-  if (total <= 5) {
-    for (let i = 1; i <= total; i++) {
-      visiblePages.push(i);
-    }
-  } else {
-    if (current <= 3) {
-      visiblePages.push(1, 2, 3, 4, -1, total);
-    } else if (current >= total - 2) {
-      visiblePages.push(1, -1, total - 3, total - 2, total - 1, total);
+    const visiblePages: number[] = [];
+    const total = this.totalPages;
+    const current = this.currentPage;
+    
+    if (total <= 5) {
+      for (let i = 1; i <= total; i++) {
+        visiblePages.push(i);
+      }
     } else {
-      visiblePages.push(1, -1, current - 1, current, current + 1, -1, total);
+      if (current <= 3) {
+        visiblePages.push(1, 2, 3, 4, -1, total);
+      } else if (current >= total - 2) {
+        visiblePages.push(1, -1, total - 3, total - 2, total - 1, total);
+      } else {
+        visiblePages.push(1, -1, current - 1, current, current + 1, -1, total);
+      }
     }
+    
+    return visiblePages;
   }
-  
-  return visiblePages;
-}
+
+  refreshData(): void {
+    this.fetchEnquiries();
+  }
 }

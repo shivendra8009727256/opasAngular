@@ -92,12 +92,39 @@ tr:hover {
   background-color: #f9f9f9;
 }
 
+/* Add these styles to your component's CSS file */
 .status-dropdown {
-  color: white;
-  border: none;
+  /* Your existing dropdown styles */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   padding: 5px 10px;
+  border: none;
   border-radius: 4px;
+  color: white;
   cursor: pointer;
+}
+
+/* Style the dropdown options */
+.status-dropdown option {
+  background-color: white; /* Default background for dropdown */
+  color: black; /* Default text color */
+}
+
+/* Specific colors for each status option */
+.status-dropdown option[value="Pending"] {
+  background-color: #ff9800 !important;
+  color: white;
+}
+
+.status-dropdown option[value="In Progress"] {
+  background-color: #2196f3 !important;
+  color: white;
+}
+
+.status-dropdown option[value="Resolved"] {
+  background-color: #4caf50 !important;
+  color: white;
 }
 /* Add to your existing CSS */
 

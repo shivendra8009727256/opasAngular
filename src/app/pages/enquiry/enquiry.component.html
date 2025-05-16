@@ -65,7 +65,8 @@
             <td>
               <select [(ngModel)]="enquiry.status" (change)="updateStatus(enquiry._id, enquiry.status)"
                 [ngStyle]="{'background-color': getStatusColor(enquiry.status)}" class="status-dropdown">
-                <option *ngFor="let status of statusOptions" [value]="status">
+                <option *ngFor="let status of statusOptions" [value]="status"
+                  [ngStyle]="{'background-color': getStatusColor(status)}">
                   {{ status }}
                 </option>
               </select>
@@ -73,7 +74,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> 
 
     <!-- Pagination Controls -->
     <div class="pagination-controls">

@@ -52,28 +52,28 @@ export class HomeComponent {
 
   teamMembers = [
     {
-      name: 'Sourabh Priyadarshi',
-      position: 'General Manager',
+      name: 'Rajesh K.',
+      position: 'Food Distributor',
       image: '/images/client_img.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+      description: "Opasbizz has been our trusted supplier for bulk rice for over a year. The quality is consistently excellent, and deliveries are always on time. Highly recommended for businesses looking for a dependable wholesale partner!"
     },
     {
-      name: 'Anand Kumar',
-      position: 'C A',
+      name: ' Priya M.',
+      position: 'Restaurant Chain Owner',
       image: '/images/client_img.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+      description: "We purchase bulk wheat from Opasbizz regularly, and they never disappoint. Their pricing is competitive, and the grains are clean and well-packaged. A top choice for bulk buyers!"
     },
     {
-      name: 'Avinash Kumar',
-      position: 'Market Head',
+      name: ' Anil S.',
+      position: 'Spice Exporter',
       image: '/images/client_img.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+      description: "The bulk turmeric and spices from Opasbizz are of exceptional quality. We’ve compared multiple suppliers, and their products stand out in terms of purity and flavor. Will definitely order again!"
     },
     {
-      name: 'Sourabh Priyadarshi',
-      position: 'Market Head',
+      name: ' Meena L.',
+      position: 'Livestock Feed Co.',
       image: '/images/client_img.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters...'
+      description: "As a feed manufacturer, we need high-quality corn in large quantities. Opasbizz delivers exactly that—great product, fair pricing, and hassle-free logistics. Very satisfied!"
     }
   ];
 
@@ -86,7 +86,7 @@ export class HomeComponent {
   }
 
 
-  constructor(private fb: FormBuilder, private router: Router,private secureStorage: SecureStorageService) {
+  constructor(private fb: FormBuilder, private router: Router, private secureStorage: SecureStorageService) {
     this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
     this.userStatus = this.secureStorage.getItem("userStatus")
     console.log("UserSTATUS>>>>>>>>>>>", typeof (this.userStatus))
@@ -401,7 +401,7 @@ export class HomeComponent {
       phoneNumber: this.mobile,
       message: this.message,
       status: "pending",
-      userId: this.userId ||null
+      userId: this.userId || null
     };
     console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
     this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({

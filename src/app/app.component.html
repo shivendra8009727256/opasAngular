@@ -1,13 +1,21 @@
-<!-- app.component.html -->
 <div class="wrapper">
   <div class="content">
     <app-header></app-header> <!-- Header Component -->
   
-    <main >
+    <main>
         <router-outlet></router-outlet> <!-- Dynamic Content (Dashboard, Login, Register) -->
+        <!-- <app-social-share 
+          [title]="'Check out this amazing content!'"
+          [description]="'This is a description of the content you might want to share'"
+          [hashtags]="'angular,webdev,programming'">
+        </app-social-share> -->
+        <app-social-share 
+  [title]="'Check out this amazing content!'"
+  [description]="'This is a description of the content you might want to share'"
+  [hashtags]="'angular,webdev,programming'"
+  [imageUrl]="'https://example.com/image.jpg'">
+</app-social-share>
     </main>
   </div>
- 
-
   <app-footer></app-footer> <!-- Footer Always at Bottom -->
 </div>

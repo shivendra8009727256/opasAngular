@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./pages/header/header.component";
 import { FooterComponent } from "./pages/footer/footer.component";
+import { SocialShareComponent } from "./social-share/social-share.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, SocialShareComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

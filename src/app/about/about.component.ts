@@ -31,29 +31,41 @@ private http = inject(HttpClient);
 
   teamMembers = [
     {
+      name: 'Grish Sharma',
+      position: 'Managing Director',
+      image: '/images/client_img.png',
+      description: "At the heart of our organization lies a dedicated and dynamic team committed to driving innovation, growth, and success. Leading this team is our visionary Managing Director, Grish Sharma, whose strategic leadership and industry expertise have been instrumental in shaping our company’s direction. Alongside him, a talented group of professionals collaborates to deliver excellence in every endeavor."
+    },
+    {
       name: 'Sourabh Priyadarshi',
       position: 'General Manager',
-      image: '/sourabh.png',
+      image: '/images/client_img.png',
       description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
     },
     {
-      name: 'Anand Kumar',
-      position: 'C A',
-      image: '/anand.png',
+      name: 'Sourabh Priyadarshi',
+      position: 'General Manager',
+      image: '/images/client_img.png',
       description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
     },
-    {
-      name: 'Avinash Kumar',
-      position: 'Market Head',
-      image: '/avinash.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
-    },
-    {
-      name: 'Aman Kumar',
-      position: 'Market Head',
-      image: '/aman.png',
-      description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
-    }
+    // {
+    //   name: 'Anand Kumar',
+    //   position: 'C A',
+    //   image: '/images/client_img.png',
+    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
+    // },
+    // {
+    //   name: 'Avinash Kumar',
+    //   position: 'Market Head',
+    //   image: '/images/client_img.png',
+    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
+    // },
+    // {
+    //   name: 'Aman Kumar',
+    //   position: 'Market Head',
+    //   image: '/images/client_img.png',
+    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
+    // }
   ];
   userId: string;
 

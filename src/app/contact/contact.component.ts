@@ -78,7 +78,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     otpHide = false
 
     banners = [
-        { id: 0, image: '/banner1.png' },
+        { id: 0, image: '/homeImages/contact_banner1.png' },
         { id: 1, image: '/banner2.png' },
         { id: 2, image: '/banner3.png' },
         { id: 3, image: '/banner4.png' },

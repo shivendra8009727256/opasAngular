@@ -3,7 +3,7 @@
     <!-- Dynamic banners using ngFor -->
     <div *ngFor="let banner of banners; let i = index" class="banner" [class.active]="i === currentBannerIndex"
       [style.background-image]="'url(' + banner.image + ')'">
-      <div class="banner-content">
+      <!-- <div class="banner-content">
         <h2 *ngIf="i === 0">Premium Business Solutions</h2>
         <p *ngIf="i === 0">Your trusted partner for all business needs</p>
 
@@ -18,7 +18,7 @@
 
         <h2 *ngIf="i === 4">24/7 Support</h2>
         <p *ngIf="i === 4">We're always here for you</p>
-      </div>
+      </div> -->
     </div>
   </div>
 

@@ -41,8 +41,10 @@ ul {
   background-size: cover;
   background-position: 100% 100%;
 }
-.footer-logo {
+.footer-logo-img {
   /* margin-bottom: 30px; */
+     max-width: 300px;
+    width: 250px;
 }
 .footer-logo img {
     max-width: 200px;

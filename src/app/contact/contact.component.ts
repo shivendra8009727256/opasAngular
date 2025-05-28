@@ -78,11 +78,11 @@ export class ContactComponent implements OnInit, OnDestroy {
     otpHide = false
 
     banners = [
-        { id: 0, image: '/homeImages/contact_banner1.png' },
-        { id: 1, image: '/banner2.png' },
-        { id: 2, image: '/banner3.png' },
-        { id: 3, image: '/banner4.png' },
-        { id: 4, image: '/banner3.png' }
+        { id: 0, image: '/contant_img/warehouse_img.png' },
+        { id: 1, image: '/homeImages/contact_banner1.png' },
+        { id: 2, image: '/contant_img/banner_train.png' },
+        { id: 3, image: '/contant_img/banner_contact.png' },
+        { id: 4, image: '/homeImages/banner5.png' }
     ];
 
     private initialFormValues = {

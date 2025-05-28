@@ -33,6 +33,10 @@ export class CertificateComponent {
       title: 'GST Certificate', 
       image: '/certificate/gst_img.png' 
     },
+    { 
+      title: 'Incorporation Certificate', 
+      image: '/certificate/incorpor_img.png' 
+    },
     
   ];
 

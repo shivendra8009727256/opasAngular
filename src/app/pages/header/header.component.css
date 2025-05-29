@@ -1,9 +1,118 @@
+/* Font Awesome for icons (add if not already included) */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 /* Basic Reset */
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
   }
+
+  /* Main wrapper for both stripe and nav */
+.header-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Green stripe styles */
+.contact-stripe {
+  background-color: #34A853; /* Google green color */
+  color: white;
+  /* padding: 6px 20px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.contact-content {
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.contact-content span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Adjust your existing nav position */
+nav {
+  top: 38px; /* Height of contact stripe + padding */
+  /* ... rest of your existing nav styles ... */
+}
+
+/* Update hidden class to only affect nav */
+.hidden {
+  transform: translateY(-65px); /* Only hides the nav */
+}
+
+/* Add these styles to your existing CSS */
+
+.contact-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.contact-info {
+  display: flex;
+  gap: 30px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 16px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: translateY(-2px);
+  color: #f8f9fa;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 992px) {
+  .contact-content {
+    flex-direction: column;
+    gap: 0px;
+    /* padding: 8px 20px; */
+  }
+  
+  .contact-info {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .social-icons {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .contact-info span {
+    font-size: 12px;
+  }
+  
+  .social-icons a {
+    font-size: 14px;
+  }
+}
+
   
   /* Navigation Bar */
   nav {

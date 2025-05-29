@@ -56,8 +56,8 @@ import { CommonModule } from '@angular/common';
   styles: [`
     .social-share-container {
       position: fixed;
-      right: 20px;
-      top: 80px;
+      right: 5px;
+      top: 150px;
       z-index: 1000;
       display: flex;
       flex-direction: row;
@@ -66,8 +66,8 @@ import { CommonModule } from '@angular/common';
     }
 
     .share-toggle-button {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: #4285f4;
       color: white;

@@ -34,15 +34,12 @@
           <div class="certificates-section">
             <h2>Our Certifications</h2>
             <div class="certificates-grid">
-              <!-- Replace *ngFor with @for -->
-              <div class="certificates-grid">
-                @for (cert of certificates; track cert.title) {
-                <div class="certificate">
-                  <img [src]="cert.image" [alt]="cert.title">
-                  <p>{{ cert.title }}</p>
-                </div>
-                }
+              @for (cert of certificates; track cert.title) {
+              <div class="certificate">
+                <img [src]="cert.image" [alt]="cert.title">
+                <p>{{ cert.title }}</p>
               </div>
+              }
             </div>
           </div>
         </div>
@@ -66,48 +63,48 @@
 
 
 <!-- end clients -->
-  <!-- email card start -->
-  <div class="email-section"> <!-- Add this wrapper -->
+<!-- email card start -->
+<div class="email-section"> <!-- Add this wrapper -->
 
-    
-    <div >
-      <img src="/inquiry2.png" class="image-container"  >
-    </div>
 
-    <div [class.sent]="isSent">
-      <!-- <small>Enter message (optional) and click button "Send"</small> -->
-      <div class="wrapper centered">
-        <div class="letter">
-          <div class="side">
-            <h1>Contact us</h1>
-            <p>
-              <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
-            </p>
-          </div>
-          <div class="side">
-            <p>
-              <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
-            </p>
-            <p>
-              <input type="email" placeholder="Email" [(ngModel)]="email" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
-            </p>
-            <p>
-              <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
-            </p>
-          </div>
+  <div>
+    <img src="/inquiry2.png" class="image-container">
+  </div>
+
+  <div [class.sent]="isSent">
+    <!-- <small>Enter message (optional) and click button "Send"</small> -->
+    <div class="wrapper centered">
+      <div class="letter">
+        <div class="side">
+          <h1>Contact us</h1>
+          <p>
+            <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
+          </p>
         </div>
-        <div class="envelope front"></div>
-        <div class="envelope back"></div>
+        <div class="side">
+          <p>
+            <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
+          </p>
+          <p>
+            <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
+          </p>
+          <p>
+            <input type="email" placeholder="Email" [(ngModel)]="email" required>
+          </p>
+          <p>
+            <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
+          </p>
+          <p>
+            <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
+          </p>
+        </div>
       </div>
-      <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+      <div class="envelope front"></div>
+      <div class="envelope back"></div>
     </div>
- 
+    <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+  </div>
+
 </div>
 
 <!-- email card end -->
@@ -121,28 +118,28 @@
         <h4 class="partners-section-title bg-white shadow-lg">Collaboration Partners</h4>
       </div>
 
-     <!-- Main container for logos with custom spacing -->
-     
+      <!-- Main container for logos with custom spacing -->
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner9.png" class="partners-image img-fluid">
-    </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner2.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner9.png" class="partners-image img-fluid">
+      </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partners3.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner2.png" class="partners-image img-fluid">
+      </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner4.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partners3.png" class="partners-image img-fluid">
+      </div>
 
-    
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner4.png" class="partners-image img-fluid">
+      </div>
 
- 
+
+
+
 
     </div>
   </div>

@@ -73,7 +73,7 @@
     <div class="dropdown-menu" *ngIf="isDropdownOpen">
       <a (click)="navigateToProfile()">Profile</a>
       <a (click)="navigateToHistory()">History</a>
-      <a (click)="navigateToEnquiry()">Enquiry</a>
+      <a  [hidden]="!hideButton" (click)="navigateToEnquiry()">Enquiry</a>
       <a (click)="logout()">Logout</a>
     </div>
   </div>

@@ -25,6 +25,8 @@ export class HeaderComponent {
    userName:string | null=null
    gstNo:string | null
    userId:any
+   userDataStatus: any;
+   hideButton: boolean = true
 
  
 
@@ -153,6 +155,37 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
     console.log('Navigate to Enquiry');
     this.isDropdownOpen = false;
     this.router.navigateByUrl('/enquiry') 
+
+  }
+
+  getUserstatus() {
+    try {
+      let params = new HttpParams().set('userId', this.userId);
+      this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe(
+        (res: any) => {
+
+          this.userDataStatus = res.user.userStatus
+
+
+          console.log('API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
+          console.log(this.userDataStatus === "admin")
+          if (this.userDataStatus == "user") {
+            this.hideButton = true
+            console.log("11111111111111111")
+          } else if (this.userDataStatus == "admin") {
+            this.hideButton = false
+            console.log("2222222222222222222222222222")
+          } else {
+            this.hideButton = true
+            console.log("333333333333333333333333333")
+          }
+
+
+        });
+
+    } catch (err) {
+      console.log("CATCH>>>>>>>>")
+    }
 
   }
 }

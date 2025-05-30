@@ -11,6 +11,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select';
 import { SecureStorageService } from '../services/secure-storage.service';
+import {  ViewChild, ElementRef } from '@angular/core';
+import { Carousel } from 'bootstrap';
 
 
 @Component({
@@ -63,6 +65,7 @@ import { SecureStorageService } from '../services/secure-storage.service';
     ]
 })
 export class ContactComponent implements OnInit, OnDestroy {
+    @ViewChild('carousel') carousel!: ElementRef;
     swapped = false;
     private swapInterval: any;
     // Banner carousel variables
@@ -76,14 +79,9 @@ export class ContactComponent implements OnInit, OnDestroy {
     otpResendTimer = 30;
     otpTimer: any;
     otpHide = false
+     carouselInstance: any;
 
-    banners = [
-        { id: 0, image: '/contant_img/warehouse_img.png' },
-        { id: 1, image: '/homeImages/contact_banner1.png' },
-        { id: 2, image: '/contant_img/banner_train.png' },
-        { id: 3, image: '/contant_img/banner_contact.png' },
-        { id: 4, image: '/homeImages/banner5.png' }
-    ];
+   
 
     private initialFormValues = {
         fullName: '',
@@ -357,19 +355,38 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit() {
+         setTimeout(() => {
+      this.initCarousel();
+    });
+        
         if (this.userId != "") {
             this.getUser(this.userId)
         }
         // Start banner rotation
         this.startBannerRotation();
-        // this.swapInterval = setInterval(() => {
-        //     this.swapped = !this.swapped;
-        // }, 60000);
-        // Banner auto-rotation
-        this.bannerInterval = setInterval(() => {
-            this.nextBanner();
-        }, 5000);
+        
+       
     }
+    initCarousel() {
+    this.carouselInstance = new Carousel(this.carousel.nativeElement, {
+      interval: 3000, // Auto-slide every 3 seconds
+      ride: 'carousel',
+      wrap: true
+    });
+  }
+
+    startBannerRotation() {
+  this.bannerInterval = setInterval(() => {
+    this.nextBanner();
+  }, 5000);
+}
+
+nextBanner() {
+  // Update based on number of images (7 in your case)
+  this.currentBannerIndex = (this.currentBannerIndex + 1) % 5;
+}
+
+
 
     /////////get user details?????//////////
 
@@ -444,26 +461,11 @@ export class ContactComponent implements OnInit, OnDestroy {
 
 
 
-    startBannerRotation() {
-        this.bannerInterval = setInterval(() => {
-            this.nextBanner();
-        }, 5000);
-    }
+   
 
-    nextBanner() {
-        this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
-    }
+   
 
-    prevBanner() {
-        this.currentBannerIndex = (this.currentBannerIndex - 1 + this.banners.length) % this.banners.length;
-    }
-
-    goToBanner(index: number) {
-        this.currentBannerIndex = index;
-        // Reset the timer when manually changing banner
-        clearInterval(this.bannerInterval);
-        this.startBannerRotation();
-    }
+    
 
 
 
@@ -648,6 +650,11 @@ onSubmit() {
         if (this.bannerInterval) {
             clearInterval(this.bannerInterval);
         }
+        if (this.bannerInterval) {
+    clearInterval(this.bannerInterval);
+  }
 
     }
+    
+  
 }

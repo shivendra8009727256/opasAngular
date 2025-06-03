@@ -237,10 +237,21 @@ export class ProductsComponent  {
   
 
   constructor(private secureStorage: SecureStorageService,private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
-    const navigation = window.history.state;
-    this.product = navigation.product;
+    // const navigation = window.history.state;
+    // this.product = navigation.product;
+    this.route.paramMap.subscribe(params => {
+    const product = params.get('item'); // if your route is '/product/:item'
+    this.product=product
+    if (product) {
+      console.log("Product ID from URL:", product);
+      this.getProductDetails(product);  // fetch by ID
+    } else {
+      console.error("No product ID found in route params.");
+    }
+  });
+    alert(this.product)
+console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
     
-     this.getProductDetails(this.product)
      this.getAllProductsList()
      this.userEmail=this.secureStorage.getItem("email");
      this.isActive= this.secureStorage.getItem("isActive");

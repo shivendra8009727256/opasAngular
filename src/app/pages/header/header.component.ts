@@ -188,4 +188,60 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
     }
 
   }
+
+  hoveredCategory: string | null = null;
+activeSubCategory: string | null = null;
+activeSubSubCategory: string | null = null;
+
+// First-level dropdown (PRODUCTS)
+showCategory(category: string) {
+  this.hoveredCategory = category;
+}
+
+hideCategory(category: string) {
+  if (this.hoveredCategory === category) {
+    this.hoveredCategory = null;
+    this.activeSubCategory = null;
+    this.activeSubSubCategory = null;
+  }
+}
+
+// Second-level dropdowns (Wheat, Rice, etc.)
+showSubCategory(sub: string) {
+  this.activeSubCategory = sub;
+}
+
+hideSubCategory() {
+  this.activeSubCategory = null;
+  this.activeSubSubCategory = null;
+}
+
+// Third-level dropdowns (Basmati, Non-Basmati)
+showSubSubCategory(subSub: string) {
+  this.activeSubSubCategory = subSub;
+}
+
+hideSubSubCategory() {
+  this.activeSubSubCategory = null;
+}
+
+ ///////////////send to product page //////////////////
+//  Use Query Params
+// goToProduct(item: string) {
+//   const formattedItem = item.toLowerCase().replace(/\s+/g, '-');
+//   this.router.navigate(['/products'], { queryParams: { item: formattedItem } });
+// }
+
+// //Router Params
+goToProduct(product: string | undefined) {
+  if (!product) {
+    console.error('Product is undefined');
+    return;
+  }
+
+  const formatted = product.toLowerCase().replace(/\s+/g, '-');
+  this.router.navigate(['/product', formatted]);
+}
+
+
 }

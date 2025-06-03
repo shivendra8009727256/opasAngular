@@ -43,16 +43,123 @@
   </button>
 
   <!-- Right: Navigation Links -->
-  <div>
-    <ul [class.show]="isMenuOpen">
-      <li><a routerLink="/home">HOME</a></li>
-      <li><a routerLink="/about">ABOUT</a></li>
-      <li><a routerLink="/products">PRODUCTS</a></li>
-      <li><a routerLink="/certificate">CERTIFICATE</a></li>
-      <li><a routerLink="/blog">BLOG</a></li>
-      <li><a routerLink="/contact">CONTACT</a></li>
-    </ul>
-  </div>
+  <div class="nav-container" (mouseleave)="closeMenuOnMouseLeave()">
+  <ul [class.show]="isMenuOpen" class="main-menu">
+    <li><a routerLink="/home">HOME</a></li>
+    <li><a routerLink="/about">ABOUT</a></li>
+
+    <!-- PRODUCTS DROPDOWN -->
+    <li class="dropdown" (mouseenter)="showCategory('products')" (mouseleave)="hideCategory('products')">
+      <a routerLink="/products">PRODUCTS</a>
+      <ul *ngIf="hoveredCategory === 'products'" class="submenu">
+
+        <!-- Wheat -->
+        <li class="sub-dropdown" (mouseenter)="showSubCategory('wheat')" (mouseleave)="hideSubCategory()">
+          Wheat
+          <ul *ngIf="activeSubCategory === 'wheat'" class="submenu">
+            <li (click)="goToProduct('Lokman Wheat')">Lokman Wheat</li>
+            <li (click)="goToProduct('Meal Wheat')">Meal Wheat</li>
+            <li (click)="goToProduct('Sharbati Wheat')">Sharbati Wheat</li>
+          </ul>
+        </li>
+
+        <!-- Rice -->
+        <li class="sub-dropdown" (mouseenter)="showSubCategory('rice')" (mouseleave)="hideSubCategory()">
+          Rice
+          <ul *ngIf="activeSubCategory === 'rice'" class="submenu">
+
+            <!-- Basmati -->
+            <li class="sub-sub-dropdown"
+                (mouseenter)="showSubSubCategory('basmati')"
+                (mouseleave)="hideSubSubCategory()"
+               >
+              Basmati
+              <ul *ngIf="activeSubSubCategory === 'basmati'" class="submenu scrollable">
+                <li (click)="goToProduct('Broken Basmati')">Broken Basmati</li>
+                <li (click)="goToProduct('1401 Basmati')">1401 Basmati</li>
+                <li (click)="goToProduct('1121 Basmati')">1121 Basmati</li>
+                <li (click)="goToProduct('Brown Basmati')">Brown Basmati</li>
+                <li (click)="goToProduct('Golden Basmati')">Golden Basmati</li>
+                <li (click)="goToProduct('Long Basmati')">Long Basmati</li>
+                <li (click)="goToProduct('Medium Basmati')">Medium Basmati</li>
+                <li (click)="goToProduct('Pusa Basmati')">Pusa Basmati</li>
+                <li (click)="goToProduct('Sella Basmati')">Sella Basmati</li>
+                <li (click)="goToProduct('Sharbati Basmati')">Sharbati Basmati</li>
+                <li (click)="goToProduct('Short Grain Basmati')">Short Grain Basmati</li>
+                <li (click)="goToProduct('Sona Masoori Basmati')">Sona Masoori Basmati</li>
+                <li (click)="goToProduct('Sugandha Basmati')">Sugandha Basmati</li>
+                <li (click)="goToProduct('Traditional Basmati')">Traditional Basmati</li>
+                <li (click)="goToProduct('White Basmati')">White Basmati</li>
+              </ul>
+            </li>
+
+            <!-- Non-Basmati -->
+            <li class="sub-sub-dropdown"
+                (mouseenter)="showSubSubCategory('nonBasmati')"
+                (mouseleave)="hideSubSubCategory()"
+               >
+              Non-Basmati
+              <ul *ngIf="activeSubSubCategory === 'nonBasmati'" class="submenu scrollable">
+                <li (click)="goToProduct('1121 Non Basmati')">1121 Non Basmati</li>
+                <li (click)="goToProduct('1401 Non Basmati')">1401 Non Basmati</li>
+                <li (click)="goToProduct('Broken Non Basmati')">Broken Non Basmati</li>
+                <li (click)="goToProduct('Brown Non Basmati')">Brown Non Basmati</li>
+                <li (click)="goToProduct('Long Grain Non Basmati')">Long Grain Non Basmati</li>
+                <li (click)="goToProduct('PR11 Non Basmati')">PR11 Non Basmati</li>
+                <li (click)="goToProduct('PR14 Non Basmati')">PR14 Non Basmati</li>
+                <li (click)="goToProduct('Pusa Non Basmati')">Pusa Non Basmati</li>
+                <li (click)="goToProduct('AharBati Non Basmati')">AharBati Non Basmati</li>
+                <li (click)="goToProduct('Short Grain Non Basmati')">Short Grain Non Basmati</li>
+                <li (click)="goToProduct('Sona Masoori Non Basmati')">Sona Masoori Non Basmati</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Maize -->
+        <li class="sub-dropdown" (mouseenter)="showSubCategory('maize')" (mouseleave)="hideSubCategory()">
+          Maize
+          <ul *ngIf="activeSubCategory === 'maize'" class="submenu">
+            <li (click)="goToProduct('Dried Maize')">Dried Maize</li>
+            <li (click)="goToProduct('Natural Maize')">Natural Maize</li>
+            <li (click)="goToProduct('White Maize')">White Maize</li>
+            <li (click)="goToProduct('Yellow Maize')">Yellow Maize</li>
+          </ul>
+        </li>
+
+        <!-- Sugar -->
+        <li class="sub-dropdown" (mouseenter)="showSubCategory('sugar')" (mouseleave)="hideSubCategory()">
+          Sugar
+          <ul *ngIf="activeSubCategory === 'sugar'" class="submenu">
+            <li (click)="goToProduct('Brown Sugar')">Brown Sugar</li>
+            <li (click)="goToProduct('Coconut Sugar')">Coconut Sugar</li>
+            <li (click)="goToProduct('Refined Sugar')">Refined Sugar</li>
+            <li (click)="goToProduct('White Sugar')">White Sugar</li>
+          </ul>
+        </li>
+
+        <!-- Spices -->
+        <li class="sub-dropdown" (mouseenter)="showSubCategory('spices')" (mouseleave)="hideSubCategory()">
+          Spices
+          <ul *ngIf="activeSubCategory === 'spices'" class="submenu">
+            <li (click)="goToProduct('Chili Powder')">Chili Powder</li>
+            <li (click)="goToProduct('Turmeric')">Turmeric</li>
+            <li (click)="goToProduct('Coriander')">Coriander</li>
+            <li (click)="goToProduct('Cumin')">Cumin</li>
+            <!-- Add more spices as needed -->
+          </ul>
+        </li>
+
+        <li (click)="goToProduct('Ethanol Plant')">Ethanol Plant</li>
+      </ul>
+    </li>
+
+    <li><a routerLink="/certificate">CERTIFICATE</a></li>
+    <li><a routerLink="/blog">BLOG</a></li>
+    <li><a routerLink="/contact">CONTACT</a></li>
+  </ul>
+</div>
+
 
   <!-- User Details Section (Shown if user is logged in) -->
   <div *ngIf="isLoggedIn ===true && userName; else loginSignupSection" class="user-details">

@@ -115,6 +115,23 @@
             <input type="text" id="productNameEdit" formControlName="productNameEdit" class="form-control" />
           </div>
           <!--  -->
+          <div class="form-group">
+  <label for="categoryEdit"> <span style="color: red;">*</span>Category</label>
+  <select id="categoryEdit" formControlName="categoryEdit" class="form-control" (change)="onCategoryEditChange($event)">
+    <option value="">-- Select Category --</option>
+    <option *ngFor="let category of categoriesEdit" [value]="category">{{ category }}</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="subcategoryEdit"> <span style="color: red;">*</span>Subcategory</label>
+  <select id="subcategoryEdit" formControlName="subcategoryEdit" class="form-control">
+    <option value="">-- Select Subcategory --</option>
+    <option *ngFor="let sub of filteredEditSubcategories" [value]="sub">{{ sub }}</option>
+  </select>
+</div>
+
+          
 
 
           <div class="form-group">
@@ -206,6 +223,24 @@
             <input type="text" id="productName" formControlName="productName" class="form-control" />
           </div>
           <!--  -->
+          <!-- Category Dropdown -->
+<div class="form-group">
+  <label for="category"><span style="color: red;">*</span>Category</label>
+  <select id="category" class="form-control" formControlName="category" (change)="onCategoryChange($event)">
+    <option value="">-- Select Category --</option>
+    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+  </select>
+</div>
+
+<!-- Subcategory Dropdown -->
+<div class="form-group" *ngIf="subcategories.length > 0">
+  <label for="subcategory"><span style="color: red;">*</span>Subcategory</label>
+  <select id="subcategory" class="form-control" formControlName="subcategory">
+    <option value="">-- Select Subcategory --</option>
+    <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
+  </select>
+</div>
+
 
 
           <div class="form-group">

@@ -239,18 +239,7 @@ export class ProductsComponent  {
   constructor(private secureStorage: SecureStorageService,private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
     // const navigation = window.history.state;
     // this.product = navigation.product;
-    this.route.paramMap.subscribe(params => {
-    const product = params.get('item'); // if your route is '/product/:item'
-    this.product=product
-    if (product) {
-      console.log("Product ID from URL:", product);
-      this.getProductDetails(product);  // fetch by ID
-    } else {
-      console.error("No product ID found in route params.");
-    }
-  });
-    alert(this.product)
-console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
+    
     
      this.getAllProductsList()
      this.userEmail=this.secureStorage.getItem("email");
@@ -284,9 +273,9 @@ console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
 
 
   async getProductDetails(item:any){
-    console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>")
-    const id=item._id
-   await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
+    console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>",item)
+    const id=item
+   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
       this.quantity=0
@@ -295,6 +284,18 @@ console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
   }
+  // async getProductDetails(item:any){
+  //   console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>")
+  //   const id=item
+  //  await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
+  //     this.products=res?.data;
+  //     this.convertedPrice = this.products.price; // Set default price
+  //     this.quantity=0
+  //     this.calculateTotalAmount()
+  //     console.log( 'ROUTER Products Data successfully',res.data);
+  //     window.scrollTo({ top: 0, behavior: 'smooth' });
+  //   })
+  // }
   // async getProductOne(item:any){
   //   console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
   //   const id=item
@@ -308,6 +309,20 @@ console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
 
 
   ngOnInit() {
+
+    this.route.paramMap.subscribe(params => {
+    const product = params.get('item'); // if your route is '/product/:item'
+    this.product=product
+    if (product) {
+      console.log("Product ID from URL:", product);
+      this.getProductDetails(product);  // fetch by ID
+    } else {
+      console.error("No product ID found in route params.");
+    }
+  });
+    alert(this.product)
+console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
+
     this.currencyService.getExchangeRates().subscribe((data) => {
       this.exchangeRates = data.conversion_rates; // Store exchange rates
       this.currencyList = Object.keys(this.exchangeRates); // Get all available currencies

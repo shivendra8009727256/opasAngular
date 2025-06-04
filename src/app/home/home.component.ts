@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Carousel } from 'bootstrap';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { SecureStorageService } from '../services/secure-storage.service';
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule, ReactiveFormsModule, NgFor, FormsModule],
+  imports: [MatButtonModule, ReactiveFormsModule, NgFor, FormsModule, NgIf],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -46,6 +46,9 @@ export class HomeComponent {
   hideButton: boolean = true
   userId: any
   userDataStatus: any;
+
+
+
 
 
   carouselInstance: any;
@@ -86,6 +89,64 @@ export class HomeComponent {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // //////////////
+  categories: string[] = ['Wheat', 'Rice', 'Maize', 'Spices', 'Sugar'];
+
+  categorySubcategoryMap: { [key: string]: string[] } = {
+    Wheat: ['Lokman', 'Sharbati', 'Durum'],
+    Rice: ['Broken Basmati',
+      '1401 Basmati',
+      '1121 Basmati',
+      'Brown Basmati',
+      'Golden Basmati',
+      'Long Basmati',
+      'Medium Basmati',
+      'Pusa Basmati',
+      'Sella Basmati',
+      'Sharbati Basmati',
+      'Short Grain Basmati',
+      'Sona Masoori Basmati',
+      'Sugandha Basmati',
+      'Traditional Basmati',
+      'White Basmati', '1121 Non Basmati', '1401 Non Basmati', 'Broken Non Basmati', 'Brown Non Basmati', 'Long Grain Non Basmati', 'PR11 Non Basmati', 'PR14 Non Basmati',
+      'Pusa Non Basmati', 'AharBati Non Basmati', 'Short Grain Non Basmati', 'Sona Masoori Non Basmati'],
+    Maize: ['Dried Maize', 'Natural Maize', 'White Maize', 'Yellow Maize'],
+    Spices: ['Black Pepper', 'Cardamom', 'Clove', 'Cumin'],
+    Sugar: ['Brown Sugar', 'White Sugar', 'Coconut Sugar', 'Refined Sugar']
+  };
+
+  subcategories: string[] = [];
+
+
   constructor(private fb: FormBuilder, private router: Router, private secureStorage: SecureStorageService) {
     this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
     this.userStatus = this.secureStorage.getItem("userStatus")
@@ -106,6 +167,9 @@ export class HomeComponent {
       size: ['', [Validators.required]],
       broken: ['', [Validators.required]],
       image: [null],
+      // Add these:
+      category: ['', Validators.required],
+      subcategory: ['', Validators.required],
     });
     this.editForm = this.fb.group({
       productNameEdit: ['', [Validators.required]],
@@ -123,7 +187,11 @@ export class HomeComponent {
       sizeEdit: ['', [Validators.required]],
       brokenEdit: ['', [Validators.required]],
       image: [null],
+      categoryEdit: ['', Validators.required],     // ✅ added
+      subcategoryEdit: ['', Validators.required],  // ✅ added
+
     });
+
   }
 
   // Handle file selection
@@ -170,6 +238,23 @@ export class HomeComponent {
       console.log('Images fetched successfully', this.images);
       await this.getUserstatus()
     })
+  }
+
+  onCategoryChange(event: any) {
+    const selectedCategory = event.target.value;
+    this.subcategories = this.categorySubcategoryMap[selectedCategory] || [];
+
+    // Reset subcategory if category changes
+    this.uploadForm.patchValue({ subcategory: '' });
+  }
+
+  categoriesEdit: string[] = Object.keys(this.categorySubcategoryMap);
+
+  filteredEditSubcategories: string[] = [];
+
+  onCategoryEditChange(event: Event): void {
+    const selectedCategory = (event.target as HTMLSelectElement).value;
+    this.filteredEditSubcategories = this.categorySubcategoryMap[selectedCategory] as string[] || [];
   }
 
 
@@ -231,6 +316,9 @@ export class HomeComponent {
     formData.append('location', this.uploadForm.get('location')?.value);
     formData.append('packagingType', this.uploadForm.get('packagingType')?.value);
     formData.append('packSize', this.uploadForm.get('packSize')?.value);
+    // ✅ New: Add category and subcategory
+    formData.append('category', this.uploadForm.get('category')?.value);
+    formData.append('subcategory', this.uploadForm.get('subcategory')?.value);
 
 
     // Append the file
@@ -239,7 +327,8 @@ export class HomeComponent {
     }
 
     // Make the HTTP request to upload the image
-    this.http.post('https://opasbizz.in/api/opas/upload', formData).subscribe(
+    // online API URL > this.http.post('https://opasbizz.in/api/opas/upload', formData).subscribe(
+    this.http.post('http://localhost:8000/opas/upload', formData).subscribe(
       async (response: any) => {
         this.uploadSuccess = true;
         this.uploadError = false;
@@ -326,6 +415,8 @@ export class HomeComponent {
       colorEdit: item.color,
       sizeEdit: item.size,
       brokenEdit: item.broken,
+      categoryEdit: item.category,
+      subcategoryEdit: item.subcategory,
     });
     const modal = document.getElementById('editModal');
     if (modal) {
@@ -364,7 +455,14 @@ export class HomeComponent {
     formData.append('color', this.editForm.get('colorEdit')?.value);
     formData.append('size', this.editForm.get('sizeEdit')?.value);
     formData.append('broken', this.editForm.get('brokenEdit')?.value);
+    formData.append('category', this.editForm.get('categoryEdit')?.value);
+    formData.append('subcategory', this.editForm.get('subcategoryEdit')?.value);
+    // ✅ Console log all formData key-value pairs
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
+    console.log("EDIT DATA >>>>>>>>>>>>", formData)
     if (this.fileToUpload) {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);
     }
@@ -383,7 +481,15 @@ export class HomeComponent {
 
   ///////////////send to product page //////////////////
   goToProduct(item: any) {
-    this.router.navigate(['/product', item._id], { state: { product: item } });
+    // this.router.navigate(['/product', item._id], { state: { product: item } });
+     if (!item) {
+    console.error('Product is undefined');
+    return;
+  }
+
+  const formatted = item.subcategory;
+  console.log("@@@@@@@@@@@@@@",item)
+  this.router.navigate(['/product', formatted]);
   }
 
   // ?/////////////////////email card ////////////////

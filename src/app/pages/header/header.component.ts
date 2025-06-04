@@ -239,7 +239,7 @@ goToProduct(product: string | undefined) {
     return;
   }
 
-  const formatted = product.toLowerCase().replace(/\s+/g, '-');
+  const formatted = product;
   this.router.navigate(['/product', formatted]);
 }
 

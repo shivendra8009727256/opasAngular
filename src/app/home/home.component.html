@@ -7,7 +7,7 @@
     <img src="/homeImages/banner_dal.png">
     <img src="/homeImages/banner_maize.png">
     <!-- <img src="/contant_img/banner_train.png"> -->
-    
+
     <img src="/homeImages/banner3.png">
     <!-- <img src="/homeImages/contact_banner1.png">
     <img src="/contant_img/banner_contact.png">
@@ -15,8 +15,8 @@
     <!-- <img src="/homeImages/banner6.png">
     <img src="/homeImages/banner7.png">
     <img src="/homeImages/banner8.png"> -->
-   
-  
+
+
 
   </div>
   <!-- <div class="intro-header">
@@ -103,7 +103,7 @@
 
 <!-- Bootstrap Modal for Editing -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg custom-modal-width">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Edit Product:</h4>
@@ -116,26 +116,27 @@
           </div>
           <!--  -->
           <div class="form-group">
-  <label for="categoryEdit"> <span style="color: red;">*</span>Category</label>
-  <select id="categoryEdit" formControlName="categoryEdit" class="form-control" (change)="onCategoryEditChange($event)">
-    <option value="">-- Select Category --</option>
-    <option *ngFor="let category of categoriesEdit" [value]="category">{{ category }}</option>
-  </select>
-</div>
+            <label for="categoryEdit"> <span style="color: red;">*</span>Category</label>
+            <select id="categoryEdit" formControlName="categoryEdit" class="form-control"
+              (change)="onCategoryEditChange($event)">
+              <option value="">-- Select Category --</option>
+              <option *ngFor="let category of categoriesEdit" [value]="category">{{ category }}</option>
+            </select>
+          </div>
 
-<div class="form-group">
-  <label for="subcategoryEdit"> <span style="color: red;">*</span>Subcategory</label>
-  <select id="subcategoryEdit" formControlName="subcategoryEdit" class="form-control">
-    <option value="">-- Select Subcategory --</option>
-    <option *ngFor="let sub of filteredEditSubcategories" [value]="sub">{{ sub }}</option>
-  </select>
-</div>
+          <div class="form-group">
+            <label for="subcategoryEdit"> <span style="color: red;">*</span>Subcategory</label>
+            <select id="subcategoryEdit" formControlName="subcategoryEdit" class="form-control">
+              <option value="">-- Select Subcategory --</option>
+              <option *ngFor="let sub of filteredEditSubcategories" [value]="sub">{{ sub }}</option>
+            </select>
+          </div>
 
-          
+
 
 
           <div class="form-group">
-            <label for="name"> <span style="color: red;">*</span>Price</label>
+            <label for="name"> <span style="color: red;">*</span>Price (in $)</label>
             <input type="number" id="priceEdit" formControlName="priceEdit" class="form-control" />
           </div>
           <div class="form-group">
@@ -210,7 +211,7 @@
 
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg custom-modal-width">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Add Product:</h4>
@@ -224,27 +225,27 @@
           </div>
           <!--  -->
           <!-- Category Dropdown -->
-<div class="form-group">
-  <label for="category"><span style="color: red;">*</span>Category</label>
-  <select id="category" class="form-control" formControlName="category" (change)="onCategoryChange($event)">
-    <option value="">-- Select Category --</option>
-    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-  </select>
-</div>
+          <div class="form-group">
+            <label for="category"><span style="color: red;">*</span>Category</label>
+            <select id="category" class="form-control" formControlName="category" (change)="onCategoryChange($event)">
+              <option value="">-- Select Category --</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
 
-<!-- Subcategory Dropdown -->
-<div class="form-group" *ngIf="subcategories.length > 0">
-  <label for="subcategory"><span style="color: red;">*</span>Subcategory</label>
-  <select id="subcategory" class="form-control" formControlName="subcategory">
-    <option value="">-- Select Subcategory --</option>
-    <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
-  </select>
-</div>
+          <!-- Subcategory Dropdown -->
+          <div class="form-group" *ngIf="subcategories.length > 0">
+            <label for="subcategory"><span style="color: red;">*</span>Subcategory</label>
+            <select id="subcategory" class="form-control" formControlName="subcategory">
+              <option value="">-- Select Subcategory --</option>
+              <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
+            </select>
+          </div>
 
 
 
           <div class="form-group">
-            <label for="name"> <span style="color: red;">*</span>Price</label>
+            <label for="name"> <span style="color: red;">*</span>Price (in $)</label>
             <input type="number" id="price" formControlName="price" class="form-control" />
           </div>
           <div class="form-group">
@@ -500,45 +501,45 @@
   <!-- email card start -->
   <div class="email-section"> <!-- Add this wrapper -->
 
-    
-      <div >
-        <img src="/inquiry2.png" class="image-container"  >
-      </div>
 
-      <div [class.sent]="isSent">
-        <!-- <small>Enter message (optional) and click button "Send"</small> -->
-        <div class="wrapper centered">
-          <div class="letter">
-            <div class="side">
-              <h1>Contact us</h1>
-              <p>
-                <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
-              </p>
-            </div>
-            <div class="side">
-              <p>
-                <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
-              </p>
-              <p>
-                <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
-              </p>
-              <p>
-                <input type="email" placeholder="Email" [(ngModel)]="email" required>
-              </p>
-              <p>
-                <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
-              </p>
-              <p>
-                <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
-              </p>
-            </div>
+    <div>
+      <img src="/inquiry2.png" class="image-container">
+    </div>
+
+    <div [class.sent]="isSent">
+      <!-- <small>Enter message (optional) and click button "Send"</small> -->
+      <div class="wrapper centered">
+        <div class="letter">
+          <div class="side">
+            <h1>Contact us</h1>
+            <p>
+              <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
+            </p>
           </div>
-          <div class="envelope front"></div>
-          <div class="envelope back"></div>
+          <div class="side">
+            <p>
+              <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
+            </p>
+            <p>
+              <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
+            </p>
+            <p>
+              <input type="email" placeholder="Email" [(ngModel)]="email" required>
+            </p>
+            <p>
+              <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
+            </p>
+            <p>
+              <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
+            </p>
+          </div>
         </div>
-        <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+        <div class="envelope front"></div>
+        <div class="envelope back"></div>
       </div>
-   
+      <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
+    </div>
+
   </div>
 
   <!-- email card end -->
@@ -553,28 +554,28 @@
           <h4 class="partners-section-title bg-white shadow-lg">Collaboration Partners</h4>
         </div>
 
-       <!-- Main container for logos with custom spacing -->
-       
+        <!-- Main container for logos with custom spacing -->
 
-      <div class="col-lg-2 col-md-4 col-6">
-        <img src="/images/company_partner9.png" class="partners-image img-fluid">
-      </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-        <img src="/images/company_partner2.png" class="partners-image img-fluid">
-      </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <img src="/images/company_partner9.png" class="partners-image img-fluid">
+        </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-        <img src="/images/company_partners3.png" class="partners-image img-fluid">
-      </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <img src="/images/company_partner2.png" class="partners-image img-fluid">
+        </div>
 
-      <div class="col-lg-2 col-md-4 col-6">
-        <img src="/images/company_partner4.png" class="partners-image img-fluid">
-      </div>
+        <div class="col-lg-2 col-md-4 col-6">
+          <img src="/images/company_partners3.png" class="partners-image img-fluid">
+        </div>
 
-      
+        <div class="col-lg-2 col-md-4 col-6">
+          <img src="/images/company_partner4.png" class="partners-image img-fluid">
+        </div>
 
-   
+
+
+
 
       </div>
     </div>

@@ -346,6 +346,7 @@ export class HomeComponent {
   //////delete data /////////
   async deleteData(item: any) {
     const id = item;
+    console.log("ITEM SELECTED >>FOR DELETE>>>>>>>>",id)
     await this.http.delete("https://opasbizz.in/api/opas/delete/" + id).subscribe(async (res: any) => {
       console.log("DELETE API>>>>>>>", res)
       await this.getAllImage()

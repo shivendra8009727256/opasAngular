@@ -11,6 +11,10 @@
   letter-spacing: 0.1rem;
   overflow: hidden; /* Ensures no extra space */
 }
+.custom-modal-width {
+  max-width: 900px;  /* ✅ Increase as needed */
+  width: 90%;        /* ✅ Optional - responsive */
+}
 
 .intro-slideshow {
   position: absolute;
@@ -888,5 +892,11 @@ perspective: 60rem;
   }
 }
 
+input.form-control {
+  border: none !important;         /* removes border */
+  box-shadow: none !important;     /* removes inner glow/line */
+  outline: none !important;        /* removes focus ring */
+  border-bottom: none !important;  /* specifically removes the line below */
+}
 
 

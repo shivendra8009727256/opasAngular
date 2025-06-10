@@ -275,7 +275,7 @@ export class ProductsComponent  {
   async getProductDetails(item:any){
     console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>",item)
     const id=item
-   await this.http.get("http://localhost:8000/opas/getOneProduct/"+id).subscribe((res:any)=>{
+   await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
       this.products=res?.data;
       this.convertedPrice = this.products.price; // Set default price
       this.quantity=0
@@ -320,7 +320,7 @@ export class ProductsComponent  {
       console.error("No product ID found in route params.");
     }
   });
-    alert(this.product)
+    // alert(this.product)
 console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
 
     this.currencyService.getExchangeRates().subscribe((data) => {

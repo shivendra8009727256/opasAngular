@@ -88,7 +88,7 @@
       <img style="height: 210px; width: 250px;" [src]="'https://opasbizz.in/api/uploads/'+item.image">
       <div style="cursor: pointer; " (click)="goToProduct(item)">
         <h3 style="cursor: pointer;">{{ item.productName }}</h3>
-        <p> *Price: <span style="color: rgb(238, 8, 8); ">${{ item.price }}</span> /Kilogram</p>
+        <p><span style="color: red;">*</span> Price: <span style="color: rgb(238, 8, 8); ">${{ item.price }}</span> /Kilogram</p>
 
       </div>
 

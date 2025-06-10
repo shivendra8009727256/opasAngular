@@ -122,7 +122,7 @@ export class HomeComponent {
   categories: string[] = ['Wheat', 'Rice', 'Maize', 'Spices', 'Sugar'];
 
   categorySubcategoryMap: { [key: string]: string[] } = {
-    Wheat: ['Lokman', 'Sharbati', 'Durum'],
+    Wheat: ['Lokman','Milling', 'Sharbati','Bansi'],
     Rice: ['Broken Basmati',
       '1401 Basmati',
       '1121 Basmati',
@@ -328,7 +328,7 @@ export class HomeComponent {
 
     // Make the HTTP request to upload the image
     // online API URL > this.http.post('https://opasbizz.in/api/opas/upload', formData).subscribe(
-    this.http.post('http://localhost:8000/opas/upload', formData).subscribe(
+    this.http.post('https://opasbizz.in/api/opas/upload', formData).subscribe(
       async (response: any) => {
         this.uploadSuccess = true;
         this.uploadError = false;

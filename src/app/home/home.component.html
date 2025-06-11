@@ -124,9 +124,9 @@
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group ">
             <label for="subcategoryEdit"> <span style="color: red;">*</span>Subcategory</label>
-            <select id="subcategoryEdit" formControlName="subcategoryEdit" class="form-control">
+            <select id="subcategoryEdit" formControlName="subcategoryEdit" class="form-control ">
               <option value="">-- Select Subcategory --</option>
               <option *ngFor="let sub of filteredEditSubcategories" [value]="sub">{{ sub }}</option>
             </select>
@@ -234,9 +234,9 @@
           </div>
 
           <!-- Subcategory Dropdown -->
-          <div class="form-group" *ngIf="subcategories.length > 0">
+          <div class="form-group " *ngIf="subcategories.length > 0">
             <label for="subcategory"><span style="color: red;">*</span>Subcategory</label>
-            <select id="subcategory" class="form-control" formControlName="subcategory">
+            <select id="subcategory" class="form-control " formControlName="subcategory">
               <option value="">-- Select Subcategory --</option>
               <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
             </select>

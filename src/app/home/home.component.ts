@@ -119,10 +119,10 @@ export class HomeComponent {
 
 
   // //////////////
-  categories: string[] = ['Wheat', 'Rice', 'Maize', 'Spices', 'Sugar'];
+  categories: string[] = ['Wheat', 'Rice', 'Maize', 'Spices', 'Sugar','Pulses'];
 
   categorySubcategoryMap: { [key: string]: string[] } = {
-    Wheat: ['Lokman','Milling', 'Sharbati','Bansi'],
+    Wheat: ['Lokman', 'Milling', 'Sharbati', 'Bansi'],
     Rice: ['Broken Basmati',
       '1401 Basmati',
       '1121 Basmati',
@@ -140,8 +140,10 @@ export class HomeComponent {
       'White Basmati', '1121 Non Basmati', '1401 Non Basmati', 'Broken Non Basmati', 'Brown Non Basmati', 'Long Grain Non Basmati', 'PR11 Non Basmati', 'PR14 Non Basmati',
       'Pusa Non Basmati', 'AharBati Non Basmati', 'Short Grain Non Basmati', 'Sona Masoori Non Basmati'],
     Maize: ['Dried Maize', 'Natural Maize', 'White Maize', 'Yellow Maize'],
-    Spices: ['Black Pepper', 'Cardamom', 'Clove', 'Cumin'],
-    Sugar: ['Brown Sugar', 'White Sugar', 'Coconut Sugar', 'Refined Sugar']
+    Spices: ['Chill Powder', 'Turmeric', 'Coriander', 'Cumin'],
+    Sugar: ['Brown Sugar', 'White Sugar', 'Coconut Sugar', 'Refined Sugar'],
+    Pulses: ['Kabuli Chana', 'Desi Chana', 'Red Lentils', 'Green Lentils', 'Brown Lentils', 'Whole Urad', 'Split Urad', 'Skinned Urad', 'Whole Moong', 'Split Moong', 'Skinned Moong', 'White Pigeon Peas', 'Yellow Pigeon Peas', 'Red Kidney Beans', 'White Kidney Beans', 'Yellow Soyabean', 'Black Soyabean', 'Yellow Split Peas', 'Green Split Peas']
+
   };
 
   subcategories: string[] = [];
@@ -346,7 +348,7 @@ export class HomeComponent {
   //////delete data /////////
   async deleteData(item: any) {
     const id = item;
-    console.log("ITEM SELECTED >>FOR DELETE>>>>>>>>",id)
+    console.log("ITEM SELECTED >>FOR DELETE>>>>>>>>", id)
     await this.http.delete("https://opasbizz.in/api/opas/delete/" + id).subscribe(async (res: any) => {
       console.log("DELETE API>>>>>>>", res)
       await this.getAllImage()
@@ -483,14 +485,14 @@ export class HomeComponent {
   ///////////////send to product page //////////////////
   goToProduct(item: any) {
     // this.router.navigate(['/product', item._id], { state: { product: item } });
-     if (!item) {
-    console.error('Product is undefined');
-    return;
-  }
+    if (!item) {
+      console.error('Product is undefined');
+      return;
+    }
 
-  const formatted = item.subcategory;
-  console.log("@@@@@@@@@@@@@@",item)
-  this.router.navigate(['/product', formatted]);
+    const formatted = item.subcategory;
+    console.log("@@@@@@@@@@@@@@", item)
+    this.router.navigate(['/product', formatted]);
   }
 
   // ?/////////////////////email card ////////////////

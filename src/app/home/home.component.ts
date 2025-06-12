@@ -140,7 +140,7 @@ export class HomeComponent {
       'White Basmati', '1121 Non Basmati', '1401 Non Basmati', 'Broken Non Basmati', 'Brown Non Basmati', 'Long Grain Non Basmati', 'PR11 Non Basmati', 'PR14 Non Basmati',
       'Pusa Non Basmati', 'AharBati Non Basmati', 'Short Grain Non Basmati', 'Sona Masoori Non Basmati'],
     Maize: ['Dried Maize', 'Natural Maize', 'White Maize', 'Yellow Maize'],
-    Spices: ['Chill Powder', 'Turmeric', 'Coriander', 'Cumin'],
+    Spices: ['Chili Powder', 'Turmeric', 'Coriander', 'Cumin'],
     Sugar: ['Brown Sugar', 'White Sugar', 'Coconut Sugar', 'Refined Sugar'],
     Pulses: ['Kabuli Chana', 'Desi Chana', 'Red Lentils', 'Green Lentils', 'Brown Lentils', 'Whole Urad', 'Split Urad', 'Skinned Urad', 'Whole Moong', 'Split Moong', 'Skinned Moong', 'White Pigeon Peas', 'Yellow Pigeon Peas', 'Red Kidney Beans', 'White Kidney Beans', 'Yellow Soyabean', 'Black Soyabean', 'Yellow Split Peas', 'Green Split Peas']
 

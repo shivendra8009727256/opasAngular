@@ -328,7 +328,7 @@ console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
       this.currencyList = Object.keys(this.exchangeRates); // Get all available currencies
       console.log("Exchange Rates Loaded", this.exchangeRates);
     })
-    this.loadRazorpayScript();
+    // this.loadRazorpayScript();
      // Start auto-scrolling every 3 seconds
   this.scrollInterval = setInterval(() => {
     this.scrollRight();

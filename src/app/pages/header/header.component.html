@@ -57,10 +57,10 @@
             <li class="sub-dropdown" (mouseenter)="showSubCategory('wheat')" (mouseleave)="hideSubCategory()">
               Wheat
               <ul *ngIf="activeSubCategory === 'wheat'" class="submenu">
-                <li (click)="goToProduct('Lokman Wheat')">Lokman Wheat</li>
-                <li (click)="goToProduct('Meal Wheat')">Milling Wheat</li>
-                <li (click)="goToProduct('Sharbati Wheat')">Sharbati Wheat</li>
-                <li (click)="goToProduct('Bansi Wheat')">Bansi Wheat</li>
+                <li (click)="goToProduct('Lokman')">Lokman Wheat</li>
+                <li (click)="goToProduct('Milling')">Milling Wheat</li>
+                <li (click)="goToProduct('Sharbati')">Sharbati Wheat</li>
+                <li (click)="goToProduct('Bansi')">Bansi Wheat</li>
               </ul>
             </li>
 
@@ -88,7 +88,7 @@
                     <li (click)="goToProduct('Sona Masoori Basmati')">Sona Masoori Basmati</li>
                     <li (click)="goToProduct('Sugandha Basmati')">Sugandha Basmati</li>
                     <li (click)="goToProduct('Traditional Basmati')">Traditional Basmati</li>
-                    <li (click)="goToProduct('White Basmati')">White Basmati</li>
+                    <!-- <li (click)="goToProduct('White Basmati')">White Basmati</li> -->
                   </ul>
                 </li>
 
@@ -105,7 +105,7 @@
                     <li (click)="goToProduct('PR11 Non Basmati')">PR11 Non Basmati</li>
                     <li (click)="goToProduct('PR14 Non Basmati')">PR14 Non Basmati</li>
                     <li (click)="goToProduct('Pusa Non Basmati')">Pusa Non Basmati</li>
-                    <li (click)="goToProduct('AharBati Non Basmati')">AharBati Non Basmati</li>
+                    <!-- <li (click)="goToProduct('AharBati Non Basmati')">AharBati Non Basmati</li> -->
                     <li (click)="goToProduct('Short Grain Non Basmati')">Short Grain Non Basmati</li>
                     <li (click)="goToProduct('Sona Masoori Non Basmati')">Sona Masoori Non Basmati</li>
                   </ul>
@@ -167,9 +167,9 @@
                   (mouseleave)="hideSubSubCategory()">
                   Masoor
                   <ul *ngIf="activeSubSubCategory === 'masoor'" class="submenu scrollable">
-                    <li (click)="goToProduct('1121 Non Basmati')">Red Lentils</li>
-                    <li (click)="goToProduct('1401 Non Basmati')">Green Lentils</li>
-                    <li (click)="goToProduct('Broken Non Basmati')">Brown Lentils</li>
+                    <li (click)="goToProduct('Red Lentils')">Red Lentils</li>
+                    <li (click)="goToProduct('Green Lentils')">Green Lentils</li>
+                    <li (click)="goToProduct('Brown Lentils')">Brown Lentils</li>
 
                   </ul>
                 </li>
@@ -181,7 +181,7 @@
                   Urad
                   <ul *ngIf="activeSubSubCategory === 'urad'" class="submenu scrollable">
                     <li (click)="goToProduct('Whole Urad')">Whole Urad</li>
-                    <li (click)="goToProduct('Spilt Urad')">Spilt Urad</li>
+                    <li (click)="goToProduct('Split Urad')">Spilt Urad</li>
                     <li (click)="goToProduct('Skinned Urad')">Skinned Urad</li>
                     
                   </ul>
@@ -193,7 +193,7 @@
                   Moong
                   <ul *ngIf="activeSubSubCategory === 'moong'" class="submenu scrollable">
                     <li (click)="goToProduct('Whole Moong')">Whole Moong</li>
-                    <li (click)="goToProduct('Spilt Moong')">Spilt Moong</li>
+                    <li (click)="goToProduct('Split Moong')">Split Moong</li>
                     <li (click)="goToProduct('Skinned Moong')">Skinned Moong</li>
                     
                   </ul>
@@ -231,8 +231,8 @@
                   (mouseleave)="hideSubSubCategory()">
                   Soyabean Seeds
                   <ul *ngIf="activeSubSubCategory === 'soyabean'" class="submenu scrollable">
-                    <li (click)="goToProduct('Yellow Soyabeans')">Yellow Soyabeans</li>
-                    <li (click)="goToProduct('Black Soyabeans')">Black Soyabeans</li>
+                    <li (click)="goToProduct('Yellow Soyabean')">Yellow Soyabean</li>
+                    <li (click)="goToProduct('Black Soyabean')">Black Soyabean</li>
                   </ul>
                 </li>
 

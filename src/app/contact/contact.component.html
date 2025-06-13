@@ -1,33 +1,32 @@
-<div class="banner-carousel">
+<!-- <div class="banner-carousel">
   <div class="banners">
     <img src="/homeImages/contact_banner1.png" [class.active]="currentBannerIndex === 0">
     <img src="/contant_img/warehouse_img.png" [class.active]="currentBannerIndex === 1">
     <img src="/contant_img/banner_train.png" [class.active]="currentBannerIndex === 2">
-   
+
     <img src="/contant_img/banner_contact.png" [class.active]="currentBannerIndex === 3">
     <img src="/homeImages/rice_banner1.png" [class.active]="currentBannerIndex === 4">
-    
+
   </div>
   <div style="background-color:  #34A853; width: 100%; height: 30px;">
 
-</div>
-</div>
-
-
-
-
-
-
-<!-- <div class="banner-carousel">
-  <div class="banners">
-    <div *ngFor="let banner of banners; let i = index" class="banner" 
-         [class.active]="i === currentBannerIndex"
-         [style.background-image]="'url(' + banner.image + ')'">
-    </div>
   </div>
 </div> -->
+<div class="banner-carousel">
+  <div class="banners">
+    <img
+      *ngFor="let img of bannerImages; let i = index"
+      [src]="img"
+      [class.active]="currentBannerIndex === i"
+      loading="lazy"
+      (load)="onImageLoad($event)"
+      alt="Banner Image"
+      class="banner-img"
+    />
+  </div>
 
-
+  <div style="background-color: #34A853; width: 100%; height: 30px;"></div>
+</div>
 
 
 
@@ -46,10 +45,7 @@
       </div>
       <div class="card-content">
         <div class="contact-info">
-          <!-- <div class="contact-section">
-                        <h3><i class="material-icons">person</i> Contact Person</h3>
-                        <p>Mrs. Pallavi Verma</p>
-                    </div> -->
+         
 
           <div class="contact-section">
             <h3><i class="material-icons">location_on</i>Registered Office</h3>
@@ -64,7 +60,7 @@
             </p>
           </div>
 
-          
+
 
           <div class="contact-section">
             <h3><i class="material-icons">phone</i> Phone No.</h3>
@@ -98,14 +94,12 @@
             <p>+0120-4512832<br>+0120-4512833</p>
           </div>
 
-          <!-- <div class="contact-section">
-                        <h3><i class="material-icons">alternate_email</i> Alt. Email</h3>
-                        <p>info&#64;opasbizz.com</p>
-                    </div> -->
+         
 
           <div class="contact-section">
             <h3><i class="material-icons">public</i> Web Address</h3>
-            <a style="color: rgb(8, 8, 8); " href="https://www.opasbizzpvtltd.in" target="_blank">www.opasbizzpvtltd.in</a>
+            <a style="color: rgb(8, 8, 8); " href="https://www.opasbizzpvtltd.in"
+              target="_blank">www.opasbizzpvtltd.in</a>
             <br /> <a style="color: rgb(10, 10, 10); " href="https://opasbizz.com" target="_blank">www.opasbizz.com</a>
             <!-- <a style="color: brown; " href="https://www.opasbizzpvtltd.in" target="_blank">www.opasbizzpvtltd.in</a> -->
           </div>
@@ -114,7 +108,8 @@
             <h3><i class="material-icons">link</i> Web Page</h3>
             <a style="color: black;" href="https://www.exportersindia.com/opas-bizz/" target="_blank">Exporters India
               Profile</a><br>
-            <a  style="color: black;" href="https://www.indianyellowpages.com/bhopal/opas-bizz-pvt-ltd-12598976/" target="_blank">Indian Yellow
+            <a style="color: black;" href="https://www.indianyellowpages.com/bhopal/opas-bizz-pvt-ltd-12598976/"
+              target="_blank">Indian Yellow
               Pages</a>
           </div>
         </div>
@@ -303,28 +298,28 @@
         <h4 class="partners-section-title bg-white shadow-lg">Collaboration Partners</h4>
       </div>
 
-     <!-- Main container for logos with custom spacing -->
-     
+      <!-- Main container for logos with custom spacing -->
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner9.png" class="partners-image img-fluid">
-    </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner2.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner9.png" class="partners-image img-fluid">
+      </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partners3.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner2.png" class="partners-image img-fluid">
+      </div>
 
-    <div class="col-lg-2 col-md-4 col-6">
-      <img src="/images/company_partner4.png" class="partners-image img-fluid">
-    </div>
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partners3.png" class="partners-image img-fluid">
+      </div>
 
-    
+      <div class="col-lg-2 col-md-4 col-6">
+        <img src="/images/company_partner4.png" class="partners-image img-fluid">
+      </div>
 
- 
+
+
+
 
     </div>
   </div>

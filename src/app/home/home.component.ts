@@ -48,6 +48,14 @@ export class HomeComponent {
   userDataStatus: any;
 
 
+bannerImages: string[] = [
+  '/homeImages/banner_rice.webp',
+  '/homeImages/banner2.webp',
+  '/homeImages/banner_wheat.webp',
+  '/homeImages/banner_dal.webp',
+  '/homeImages/banner_maize.webp',
+  '/homeImages/banner3.webp',
+];
 
 
 
@@ -80,39 +88,13 @@ export class HomeComponent {
     }
   ];
 
-  initCarousel() {
-    this.carouselInstance = new Carousel(this.carousel.nativeElement, {
-      interval: 3000, // Auto-slide every 3 seconds
-      ride: 'carousel',
-      wrap: true
-    });
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // initCarousel() {
+  //   this.carouselInstance = new Carousel(this.carousel.nativeElement, {
+  //     interval: 3000, // Auto-slide every 3 seconds
+  //     ride: 'carousel',
+  //     wrap: true
+  //   });
+  // }
 
 
 
@@ -152,7 +134,7 @@ export class HomeComponent {
   constructor(private fb: FormBuilder, private router: Router, private secureStorage: SecureStorageService) {
     this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
     this.userStatus = this.secureStorage.getItem("userStatus")
-    console.log("UserSTATUS>>>>>>>>>>>", typeof (this.userStatus))
+    // console.log("UserSTATUS>>>>>>>>>>>", typeof (this.userStatus))
     this.uploadForm = this.fb.group({
       productName: ['', [Validators.required]],
       price: ['', [Validators.required]],
@@ -226,21 +208,52 @@ export class HomeComponent {
 
   async ngOnInit() {
     // Initialize carousel after view is initialized
-    setTimeout(() => {
-      this.initCarousel();
-    });
+    // setTimeout(() => {
+    //   this.initCarousel();
+    // });
 
 
     this.getAllImage()
     await this.getUserstatus()
   }
+  // getAllImage() {
+  //   this.http.get("https://opasbizz.in/api/opas/getImage").subscribe(async (res: any) => {
+  //     this.images = res.data; // Store the fetched images
+  //     console.log('Images fetched successfully', this.images);
+  //     await this.getUserstatus()
+  //   })
+  // }
+
   getAllImage() {
-    this.http.get("https://opasbizz.in/api/opas/getImage").subscribe(async (res: any) => {
-      this.images = res.data; // Store the fetched images
-      console.log('Images fetched successfully', this.images);
-      await this.getUserstatus()
-    })
+  this.http.get("https://opasbizz.in/api/opas/getImage").subscribe(async (res: any) => {
+    this.images = res.data.map((item: any) => ({
+      ...item,
+      loaded: false // default state
+    }));
+    // console.log('Images fetched successfully', this.images);
+    await this.getUserstatus();
+  });
+}
+
+
+  onImageLoad1(event: Event) {
+  const img = event.target as HTMLImageElement;
+  const productName = img.nextElementSibling?.textContent?.trim(); // Optional if needed
+
+  // Find matching item and mark loaded true
+  const index = this.images.findIndex((item: { image: string; }) =>
+    'https://opasbizz.in/api/uploads/' + item.image === img.src
+  );
+  if (index !== -1) {
+    this.images[index].loaded = true;
   }
+}
+
+onImageError(event: Event) {
+  const img = event.target as HTMLImageElement;
+  img.src = '/assets/image-placeholder.png'; // Fallback image
+}
+
 
   onCategoryChange(event: any) {
     const selectedCategory = event.target.value;
@@ -270,24 +283,24 @@ export class HomeComponent {
           this.userDataStatus = res.user.userStatus
 
 
-          console.log("USER STATUS>>>>", res.user, 'API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
-          console.log(this.userDataStatus === "admin")
+          // console.log("USER STATUS>>>>", res.user, 'API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
+          // console.log(this.userDataStatus === "admin")
           if (this.userDataStatus == "user") {
             this.hideButton = true
-            console.log("11111111111111111")
+            // console.log("11111111111111111")
           } else if (this.userDataStatus == "admin") {
             this.hideButton = false
-            console.log("2222222222222222222222222222")
+            // console.log("2222222222222222222222222222")
           } else {
             this.hideButton = true
-            console.log("333333333333333333333333333")
+            // console.log("333333333333333333333333333")
           }
 
 
         });
 
     } catch (err) {
-      console.log("CATCH>>>>>>>>")
+      // console.log("CATCH>>>>>>>>")
     }
 
   }
@@ -296,9 +309,9 @@ export class HomeComponent {
 
   // Submit the form
   onSubmit() {
-    console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
+    // console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
     if (this.uploadForm.invalid) {
-      console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
+      // console.log("THIS>?>>>>>>>>>>", this.uploadForm.value)
       return;
     }
 
@@ -335,7 +348,7 @@ export class HomeComponent {
         this.uploadSuccess = true;
         this.uploadError = false;
         await this.uploadForm.reset()
-        console.log('Product uploaded successfully', response);
+        // console.log('Product uploaded successfully', response);
         await this.getAllImage()
       },
       (error) => {
@@ -348,9 +361,9 @@ export class HomeComponent {
   //////delete data /////////
   async deleteData(item: any) {
     const id = item;
-    console.log("ITEM SELECTED >>FOR DELETE>>>>>>>>", id)
+    // console.log("ITEM SELECTED >>FOR DELETE>>>>>>>>", id)
     await this.http.delete("https://opasbizz.in/api/opas/delete/" + id).subscribe(async (res: any) => {
-      console.log("DELETE API>>>>>>>", res)
+      // console.log("DELETE API>>>>>>>", res)
       await this.getAllImage()
     })
 
@@ -402,7 +415,7 @@ export class HomeComponent {
 
   openEditModal(item: any) {
     this.selectedItem = item;
-    console.log("ITEM>>>>>>>", this.selectedItem)
+    // console.log("ITEM>>>>>>>", this.selectedItem)
     this.editForm.patchValue({
       productNameEdit: item.productName,
       priceEdit: item.price,
@@ -462,22 +475,22 @@ export class HomeComponent {
     formData.append('subcategory', this.editForm.get('subcategoryEdit')?.value);
     // ✅ Console log all formData key-value pairs
     for (const pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
+      // console.log(`${pair[0]}: ${pair[1]}`);
     }
 
-    console.log("EDIT DATA >>>>>>>>>>>>", formData)
+    // console.log("EDIT DATA >>>>>>>>>>>>", formData)
     if (this.fileToUpload) {
       formData.append('image', this.fileToUpload, this.fileToUpload.name);
     }
 
     this.http.patch(`https://opasbizz.in/api/opas/updateImage/${this.selectedItem._id}`, formData).subscribe(
       async () => {
-        console.log('Image updated successfully');
+        // console.log('Image updated successfully');
         await this.getAllImage();
         this.closeEditModal();
       },
       (error) => {
-        console.error('Error updating image', error);
+        // console.error('Error updating image', error);
       }
     );
   }
@@ -491,7 +504,7 @@ export class HomeComponent {
     }
 
     const formatted = item.subcategory;
-    console.log("@@@@@@@@@@@@@@", item)
+    // console.log("@@@@@@@@@@@@@@", item)
     this.router.navigate(['/product', formatted]);
   }
 
@@ -512,21 +525,23 @@ export class HomeComponent {
       status: "pending",
       userId: this.userId || null
     };
-    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+    // console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
     this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
       next: async (res: any) => {
         if (res) {
           this.isSent = true;
-          console.log("IF USER IS LOG IN >>>>>>>>", res)
+          // console.log("IF USER IS LOG IN >>>>>>>>", res)
           // Reset form after animation completes
           setTimeout(() => {
             this.resetForm();
-          }, 6000);
+            let i=0;
+            console.log(i+1)
+          }, 5000);
         }
       },
       error: (err) => {
         // this.openSnackBar("Error submitting form. Please try again.", "close");
-        console.error("Submission error:", err);
+        // console.error("Submission error:", err);
       }
     });
     // this.isSent = true;
@@ -554,5 +569,10 @@ export class HomeComponent {
     this.isSent = false;
   }
   //////////////////////////email card end //////////////////////////
+  onImageLoad(event: Event) {
+  const img = event.target as HTMLImageElement;
+  img.classList.add('banner-img-loaded');
+}
+
 
 }

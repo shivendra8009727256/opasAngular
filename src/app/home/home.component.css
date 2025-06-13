@@ -44,6 +44,31 @@
   position: relative;
   z-index: 1;
 }
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  object-fit: cover;
+}
+
+.banner-img-loaded {
+  opacity: 1;
+}
+
+.card-container img {
+  opacity: 0;
+  transition: opacity 0.5s ease, filter 0.3s ease;
+  filter: blur(5px);
+}
+
+.card-container img.loaded {
+  opacity: 1;
+  filter: blur(0);
+}
+
+
 /* ////////////////////////////////////////second text/////////// */
 .textContent1{
   margin: 20px;

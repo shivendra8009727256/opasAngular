@@ -1,29 +1,23 @@
+
+
 <div class="intro">
   <div class="intro-slideshow">
-    <!-- <img src="/contant_img/warehouse_img.png"> -->
-    <img src="/homeImages/banner_rice.png">
-    <img src="/homeImages/banner2.png">
-    <img src="/homeImages/banner_wheat.png">
-    <img src="/homeImages/banner_dal.png">
-    <img src="/homeImages/banner_maize.png">
-    <!-- <img src="/contant_img/banner_train.png"> -->
-
-    <img src="/homeImages/banner3.png">
-    <!-- <img src="/homeImages/contact_banner1.png">
-    <img src="/contant_img/banner_contact.png">
-    <img src="/homeImages/banner5.png"> -->
-    <!-- <img src="/homeImages/banner6.png">
-    <img src="/homeImages/banner7.png">
-    <img src="/homeImages/banner8.png"> -->
-
-
-
+    <img
+      *ngFor="let image of bannerImages"
+      [src]="image"
+      loading="lazy"
+      alt="Banner Image"
+      class="banner-img"
+      (load)="onImageLoad($event)"
+    />
   </div>
-  <!-- <div class="intro-header">
-    <h1>Top Exporter of Premium Quality</h1>
-    <p>Certified Export House in India</p>
-  </div> -->
 </div>
+
+
+
+
+
+
 <div class="textContainer">
   <div>
     <h4>Welcome to OpasBizz Pvt. Ltd</h4>
@@ -85,7 +79,15 @@
 <div class="card-container">
   <div class="card" *ngFor="let item of images">
     <div class="card-content">
-      <img style="height: 210px; width: 250px;" [src]="'https://opasbizz.in/api/uploads/'+item.image">
+      <img
+  style="height: 210px; width: 250px;"
+  [src]="'https://opasbizz.in/api/uploads/' + item.image"
+  loading="lazy"
+  (load)="onImageLoad1($event)"
+  (error)="onImageError($event)"
+  [class.loaded]="item.loaded"
+/>
+
       <div style="cursor: pointer; " (click)="goToProduct(item)">
         <h3 style="cursor: pointer;">{{ item.productName }}</h3>
         <p><span style="color: red;">*</span> Price: <span style="color: rgb(238, 8, 8); ">${{ item.price }}</span> /Kilogram</p>

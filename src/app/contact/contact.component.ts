@@ -11,7 +11,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select';
 import { SecureStorageService } from '../services/secure-storage.service';
-import {  ViewChild, ElementRef } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { Carousel } from 'bootstrap';
 
 
@@ -74,14 +74,22 @@ export class ContactComponent implements OnInit, OnDestroy {
     private bannerInterval: any;
     otpSent = false;
     otpVerified = false;
-    
+
     otpResendDisabled = false;
     otpResendTimer = 30;
     otpTimer: any;
     otpHide = false
-     carouselInstance: any;
+    carouselInstance: any;
 
-   
+
+
+    bannerImages: string[] = [
+        '/homeImages/contact_banner1.webp',
+        '/contant_img/warehouse_img.webp',
+        '/contant_img/banner_train.webp',
+        '/contant_img/banner_contact.webp',
+        '/homeImages/rice_banner1.webp',
+    ];
 
     private initialFormValues = {
         fullName: '',
@@ -333,7 +341,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     userId: any = "";
 
 
-    constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private secureStorage: SecureStorageService) {
+    constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private secureStorage: SecureStorageService) {
 
 
         // this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
@@ -355,36 +363,28 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     }
     ngOnInit() {
-         setTimeout(() => {
-      this.initCarousel();
-    });
+        setInterval(() => this.nextBanner(), 4000);
         
+
         if (this.userId != "") {
             this.getUser(this.userId)
         }
-        // Start banner rotation
-        this.startBannerRotation();
-        
-       
+
+
+
     }
-    initCarousel() {
-    this.carouselInstance = new Carousel(this.carousel.nativeElement, {
-      interval: 3000, // Auto-slide every 3 seconds
-      ride: 'carousel',
-      wrap: true
-    });
-  }
+    
 
-    startBannerRotation() {
-  this.bannerInterval = setInterval(() => {
-    this.nextBanner();
-  }, 5000);
-}
+    
 
-nextBanner() {
-  // Update based on number of images (7 in your case)
-  this.currentBannerIndex = (this.currentBannerIndex + 1) % 5;
-}
+    nextBanner() {
+        this.currentBannerIndex = (this.currentBannerIndex + 1) % this.bannerImages.length;
+    }
+
+    onImageLoad(event: Event) {
+        const img = event.target as HTMLImageElement;
+        img.classList.add('loaded');
+    }
 
 
 
@@ -406,10 +406,10 @@ nextBanner() {
                     });
 
                     // Disable these fields since we're using the user's registered info
-                    await  this.profileForm.get('fullName')?.disable();
+                    await this.profileForm.get('fullName')?.disable();
                     await this.profileForm.get('email')?.disable();
-                   await this.profileForm.get('phoneCode')?.disable();
-                   await  this.profileForm.get('phoneNumber')?.disable();
+                    await this.profileForm.get('phoneCode')?.disable();
+                    await this.profileForm.get('phoneNumber')?.disable();
 
 
                     ///////////enable field////////////
@@ -419,8 +419,8 @@ nextBanner() {
                     // Store the email for OTP verification
                     this.otpMail = res.user.email;
                     this.otpHide = true;
-                    this.otpVerified=true
-                   
+                    this.otpVerified = true
+
                     // alert(this.otpHide)
 
 
@@ -447,11 +447,11 @@ nextBanner() {
     async resetForm() {
         await this.profileForm.reset();
         // Clear all validators temporarily
-  Object.keys(this.profileForm.controls).forEach(key => {
-    const control = this.profileForm.get(key);
-    control?.clearValidators();
-    control?.updateValueAndValidity();
-  });
+        Object.keys(this.profileForm.controls).forEach(key => {
+            const control = this.profileForm.get(key);
+            control?.clearValidators();
+            control?.updateValueAndValidity();
+        });
         // this.profileForm.reset(this.initialFormValues); // Reset to initial values
         // this.profileForm.markAsPristine();
         // this.profileForm.markAsUntouched();
@@ -461,73 +461,73 @@ nextBanner() {
 
 
 
-   
 
-   
 
-    
+
+
+
 
 
 
     // In your ContactComponent class:
 
-onSubmit() {
-    // Get the raw value including disabled fields
-    const formValue = this.profileForm.getRawValue();
-    
-    // Manually validate required fields since disabled fields are excluded from normal validation
-    if (
-        (!formValue.fullName && !this.userId) || // Only validate fullName if not logged in
-        !this.otpMail || // Email is required (stored in otpMail after OTP verification)
-        !formValue.productName ||
-        !formValue.phoneNumber ||
-        !formValue.message
-    ) {
-        this.openSnackBar('Please fill all required fields', 'Close');
-        return;
-    }
+    onSubmit() {
+        // Get the raw value including disabled fields
+        const formValue = this.profileForm.getRawValue();
 
-    
-   
-    const obj = {
-        fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
-        email: this.otpMail,
-        productName: formValue.productName,
-        phoneCode: formValue.phoneCode,
-        phoneNumber: formValue.phoneNumber,
-        message: formValue.message,
-        status: "pending",
-        userId: this.userId
-    };
-    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-        next: async (res: any) => {
-            if (res) {
-                console.log("IF USER IS LOG IN >>>>>>>>",res)
-                this.otpSent = false;
-                this.otpVerified = false;
-                this.otpResendDisabled = false;
-                
-                // Re-enable fields for new submissions
-                this.profileForm.get('email')?.enable();
-                if (!this.userId) {
-                    this.profileForm.get('fullName')?.enable();
-                }
-                
-                await this.resetForm();
-                await this.disableFormAfterVerification();
-                 if (this.userId != "") {
-                    await this.getUser(this.userId)
-                }
-               await this.openSnackBar(res.message, "close");
-            }
-        },
-        error: (err) => {
-            this.openSnackBar("Error submitting form. Please try again.", "close");
-            console.error("Submission error:", err);
+        // Manually validate required fields since disabled fields are excluded from normal validation
+        if (
+            (!formValue.fullName && !this.userId) || // Only validate fullName if not logged in
+            !this.otpMail || // Email is required (stored in otpMail after OTP verification)
+            !formValue.productName ||
+            !formValue.phoneNumber ||
+            !formValue.message
+        ) {
+            this.openSnackBar('Please fill all required fields', 'Close');
+            return;
         }
-    });
-}
+
+
+
+        const obj = {
+            fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
+            email: this.otpMail,
+            productName: formValue.productName,
+            phoneCode: formValue.phoneCode,
+            phoneNumber: formValue.phoneNumber,
+            message: formValue.message,
+            status: "pending",
+            userId: this.userId
+        };
+        console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+        this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
+            next: async (res: any) => {
+                if (res) {
+                    console.log("IF USER IS LOG IN >>>>>>>>", res)
+                    this.otpSent = false;
+                    this.otpVerified = false;
+                    this.otpResendDisabled = false;
+
+                    // Re-enable fields for new submissions
+                    this.profileForm.get('email')?.enable();
+                    if (!this.userId) {
+                        this.profileForm.get('fullName')?.enable();
+                    }
+
+                    await this.resetForm();
+                    await this.disableFormAfterVerification();
+                    if (this.userId != "") {
+                        await this.getUser(this.userId)
+                    }
+                    await this.openSnackBar(res.message, "close");
+                }
+            },
+            error: (err) => {
+                this.openSnackBar("Error submitting form. Please try again.", "close");
+                console.error("Submission error:", err);
+            }
+        });
+    }
 
 
 
@@ -651,10 +651,10 @@ onSubmit() {
             clearInterval(this.bannerInterval);
         }
         if (this.bannerInterval) {
-    clearInterval(this.bannerInterval);
-  }
+            clearInterval(this.bannerInterval);
+        }
 
     }
-    
-  
+
+
 }

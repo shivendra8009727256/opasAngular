@@ -85,7 +85,7 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
      .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
      .join(' '); // Join the words back into a single string
    this.gstNo=this.userData.gstNo?.replace(/"/g, '') || ''
-      console.log('User data received in HeaderComponent:', this.userData);
+      // console.log('User data received in HeaderComponent:', this.userData);
     });
   }
   getUser() {
@@ -98,14 +98,14 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
           this.gstNo=res.user.gstNo;
           this.userData = res.user;
     
-          console.log(res.user,'API Response:', this.userData);
+          // console.log(res.user,'API Response:', this.userData);
   
             
           
         });
   
       }catch (err){
-  console.log("CATCH>>>>>>>>")
+  // console.log("CATCH>>>>>>>>")
       }
       
     }
@@ -138,21 +138,21 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
 
   navigateToProfile() {
     // Navigate to the profile page
-    console.log('Navigate to Profile');
+    // console.log('Navigate to Profile');
     this.isDropdownOpen = false;
     this.router.navigateByUrl('/profile') 
 
   }
   navigateToHistory() {
     // Navigate to the profile page
-    console.log('Navigate to Profile');
+    // console.log('Navigate to Profile');
     this.isDropdownOpen = false;
     this.router.navigateByUrl('/history') 
 
   }
   navigateToEnquiry() {
     // Navigate to the profile page
-    console.log('Navigate to Enquiry');
+    // console.log('Navigate to Enquiry');
     this.isDropdownOpen = false;
     this.router.navigateByUrl('/enquiry') 
 
@@ -167,24 +167,24 @@ this.gstNo = this.secureStorage.getItem("gstNo")?.replace(/"/g, '') || '';
           this.userDataStatus = res.user.userStatus
 
 
-          console.log('API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
-          console.log(this.userDataStatus === "admin")
+          // console.log('API Response:>>>>>>>>>>>>>>>>>>', this.userDataStatus)
+          // console.log(this.userDataStatus === "admin")
           if (this.userDataStatus == "user") {
             this.hideButton = true
-            console.log("11111111111111111")
+            // console.log("11111111111111111")
           } else if (this.userDataStatus == "admin") {
             this.hideButton = false
-            console.log("2222222222222222222222222222")
+            // console.log("2222222222222222222222222222")
           } else {
             this.hideButton = true
-            console.log("333333333333333333333333333")
+            // console.log("333333333333333333333333333")
           }
 
 
         });
 
     } catch (err) {
-      console.log("CATCH>>>>>>>>")
+      // console.log("CATCH>>>>>>>>")
     }
 
   }

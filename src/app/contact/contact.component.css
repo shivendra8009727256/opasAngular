@@ -204,9 +204,11 @@
     
 }
 .send-container-wrapper {
-    width: 100%;
-    margin-top: 40px;
-    padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;         /* Optional: sets max width */
+  margin: 40px auto 0 auto;  /* top: 40px, horizontal: auto → centers */
+  padding: 0 20px;
+  box-sizing: border-box;    /* ensures padding doesn't break layout */
 }
 
 .map-card {

@@ -27,15 +27,15 @@ export class CertificateComponent {
   certificates = [
     { 
       title: 'FSSAI Certificate', 
-      image: '/certificate/fssaci_img.png' 
+      image: '/certificate/fssaci_img.webp' 
     },
     { 
       title: 'GST Certificate', 
-      image: '/certificate/gst_img.png' 
+      image: '/certificate/gst_img.webp' 
     },
     { 
       title: 'Incorporation Certificate', 
-      image: '/certificate/incorpor_img.png' 
+      image: '/certificate/incorpor_img.webp' 
     },
     
   ];

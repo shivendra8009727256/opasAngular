@@ -73,14 +73,15 @@
   
   .company-info {
     h1 {
-      font-size: 2.5rem;
       margin-bottom: 1.5rem;
-      color: #2431e4;
+    color: #fff;
+
     }
     
     p {
       margin-bottom: 1rem;
       line-height: 1.6;
+      text-align: justify;
     }
   }
   
@@ -117,8 +118,9 @@
   .certificates-section {
     h2 {
       font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #2196F3;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-align: center;
     }
   }
   

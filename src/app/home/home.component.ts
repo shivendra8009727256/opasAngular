@@ -522,7 +522,7 @@ onImageError(event: Event) {
       phoneCode: "formValue.phoneCode",
       phoneNumber: this.mobile,
       message: this.message,
-      status: "pending",
+      status: "Pending",
       userId: this.userId || null
     };
     // console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);

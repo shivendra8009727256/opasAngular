@@ -15,7 +15,8 @@
           <mat-label>Select Currency</mat-label>
           <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="onCurrencyChange($event)">
             <mat-option *ngFor="let currency of currencyList" [value]="currency">
-              {{ currency }}
+              {{ currency }} &nbsp;&nbsp; <span> <img [src]="'https://flagcdn.com/w40/' + currencyFlags[currency] + '.png'" width="30" height="20"
+            alt="No Image"></span>
             </mat-option>
           </mat-select>
         </mat-form-field>

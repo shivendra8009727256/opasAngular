@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { SecureStorageService } from '../services/secure-storage.service';
+import { LoaderComponent } from "../loader/loader.component";
 
 declare var bootstrap: any; // Import Bootstrap for TypeScript
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule, ReactiveFormsModule, NgFor, FormsModule, NgIf],
+  imports: [MatButtonModule, ReactiveFormsModule, NgFor, FormsModule, NgIf, LoaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -22,6 +23,7 @@ export class HomeComponent {
   ///////////////////////////
   @ViewChild('formContainer') formContainer!: ElementRef;
 
+  isLoading = false; // Add loading state
   name: string = '';
   mobile: string = '';
   product: string = '';
@@ -515,6 +517,7 @@ onImageError(event: Event) {
 
   sendLetter(): void {
     if (!this.isFormValid()) return;
+    this.isLoading = true; // Start loading
     const obj = {
       fullName: this.name,
       email: this.email,
@@ -542,6 +545,7 @@ onImageError(event: Event) {
       error: (err) => {
         // this.openSnackBar("Error submitting form. Please try again.", "close");
         // console.error("Submission error:", err);
+         this.isLoading = false; // end loading
       }
     });
     // this.isSent = true;
@@ -567,6 +571,7 @@ onImageError(event: Event) {
     this.email = '';
     this.message = '';
     this.isSent = false;
+     this.isLoading = false; // end loading
   }
   //////////////////////////email card end //////////////////////////
   onImageLoad(event: Event) {

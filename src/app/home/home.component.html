@@ -587,5 +587,10 @@
   </div>
   <!-- end logo carousel -->
 
-
+<!-- Loading overlay - shown when isLoading is true -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loader-wrapper">
+      <app-loader></app-loader>
+    </div>
+  </div>
 </div>

@@ -9,44 +9,42 @@
 
       <h2>{{ products?.productName }}</h2>
 
-      <p>
+      <div class="section_bar">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Select Currency</mat-label>
+            <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="onCurrencyChange($event)">
+              <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                {{ currency }} &nbsp;&nbsp; <span> <img
+                    [src]="'https://flagcdn.com/w40/' + currencyFlags[currency] + '.png'" width="30" height="20"
+                    alt="No Image"></span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Select Currency</mat-label>
-          <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="onCurrencyChange($event)">
-            <mat-option *ngFor="let currency of currencyList" [value]="currency">
-              {{ currency }} &nbsp;&nbsp; <span> <img [src]="'https://flagcdn.com/w40/' + currencyFlags[currency] + '.png'" width="30" height="20"
-            alt="No Image"></span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        &nbsp; <strong><span style="color: red;">*</span>Price:</strong> &nbsp;
+        <div class="section_price">
+          <strong><span style="color: red;">*</span>Price:</strong> &nbsp;
 
+          <!-- Clickable Flag Icon for Currency Selection -->
+          <span style="cursor: pointer;" (click)="toggleCurrencyDropdown()">
+            <img [src]="'https://flagcdn.com/w40/' + currencyFlags[selectedCurrency] + '.png'" width="30" height="20"
+              alt="No Image">
 
-        <!-- <select (change)="onCurrencyChange($event)" > 
-          <option *ngFor="let currency of currencyList" [value]="currency">
-            {{ currency }}
-          </option>
-        </select>&nbsp; -->
-
-        <!-- Clickable Flag Icon for Currency Selection -->
-        <span style="cursor: pointer;" (click)="toggleCurrencyDropdown()">
-          <img [src]="'https://flagcdn.com/w40/' + currencyFlags[selectedCurrency] + '.png'" width="30" height="20"
-            alt="No Image">
-
-        </span>
-
-        <!-- Display Converted Price -->
-        <span style="color: rgb(241, 16, 16);">
-          {{ convertedPrice | number:'1.2-2' }} {{ selectedCurrency }}
-        </span> / Kilogram
+          </span>&nbsp; <span style="color: rgb(241, 16, 16);">{{ convertedPrice | number:'1.2-2' }} {{ selectedCurrency
+            }} </span> / Kilogram
+        </div>
+      </div>
 
 
 
 
-        <!-- Input Fields for Quantity and Total Amount -->
-      <div style="display: flex; gap: 15px; margin-left: 20px;">
-        <input style="width: 30%;" type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
+
+
+      <!-- Input Fields for Quantity and Total Amount -->
+      <div class="quantity_bar">
+        <input type="tel" placeholder="Quantity (Ton)" class="custom-input" [(ngModel)]="quantity"
           (input)="calculateTotalAmount()" [value]="quantity === 0 ? 'Quantity (Ton)' : quantity" />
 
         <input type="text" placeholder="Total Amount" class="custom-input"
@@ -83,8 +81,8 @@
       <p style="border: none; border-bottom: 1px solid black;"><strong>Broken: </strong> &nbsp;{{ products?.broken}}</p>
       <!-- Razorpay Payment Button -->
 
-      <button type="button" [disabled]="true" class="btn btn-success btn-lg btn-block" id="rzp-button1" style="width: 100%;"
-        (click)="userDetails()">Checkout</button>
+      <button type="button" [disabled]="true" class="btn btn-success btn-lg btn-block" id="rzp-button1"
+        style="width: 100%;" (click)="userDetails()">Checkout</button>
     </div>
   </div>
 
@@ -180,12 +178,12 @@
 
   <!-- email card end -->
 
- <!-- Loading overlay - shown when isLoading is true -->
- <div class="loading-overlay" *ngIf="isLoading">
-  <div class="loader-wrapper">
-    <app-loader></app-loader>
+  <!-- Loading overlay - shown when isLoading is true -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loader-wrapper">
+      <app-loader></app-loader>
+    </div>
   </div>
-</div>
 
 
 </div>

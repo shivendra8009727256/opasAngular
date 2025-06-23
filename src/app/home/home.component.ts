@@ -252,8 +252,8 @@ bannerImages: string[] = [
 }
 
 onImageError(event: Event) {
-  const img = event.target as HTMLImageElement;
-  img.src = '/assets/image-placeholder.png'; // Fallback image
+  // const img = event.target as HTMLImageElement;
+  // img.src = '/assets/image-placeholder.png'; // Fallback image
 }
 
 

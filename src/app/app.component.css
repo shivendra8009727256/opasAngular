@@ -21,7 +21,7 @@ html, body {
   flex-grow: 1; /* Makes content take up remaining space */
   /* padding: 20px; */
   /* margin-top: 65px;  */
-  background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca);
+  /* background-image: url(https://img.freepik.com/free-photo/houses-trees-beautiful-grass-covered-hill-by-lake-captured-finland_181624-43255.jpg?w=900&t=st=1704630642~exp=1704631242~hmac=d35bdc6fd1ab872f13b10f72cea5a7d0697bd4545460a61ff79a14c04f68e6ca); */
   background-repeat: no-repeat;
   background-size: 100% 200%;
   background-position: center;
@@ -35,7 +35,7 @@ app-footer {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 10px;
+  /* padding: 10px; */
   width: 100%;
   position: relative;
   bottom: 0;
@@ -48,4 +48,36 @@ app-footer {
   transform: translateY(-50%);
   z-index: 1000;
 }
+
+.app-scroll-button{
+   position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 24px;
+  z-index: 1050;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: opacity 0.3s ease;
+
+  i {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background-color: #555 !important;
+  }
+}
+
 

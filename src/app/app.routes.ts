@@ -26,7 +26,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'history', component: HistoryComponent },
+  // { path: 'history', component: HistoryComponent },
   {path:"enquiry", component:EnquiryComponent},
   { path: 'about', component: AboutComponent },
   // { path: 'product/:id', component: ProductsComponent },

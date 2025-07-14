@@ -10,7 +10,7 @@
 
   /* Main wrapper for both stripe and nav */
 .header-wrapper {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   width: 100%;
   z-index: 1000;

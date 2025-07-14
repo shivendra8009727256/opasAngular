@@ -4,10 +4,17 @@
   <div class="contact-stripe">
     <div class="contact-content">
       <div class="contact-info">
-        <span><i class="fas fa-phone"></i> +1204512832 , +1204512833</span>
-        <span><i class="fas fa-envelope"></i>info&#64;opasbizz.com</span>
+        <span><i class="fas fa-phone"></i> +1204512832 , +1204512833</span> &nbsp;
+        <span>
+          <i class="fas fa-envelope"></i>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@opasbizz.com" target="_blank"
+            style="color: inherit; text-decoration: none;">
+            info&#64;opasbizz.com
+          </a>
+        </span>
         <span><i class="fas fa-id-card"></i> GSTIN: 09AADCO2930P1Z1</span>
       </div>
+
       <div class="social-icons">
         <a href="https://www.facebook.com/profile.php?id=61576621239656" target="_blank" rel="noopener noreferrer">
           <i class="fab fa-facebook-f"></i>
@@ -29,10 +36,10 @@
   </div>
 
   <!-- Your existing nav -->
-  <nav [class.hidden]="isHidden" (mouseleave)="closeMenuOnMouseLeave()">
+  <nav (mouseleave)="closeMenuOnMouseLeave()">
     <!-- Left: Company Logo -->
     <div class="logo-container" (click)="closeMenuOnMouseLeave()">
-      <img style="cursor: pointer;" src="/2d_logo.png" alt="Company Logo" class="logo-img">
+      <img style="cursor: pointer;" src="/new_logo/new_logo.webp" alt="Company Logo" class="logo-img">
     </div>
 
     <!-- Hamburger Menu Button (Mobile) -->
@@ -175,7 +182,7 @@
                 </li>
 
 
-               <!-- Urad -->
+                <!-- Urad -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('urad')"
                   (mouseleave)="hideSubSubCategory()">
                   Urad
@@ -183,11 +190,11 @@
                     <li (click)="goToProduct('Whole Urad')">Whole Urad</li>
                     <li (click)="goToProduct('Split Urad')">Spilt Urad</li>
                     <li (click)="goToProduct('Skinned Urad')">Skinned Urad</li>
-                    
+
                   </ul>
                 </li>
 
-                 <!-- Moong -->
+                <!-- Moong -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('moong')"
                   (mouseleave)="hideSubSubCategory()">
                   Moong
@@ -195,11 +202,11 @@
                     <li (click)="goToProduct('Whole Moong')">Whole Moong</li>
                     <li (click)="goToProduct('Split Moong')">Split Moong</li>
                     <li (click)="goToProduct('Skinned Moong')">Skinned Moong</li>
-                    
+
                   </ul>
                 </li>
 
-                 <!-- Toor -->
+                <!-- Toor -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('toor')"
                   (mouseleave)="hideSubSubCategory()">
                   Toor
@@ -208,7 +215,7 @@
                     <li (click)="goToProduct('Yellow Pigeon Peas')">Yellow Pigeon Peas</li>
                   </ul>
                 </li>
-                 <!-- Rajma -->
+                <!-- Rajma -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('rajma')"
                   (mouseleave)="hideSubSubCategory()">
                   Rajma
@@ -217,7 +224,7 @@
                     <li (click)="goToProduct('White Kidney Beans')">White Kidney Beans</li>
                   </ul>
                 </li>
-                 <!-- Matar Dal -->
+                <!-- Matar Dal -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('dal')"
                   (mouseleave)="hideSubSubCategory()">
                   Dal
@@ -226,7 +233,7 @@
                     <li (click)="goToProduct('Green Split Peas')">Green Split Peas</li>
                   </ul>
                 </li>
-                 <!-- Matar Dal -->
+                <!-- Matar Dal -->
                 <li class="sub-sub-dropdown" (mouseenter)="showSubSubCategory('soyabean')"
                   (mouseleave)="hideSubSubCategory()">
                   Soyabean Seeds

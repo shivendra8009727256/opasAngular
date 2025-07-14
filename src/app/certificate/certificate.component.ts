@@ -33,10 +33,15 @@ export class CertificateComponent {
       title: 'GST Certificate', 
       image: '/certificate/gst_img.webp' 
     },
+     { 
+      title: 'Certificate of registration', 
+      image: '/certificate/certificate_of_registration.webp' 
+    },
     { 
       title: 'Incorporation Certificate', 
       image: '/certificate/incorpor_img.webp' 
     },
+
     
   ];
 

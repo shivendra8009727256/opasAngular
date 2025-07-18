@@ -1,7 +1,6 @@
-
 import { RouterLink } from '@angular/router';
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
@@ -9,11 +8,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
-export class FooterComponent {
-   ngOnInit(): void {
-    const grainColors = ['#f5deb3', '#deb887', '#e0cda9', '#f0e68c', '#ffe4b5', '#d2b48c', '#fdf5e6'];
-    const index = new Date().getDay() % grainColors.length;
-    document.querySelector('.footer')?.setAttribute('style', `background-color: ${grainColors[index]}`);
-  }
+export class FooterComponent implements OnInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const grainColors = ['#FF9933', '#080808ff', '#138808', '#000080'];
+      const index = new Date().getDay() % grainColors.length;
+      document.querySelector('.footer')?.setAttribute('style', `background-color: ${grainColors[index]}`);
+    }
+  }
 }

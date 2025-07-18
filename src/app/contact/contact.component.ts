@@ -1,95 +1,54 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { SecureStorageService } from '../services/secure-storage.service';
-import { ViewChild, ElementRef } from '@angular/core';
-import { Carousel } from 'bootstrap';
 
 
 @Component({
     selector: 'app-contact',
     standalone: true,
-    imports: [CommonModule,
-        ReactiveFormsModule, MatIconModule,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatIconModule,
         MatButtonModule,
         MatFormFieldModule,
-        MatInputModule, MatSelectModule],
+        MatInputModule,
+        MatSelectModule
+    ],
     templateUrl: './contact.component.html',
-    styleUrls: ['./contact.component.css'],
-    animations: [
-        trigger('slideInRight', [
-            state('void', style({
-                transform: 'translateX(100%)',
-                opacity: 0
-            })),
-            transition('void => *', [
-                animate('10s 0.2s ease-out', style({
-                    transform: 'translateX(0)',
-                    opacity: 1
-                }))
-            ])
-        ]),
-        trigger('slideInLeft', [
-            state('void', style({
-                transform: 'translateX(-100%)',
-                opacity: 0
-            })),
-            transition('void => *', [
-                animate('5s 0.2s ease-out', style({
-                    transform: 'translateX(0)',
-                    opacity: 1
-                }))
-            ])
-        ]),
-        trigger('slideInUp', [
-            state('void', style({
-                transform: 'translateY(50px)',
-                opacity: 0
-            })),
-            transition('void => *', [
-                animate('15s 0.4s ease-out', style({
-                    transform: 'translateY(0)',
-                    opacity: 1
-                }))
-            ])
-        ])
-    ]
+    styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit, OnDestroy {
     @ViewChild('carousel') carousel!: ElementRef;
-    swapped = false;
-    private swapInterval: any;
-    // Banner carousel variables
-    // Banner carousel variables
-    currentBannerIndex = 0;
     private bannerInterval: any;
+
+    bannerImages: string[] = [
+        '/homeImages/contact_banner1.avif',
+        '/contant_img/warehouse_img.avif',
+        '/contant_img/banner_train.avif',
+        '/contant_img/banner_contact.avif',
+        '/homeImages/rice_banner1.avif'
+    ];
+    currentBannerIndex = 0;
+
+    http = inject(HttpClient);
+    profileForm: FormGroup;
     otpSent = false;
     otpVerified = false;
-
     otpResendDisabled = false;
     otpResendTimer = 30;
     otpTimer: any;
-    otpHide = false
-    carouselInstance: any;
-
-
-
-    bannerImages: string[] = [
-        '/homeImages/contact_banner1.webp',
-        '/contant_img/warehouse_img.webp',
-        '/contant_img/banner_train.webp',
-        '/contant_img/banner_contact.webp',
-        '/homeImages/rice_banner1.webp',
-    ];
+    otpMail: any;
+    otpHide = false;
+    userId: any = '';
 
     private initialFormValues = {
         fullName: '',
@@ -335,21 +294,12 @@ export class ContactComponent implements OnInit, OnDestroy {
         { name: 'Zambia', dial_code: '+260', code: 'ZM' },
         { name: 'Zimbabwe', dial_code: '+263', code: 'ZW' }
     ];
-    http = inject(HttpClient);
-    profileForm: FormGroup;
-    otpMail: any;
-    userId: any = "";
+    swapped: any;
+
 
 
     constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private secureStorage: SecureStorageService) {
-
-
-        // this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
         this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
-
-
-
-
 
         this.profileForm = this.fb.group({
             fullName: ["", [Validators.required, Validators.minLength(3)]],
@@ -360,22 +310,18 @@ export class ContactComponent implements OnInit, OnDestroy {
             phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
             message: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]]
         });
-
     }
+
     ngOnInit() {
-        setInterval(() => this.nextBanner(), 4000);
-        
+        requestIdleCallback(() => {
+            this.bannerInterval = setInterval(() => this.nextBanner(), 4000);
+        });
 
-        if (this.userId != "") {
-            this.getUser(this.userId)
+        if (this.userId) {
+            this.getUser(this.userId);
         }
-
-
-
     }
-    
 
-    
 
     nextBanner() {
         this.currentBannerIndex = (this.currentBannerIndex + 1) % this.bannerImages.length;
@@ -386,108 +332,49 @@ export class ContactComponent implements OnInit, OnDestroy {
         img.classList.add('loaded');
     }
 
-
-
-    /////////get user details?????//////////
-
     getUser(item: any) {
         try {
             let params = new HttpParams().set('userId', item);
             this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe({
                 next: async (res: any) => {
-                    console.log("NEXT>>>>>>>>>>>>>>>>>>", res?.user?.fullName)
-                    // Update form values and disable fields
                     this.profileForm.patchValue({
                         fullName: res.user.fullName,
                         email: res.user.email,
                         phoneCode: res.user.phoneCode,
                         phoneNumber: res.user.phoneNumber,
-
                     });
-
-                    // Disable these fields since we're using the user's registered info
                     await this.profileForm.get('fullName')?.disable();
                     await this.profileForm.get('email')?.disable();
                     await this.profileForm.get('phoneCode')?.disable();
                     await this.profileForm.get('phoneNumber')?.disable();
-
-
-                    ///////////enable field////////////
                     await this.profileForm.get('productName')?.enable();
                     await this.profileForm.get('message')?.enable();
-
-                    // Store the email for OTP verification
                     this.otpMail = res.user.email;
-                    this.otpHide = true;
-                    this.otpVerified = true
-
-                    // alert(this.otpHide)
-
-
-                    // For debugging
-                    console.log("User data loaded:", res.user);
-
-
+                    this.otpVerified = true;
                 },
                 error: (err) => {
-                    // Error case - show API error message or default message
                     const message = err.error?.message || err.message || 'User not fetch';
                     this.openSnackBar(message, 'Close');
                 }
             });
-
-        } catch (err) {
-
-        }
-
-
+        } catch (err) { }
     }
 
-    // Reset form method
     async resetForm() {
         await this.profileForm.reset();
-        // Clear all validators temporarily
         Object.keys(this.profileForm.controls).forEach(key => {
             const control = this.profileForm.get(key);
             control?.clearValidators();
             control?.updateValueAndValidity();
         });
-        // this.profileForm.reset(this.initialFormValues); // Reset to initial values
-        // this.profileForm.markAsPristine();
-        // this.profileForm.markAsUntouched();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // In your ContactComponent class:
-
     onSubmit() {
-        // Get the raw value including disabled fields
         const formValue = this.profileForm.getRawValue();
-
-        // Manually validate required fields since disabled fields are excluded from normal validation
-        if (
-            (!formValue.fullName && !this.userId) || // Only validate fullName if not logged in
-            !this.otpMail || // Email is required (stored in otpMail after OTP verification)
-            !formValue.productName ||
-            !formValue.phoneNumber ||
-            !formValue.message
-        ) {
+        if ((!formValue.fullName && !this.userId) || !this.otpMail || !formValue.productName || !formValue.phoneNumber || !formValue.message) {
             this.openSnackBar('Please fill all required fields', 'Close');
             return;
         }
-
-
 
         const obj = {
             fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
@@ -499,25 +386,21 @@ export class ContactComponent implements OnInit, OnDestroy {
             status: "pending",
             userId: this.userId
         };
-        console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
+
         this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
             next: async (res: any) => {
                 if (res) {
-                    console.log("IF USER IS LOG IN >>>>>>>>", res)
                     this.otpSent = false;
                     this.otpVerified = false;
                     this.otpResendDisabled = false;
-
-                    // Re-enable fields for new submissions
                     this.profileForm.get('email')?.enable();
                     if (!this.userId) {
                         this.profileForm.get('fullName')?.enable();
                     }
-
                     await this.resetForm();
                     await this.disableFormAfterVerification();
                     if (this.userId != "") {
-                        await this.getUser(this.userId)
+                        await this.getUser(this.userId);
                     }
                     await this.openSnackBar(res.message, "close");
                 }
@@ -529,35 +412,25 @@ export class ContactComponent implements OnInit, OnDestroy {
         });
     }
 
-
-
-
-    // Helper method to get form controls for easy access in the template
     get f() {
         return this.profileForm.controls;
     }
 
-
-    // OTP Methods
     sendOTP() {
         if (this.f['email'].invalid) {
             this.openSnackBar('Please enter a valid email first', 'Close');
             return;
         }
 
-        // In production, call your backend API here
-        console.log('OTP would be sent to:', this.profileForm.value.email);
-        this.otpMail = this.profileForm.value.email
-        const obj = { email: this.otpMail }
+        this.otpMail = this.profileForm.value.email;
+        const obj = { email: this.otpMail };
         this.http.post("https://opasbizz.in/api/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
             this.otpSent = true;
             this.profileForm.get('email')?.disable();
             this.startResendTimer();
             this.openSnackBar('OTP sent to your email', 'Close');
-        })
+        });
     }
-
-
 
     resendOTP() {
         this.sendOTP();
@@ -566,7 +439,6 @@ export class ContactComponent implements OnInit, OnDestroy {
     startResendTimer() {
         this.otpResendDisabled = true;
         this.otpResendTimer = 30;
-
         this.otpTimer = setInterval(() => {
             this.otpResendTimer--;
             if (this.otpResendTimer <= 0) {
@@ -576,84 +448,61 @@ export class ContactComponent implements OnInit, OnDestroy {
         }, 1000);
     }
 
-
-
     async verifyOTP() {
-        // In production, verify with your backend
-        // For demo, we'll just check if OTP field is valid
         if (this.f['otp'].valid) {
             try {
                 const obj = {
                     email: this.otpMail,
                     otp: this.profileForm.value.otp
-                }
-                console.log("VERIFY OTP>>>>>>", this.otpMail)
+                };
 
                 await this.http.post("https://opasbizz.in/api/userInquiry/inquiryVerifyOtp", obj).subscribe({
                     next: (res: any) => {
-                        // Success case
                         this.otpVerified = true;
                         this.openSnackBar(res.message || 'OTP verified!', 'Close');
                         this.enableFormAfterVerification();
                     },
                     error: (err) => {
-                        // Error case - show API error message or default message
                         const message = err.error?.message || err.message || 'OTP verification failed';
                         this.openSnackBar(message, 'Close');
                     }
                 });
-
             } catch (err) {
                 this.openSnackBar("Please! Enter valid OTP ...", 'Close');
             }
-
-
         }
     }
 
     enableFormAfterVerification() {
-
         this.profileForm.get('productName')?.enable();
         this.profileForm.get('phoneCode')?.enable();
         this.profileForm.get('phoneNumber')?.enable();
         this.profileForm.get('message')?.enable();
     }
-    disableFormAfterVerification() {
 
+    disableFormAfterVerification() {
         this.profileForm.get('productName')?.disable();
         this.profileForm.get('phoneCode')?.disable();
         this.profileForm.get('phoneNumber')?.disable();
         this.profileForm.get('message')?.disable();
     }
 
-
-
-    // Method to show the snackbar
     openSnackBar(message: string, action: string) {
         this.snackBar.open(message, action, {
             duration: 2000,
             verticalPosition: 'top',
             horizontalPosition: 'center',
-            panelClass: ['custom-snackbar'] // Add custom class
+            panelClass: ['custom-snackbar']
         });
     }
 
-
     ngOnDestroy() {
-        // Add to ngOnDestroy
         if (this.otpTimer) {
             clearInterval(this.otpTimer);
         }
-        if (this.swapInterval) {
-            clearInterval(this.swapInterval);
-        }
         if (this.bannerInterval) {
             clearInterval(this.bannerInterval);
         }
-        if (this.bannerInterval) {
-            clearInterval(this.bannerInterval);
-        }
-
     }
 
 

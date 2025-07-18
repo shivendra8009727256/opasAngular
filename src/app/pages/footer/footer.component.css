@@ -43,6 +43,7 @@
     .footer-content-wrapper {
       display: flex;
       flex-direction: column; 
+      
       align-items: center;
       gap: 30px;
       width: 100%;
@@ -101,7 +102,7 @@
         flex-direction: row;
         /* justify-content: center; */
         align-items: flex-start;
-        gap: 10%;
+        gap: 25%;
         padding: 0 40px;
       }
 
@@ -132,9 +133,9 @@
       flex-direction: row;
 
       .footer-content-wrapper {
-        gap: 20%;
-        padding: 0 100px;
-                padding-left: 200px;
+        gap: 25%;
+        /* padding: 0 100px; */
+                padding-left: 100px;
       }
 
       .footer-links {
@@ -154,3 +155,16 @@
     }
   }
 }
+/* // 🖥️ Large desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .footer-middle {
+    .footer-content-wrapper {
+      padding-left: 200px !important; 
+    }
+  }
+
+  .footer-bottom {
+    padding-left: 200px !important;
+  }
+}
+

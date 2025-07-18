@@ -1,20 +1,19 @@
+import { NgIf } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-scroll-button',
   standalone: true,
-  imports: [CommonModule],
+  imports:[NgIf],
   templateUrl: './scroll-button.component.html',
-  styleUrls: ['./scroll-button.component.scss']
+  styleUrls: ['./scroll-button.component.css']
 })
 export class ScrollButtonComponent {
-  isVisible = false;
+  showButton = false;
 
   @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.isVisible = scrollTop > 300;
+  onWindowScroll(): void {
+    this.showButton = window.pageYOffset > 300;
   }
 
   scrollToTop(): void {

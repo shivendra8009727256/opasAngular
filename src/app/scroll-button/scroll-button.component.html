@@ -1,3 +1,8 @@
-<button class="scroll-to-top" *ngIf="isVisible" (click)="scrollToTop()">
-  ⬆️
+<button 
+  *ngIf="showButton" 
+  (click)="scrollToTop()" 
+  class="scroll-to-top btn btn-dark"
+  aria-label="Scroll to top"
+>
+  ↑
 </button>

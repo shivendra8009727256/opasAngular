@@ -1,24 +1,20 @@
 <div class="wrapper">
   <div class="content">
-    <app-header></app-header> <!-- Header Component -->
-  
+    <app-header></app-header>
     <main>
-        <router-outlet></router-outlet> <!-- Dynamic Content (Dashboard, Login, Register) -->
-        <!-- <app-social-share 
-          [title]="'Check out this amazing content!'"
-          [description]="'This is a description of the content you might want to share'"
-          [hashtags]="'angular,webdev,programming'">
-        </app-social-share> -->
-        <app-social-share 
-  [title]="'Check out this amazing content!'"
-  [description]="'This is a description of the content you might want to share'"
-  [hashtags]="'angular,webdev,programming'"
-  >
-  <!-- 👇 Scroll button added here -->
-  <app-scroll-button></app-scroll-button>
-</app-social-share>
+      <router-outlet></router-outlet>
+
+      <!-- Social share -->
+      <app-social-share 
+        [title]="'Check out this amazing content!'"
+        [description]="'This is a description of the content you might want to share'"
+        [hashtags]="'angular,webdev,programming'"
+      ></app-social-share>
+
+
     </main>
   </div>
-  <app-footer></app-footer> <!-- Footer Always at Bottom -->
-  
+        <!-- Scroll to top button -->
+      <app-scroll-button></app-scroll-button>
+  <app-footer></app-footer>
 </div>

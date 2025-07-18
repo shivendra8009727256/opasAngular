@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { Component, Input, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-social-share',
   standalone: true,
@@ -156,45 +155,64 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class SocialShareComponent {
-  @Input() url: string = window.location.href;
-  @Input() title: string = document.title;
+export class SocialShareComponent implements OnInit {
+  @Input() url: string = '';
+  @Input() title: string = '';
   @Input() description: string = '';
   @Input() hashtags: string = '';
   @Input() imageUrl: string = '';
+
   showSocialIcons = false;
+  private isBrowser = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngOnInit() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+    if (this.isBrowser) {
+      this.url = this.url || window.location.href;
+      this.title = this.title || document.title;
+    }
+  }
 
   toggleSocialIcons() {
     this.showSocialIcons = !this.showSocialIcons;
   }
 
   shareOnFacebook() {
+    if (!this.isBrowser) return;
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.url)}`;
     this.openShareWindow(shareUrl);
   }
 
   shareOnTwitter() {
+    if (!this.isBrowser) return;
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(this.url)}&text=${encodeURIComponent(this.title)}&hashtags=${encodeURIComponent(this.hashtags)}`;
     this.openShareWindow(shareUrl);
   }
 
   shareOnLinkedIn() {
+    if (!this.isBrowser) return;
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(this.url)}&title=${encodeURIComponent(this.title)}&summary=${encodeURIComponent(this.description)}`;
     this.openShareWindow(shareUrl);
   }
 
   shareOnWhatsApp() {
+    if (!this.isBrowser) return;
     const shareUrl = `https://wa.me/?text=${encodeURIComponent(`${this.title} ${this.url}`)}`;
     this.openShareWindow(shareUrl);
   }
 
   shareOnInstagram() {
+    if (!this.isBrowser) return;
     const caption = encodeURIComponent(`${this.title}\n\n${this.url}`);
     const shareUrl = `https://www.instagram.com/create/story?caption=${caption}`;
     this.openShareWindow(shareUrl);
   }
 
   private openShareWindow(url: string) {
+    if (!this.isBrowser) return;
     window.open(url, '_blank', 'width=600,height=400');
     this.showSocialIcons = false;
   }

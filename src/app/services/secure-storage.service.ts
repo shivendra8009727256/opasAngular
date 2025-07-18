@@ -1,37 +1,43 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { EncryptionService } from './encryption.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SecureStorageService {
-  constructor(private encryptionService: EncryptionService) { }
+  constructor(
+    private encryptionService: EncryptionService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
   setItem(key: string, value: any): void {
+    if (!this.isBrowser()) return;
+
     try {
       const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
       const encryptedValue = this.encryptionService.encrypt(stringValue);
       localStorage.setItem(key, encryptedValue);
     } catch (error) {
       console.error('Error encrypting data:', error);
-      throw new Error('Failed to encrypt storage data');
     }
   }
 
   getItem(key: string): any {
+    if (!this.isBrowser()) return null;
+
     try {
       const encryptedValue = localStorage.getItem(key);
-      
-      if (!encryptedValue) {
-        return null;
-      }
+      if (!encryptedValue) return null;
 
       const decryptedValue = this.encryptionService.decrypt(encryptedValue);
-      
-      // Try to parse as JSON, return as string if parsing fails
       try {
         return JSON.parse(decryptedValue);
-      } catch (e) {
+      } catch {
         return decryptedValue;
       }
     } catch (error) {
@@ -42,10 +48,14 @@ export class SecureStorageService {
   }
 
   removeItem(key: string): void {
-    localStorage.removeItem(key);
+    if (this.isBrowser()) {
+      localStorage.removeItem(key);
+    }
   }
 
   clear(): void {
-    localStorage.clear();
+    if (this.isBrowser()) {
+      localStorage.clear();
+    }
   }
 }

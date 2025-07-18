@@ -1,25 +1,13 @@
-<!-- <div class="banner-carousel">
-  <div class="banners">
-    <img src="/homeImages/contact_banner1.png" [class.active]="currentBannerIndex === 0">
-    <img src="/contant_img/warehouse_img.png" [class.active]="currentBannerIndex === 1">
-    <img src="/contant_img/banner_train.png" [class.active]="currentBannerIndex === 2">
 
-    <img src="/contant_img/banner_contact.png" [class.active]="currentBannerIndex === 3">
-    <img src="/homeImages/rice_banner1.png" [class.active]="currentBannerIndex === 4">
-
-  </div>
-  <div style="background-color:  #34A853; width: 100%; height: 30px;">
-
-  </div>
-</div> -->
 <div class="banner-carousel">
   <div class="banners">
     <img
       *ngFor="let img of bannerImages; let i = index"
       [src]="img"
       [class.active]="currentBannerIndex === i"
-      loading="lazy"
-      (load)="onImageLoad($event)"
+      [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+      decoding="async"
+      
       alt="Banner Image"
       class="banner-img"
     />
@@ -27,6 +15,7 @@
 
   <div style="background-color: #34A853; width: 100%; height: 30px;"></div>
 </div>
+
 
 
 

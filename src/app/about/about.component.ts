@@ -1,13 +1,14 @@
 
-import {  inject, OnInit } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import {  inject,  } from '@angular/core';
+import {  NgFor, NgIf } from '@angular/common';
+import { Component,  ViewChild, ElementRef } from '@angular/core';
+import {  FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LoaderComponent } from '../loader/loader.component'; // Adjust path as needed
-declare var bootstrap: any; // Import Bootstrap for TypeScript
+import { Title, Meta } from '@angular/platform-browser'; // ✅ SEO services
+
 
 @Component({
   selector: 'app-about',
@@ -16,7 +17,7 @@ declare var bootstrap: any; // Import Bootstrap for TypeScript
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  @ViewChild('carouselElement', { static: true }) carousel!: ElementRef;
+ 
   @ViewChild('formContainer') formContainer!: ElementRef;
   isLoading = false; // Add loading state
 
@@ -60,42 +61,35 @@ private http = inject(HttpClient);
       image: '/images/client_img.png',
       description: "Meet Shivendra Singh, our dedicated Full Stack Developer behind the seamless digital experience at OpasBizz Pvt. Ltd. With a sharp eye for detail and a passion for clean, efficient code, Shivendra has played a vital role in building and maintaining our user-friendly website. His work ensures that our platform runs smoothly, helping customers easily explore and order bulk grains like wheat, rice, and maize. From backend systems to frontend design, he bridges technology and user needs with precision. Shivendra’s commitment drives our digital growth, making OpasBizz a trusted and accessible name in the bulk grain industry."
     },
-    {
-      name: 'Rajni kumari',
-      position: 'Asst. IT Head',
-      image: '/images/client_img.png',
-      description: "Meet Shivendra Singh, our dedicated Full Stack Developer behind the seamless digital experience at OpasBizz Pvt. Ltd. With a sharp eye for detail and a passion for clean, efficient code, Shivendra has played a vital role in building and maintaining our user-friendly website. His work ensures that our platform runs smoothly, helping customers easily explore and order bulk grains like wheat, rice, and maize. From backend systems to frontend design, he bridges technology and user needs with precision. Shivendra’s commitment drives our digital growth, making OpasBizz a trusted and accessible name in the bulk grain industry."
-    },
-    // {
-    //   name: 'Anand Kumar',
-    //   position: 'C A',
-    //   image: '/images/client_img.png',
-    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
-    // },
-    // {
-    //   name: 'Avinash Kumar',
-    //   position: 'Market Head',
-    //   image: '/images/client_img.png',
-    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
-    // },
-    // {
-    //   name: 'Aman Kumar',
-    //   position: 'Market Head',
-    //   image: '/images/client_img.png',
-    //   description: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,'
-    // }
+   
+    
   ];
   userId: string;
 
-  ngAfterViewInit() {
-    const carouselInstance = new bootstrap.Carousel(this.carousel.nativeElement, {
-      interval: 3000, // Auto-slide every 3 seconds
-      ride: 'carousel'
-    });
-  }
+  
 
-  constructor(private fb: FormBuilder, private router: Router){
+  constructor( private router: Router,private titleService: Title,
+    private metaService: Meta){
     this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+  }
+   ngOnInit(): void {
+    this.titleService.setTitle('About Us - OpasBizz Pvt. Ltd.');
+    this.metaService.updateTag({
+      name: 'description',
+      content: 'Meet the leadership and tech team behind OpasBizz, India’s trusted name in bulk grain trade and fintech innovation.'
+    });
+    this.metaService.updateTag({
+      name: 'keywords',
+      content: 'OpasBizz, About OpasBizz, Managing Director, Grain Trading, Fintech, Team Members, Agriculture, Bulk Wheat, Rice, Maize'
+    });
+    this.metaService.updateTag({
+      property: 'og:title',
+      content: 'About Us - OpasBizz Pvt. Ltd.'
+    });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: 'Learn about the dedicated professionals leading OpasBizz across grain trading and financial technology sectors.'
+    });
   }
 
 
@@ -135,21 +129,9 @@ private http = inject(HttpClient);
         this.isLoading = false; // end loading
       }
     });
-    // this.isSent = true;
-
-    // // Optional: You could send the data to a service here
-    // console.log('Form submitted:', {
-    //   name: this.name,
-    //   mobile: this.mobile,
-    //   email: this.email,
-    //   message: this.message
-    // });
-
-    // Reset form after animation completes
-    // setTimeout(() => {
-    //   this.resetForm();
-    // }, 6000);
+   
   }
+  
 
   private resetForm(): void {
     this.name = '';

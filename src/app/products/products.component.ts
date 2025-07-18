@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {  ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {CurrencyService} from '../../service/currency.service'
@@ -16,7 +16,8 @@ import { SecureStorageService } from '../services/secure-storage.service';
 
 
 
-declare var Razorpay: any;
+
+// declare var Razorpay: any;
 @Component({
   selector: 'app-products',
   imports: [CommonModule, MatCardModule, MatButtonModule,FormsModule, MatFormFieldModule, MatSelectModule,LoaderComponent],
@@ -236,9 +237,9 @@ export class ProductsComponent  {
   
   
 
-  constructor(private secureStorage: SecureStorageService,private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
-    // const navigation = window.history.state;
-    // this.product = navigation.product;
+  constructor(  @Inject(PLATFORM_ID) private platformId: Object,private secureStorage: SecureStorageService,private snackBar: MatSnackBar,private route: ActivatedRoute, private currencyService: CurrencyService,private cdr: ChangeDetectorRef) {
+    
+   
     
     
      this.getAllProductsList()
@@ -284,27 +285,7 @@ export class ProductsComponent  {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     })
   }
-  // async getProductDetails(item:any){
-  //   console.log("getProductDetails>>>>>>>>>>>>>>>>>>>>>")
-  //   const id=item
-  //  await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
-  //     this.products=res?.data;
-  //     this.convertedPrice = this.products.price; // Set default price
-  //     this.quantity=0
-  //     this.calculateTotalAmount()
-  //     console.log( 'ROUTER Products Data successfully',res.data);
-  //     window.scrollTo({ top: 0, behavior: 'smooth' });
-  //   })
-  // }
-  // async getProductOne(item:any){
-  //   console.log("getProductOne>>>>>>>>>>>>>>>>>>>>>")
-  //   const id=item
-  //  await this.http.get("https://opasbizz.in/api/opas/getOneProduct/"+id).subscribe((res:any)=>{
-  //     this.products=res?.data;
-  //     console.log('ONE Products Data successfully',res.data);
-  //     window.scrollTo({ top: 0, behavior: 'smooth' });
-  //   })
-  // }
+  
  
 
 
@@ -320,7 +301,7 @@ export class ProductsComponent  {
       console.error("No product ID found in route params.");
     }
   });
-    // alert(this.product)
+    
 console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
 
     this.currencyService.getExchangeRates().subscribe((data) => {
@@ -387,170 +368,6 @@ console.log(this.product,"THIS>PRODUCT ITEM >>>>>>>>>>>>>")
   
 
 
-  loadRazorpayScript() {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    script.onload = () => console.log("Razorpay script loaded");
-    document.body.appendChild(script);
-  }
-
-  userDetails(){
-    if(this.userEmail!=null && this.fullName!=null){
-this.payWithRazorpay()
-    }else{
-      this.router.navigateByUrl("/register")
-    }
-  }
-
-  async payWithRazorpay() {
-    
-    // const price= this.product.color
-  //  this.isLoading = true; // Add loading state
-    const obj={
-      amount:this.totalAmount,
-      currency:this.selectedCurrency
-    }
-    try{
-      this.http.post('https://opasbizz.in/api/payment/create-order', obj)
-      .subscribe(async (order: any) => {
-        try{
-          console.log("ORDER RESPONSE >>>>", order);
-          const options = {
-            key: "rzp_test_W7NkcgtEncLHaE",
-            amount: order.amount,
-            currency: order.currency,
-            name: "OpasBizz Pvt Ltd",
-            image:"/opasLogo.png",
-            description: "Test Transaction",
-            order_id: order.id, // Fix: Ensure order.id exists
-            handler: async (response: any) => {
-              console.log("PAYMENT RESPONSE >>>>", response);
-              this.isLoading=true;
-              const verifyPayload = {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
-              };
-    
-             await this.http.post('https://opasbizz.in/api/payment/verify-payment', verifyPayload)
-                .subscribe(async (res: any) => {
-                  console.log("VERIFY PAYMENT RESPONSE >>>>", res);
-                  if (res.success) {
-                   await this.paymentSuccess(response,{order_id: order.id,amount: order.amount,currency: order.currency});
-                  } else {
-                   await this.paymentFailed({order_id: order.id,amount: order.amount,currency: order.currency,error:res.error});
-                  }
-                });
-            },
-            prefill: { 
-              name: this.fullName || "Test User",
-              email: this.userEmail || "test@example.com",
-              contact: this.phoneNumber ||"0123456789"
-            },
-            theme: { color: "hsl(219.29deg 65.6% 29.28%)" }
-          };
-    
-          const rzp = new Razorpay(options);
-         await rzp.open();
-        }catch(error){
-          console.log("ERROR>>>>>>>> >>>>", error);
-        }
-        
-  
-       
-      }, error => {
-        console.error("Error creating order:>>>>>>>>>>>>>>>>", error);
-        this.paymentFailed({error:error});
-      });
-
-    }catch(error){
-      console.log("ERROR>>>>>>>>>>",error)
-
-    }
-
-    
-  }
-
-
-
-
-  /////////////////////////////sending Invoice In User Email ////////////////////////////
-  sendInvoiceInEmail(item:any){
-    this.isLoading=true;
-    const obj={
-      fullName:this.fullName,
-      email:this.userEmail,
-      invoiceURL:item
-    }
-
-    this.http.post("https://opasbizz.in/api/auth/mailSender", obj).subscribe(
-      { next:async (res: any) => {
-      console.log("AFTER SENDING MAIL>>>>>>>>",res)
-      this.openSnackBar('Invoice sent to your email', 'Close');
-      this.isLoading=false;
-  }, error:(error)=>{
-    console.log("ERROR FIND >>>>>>>>>",error)
-  }
-})
-
-  } 
-  
-/////////////////////////////////////////////////////////////////////////
-paymentSuccess(response: any,item:any) {
-  // this.isLoading=true;
-  console.log("RESPONCE PAYMENT SUCCESS>>>>>>>>>>",response)
-  const obj={
-    quantity:this.quantity,
-      productId:this.products._id,
-      userId:typeof this.userId === 'string' ? JSON.parse(this.userId) : this.userId,
-      orderId:item.order_id,
-      razorpayPaymentId:response.razorpay_payment_id,
-      razorpayOrderId:response.razorpay_order_id,
-      razorpaySignature:response.razorpay_signature,
-      amount:item.amount,
-      currency:item.currency,
-      customerEmail:typeof this.userEmail === 'string' ? JSON.parse(this.userEmail) : this.userEmail,
-      customerPhone:typeof this.phoneNumber === 'string' ? JSON.parse(this.phoneNumber) : this.phoneNumber,
-    }
-    console.log("OBJECT USER>>>>>>>>>>>",obj)
-     
-  this.http.post('https://opasbizz.in/api/payment/payment-success',obj).subscribe(async (res:any)=>{
-  
-    this.invoiceUrl=res?.invoiceUrl
-   
-    console.log(res,"Payment was successful!", this.invoiceUrl); 
-    await this.sendInvoiceInEmail(this.invoiceUrl);
-    this.quantity=0;
-    this.calculateTotalAmount()
-    
-
-  })
-  // this.isLoading = false; // Add loading state
-  this.openSnackBar("Payment successful! Thank you for your purchase.", "OK");
-
-  // Here you can redirect the user or perform any other action
-}
-
-paymentFailed(item:any) {
-  const obj={
-    userId:"1",
-    orderId:item.orderId,
-    amount:item.amount,
-    currency:item.currency,
-    status: "Failed",
-    errorDetails:item.error,
-  }
-  this.http.post('https://opasbizz.in/api/payment/payment-failed',obj).subscribe((res:any)=>{
-    console.log("Payment failed!");
-    // this.isLoading = false; // Add loading state
-  this.openSnackBar("Payment failed! Please try again.", "Retry"); 
-  })
-  console.log("Payment failed!");
-  // this.isLoading = false; // Add loading state
-  this.openSnackBar("Payment failed! Please try again.", "Retry");
-  
-}
 
 // Variable to hold auto-scroll interval
 private scrollInterval: any;
@@ -565,30 +382,33 @@ ngOnDestroy() {
 }
 
 scrollLeft() {
-  const container = this.scrollContainer.nativeElement;
-  const scrollPosition = container.scrollLeft;
-  const itemWidth = container.children[0].offsetWidth;
+  if (isPlatformBrowser(this.platformId) && this.scrollContainer?.nativeElement?.scrollBy) {
+    const container = this.scrollContainer.nativeElement;
+    const scrollPosition = container.scrollLeft;
+    const itemWidth = container.children[0]?.offsetWidth || 300; // Fallback width
 
-  if (scrollPosition === 0) {
-    // If we're at the start, scroll to the last item
-    container.scrollLeft = container.scrollWidth - itemWidth;
-  } else {
-    container.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+    if (scrollPosition === 0) {
+      container.scrollLeft = container.scrollWidth - itemWidth;
+    } else {
+      container.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+    }
   }
 }
 
 scrollRight() {
-  const container = this.scrollContainer.nativeElement;
-  const scrollPosition = container.scrollLeft;
-  const itemWidth = container.children[0].offsetWidth;
+  if (isPlatformBrowser(this.platformId) && this.scrollContainer?.nativeElement?.scrollBy) {
+    const container = this.scrollContainer.nativeElement;
+    const scrollPosition = container.scrollLeft;
+    const itemWidth = container.children[0]?.offsetWidth || 300;
 
-  if (scrollPosition + container.offsetWidth >= container.scrollWidth) {
-    // If we're at the end, scroll to the start
-    container.scrollLeft = 0;
-  } else {
-    container.scrollBy({ left: itemWidth, behavior: 'smooth' });
+    if (scrollPosition + container.offsetWidth >= container.scrollWidth) {
+      container.scrollLeft = 0;
+    } else {
+      container.scrollBy({ left: itemWidth, behavior: 'smooth' });
+    }
   }
 }
+
 
 
  // Method to show the snackbar
@@ -601,20 +421,7 @@ scrollRight() {
 }
 
 
-openPdfInNewWindow() {
-  this.isLoading = true; // Add loading state
-  const pdfUrl = this.baseUrl + this.invoiceUrl;
-  console.log('Generated PDF URL:', pdfUrl); // Log to check if the URL is correct
 
-  if (this.invoiceUrl) {
-    this.isLoading = false; // Add loading state
-    window.open(pdfUrl, '_blank');
-  } else {
-    this.isLoading = false; // Add loading state
-    this.openSnackBar("Invoice not found. Please try again later.", "Retry");
-    console.error('Invalid URL:', pdfUrl);
-  }
-}
 
 // /////////////////////add send query /////////////////////
 // ?/////////////////////email card ////////////////

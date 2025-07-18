@@ -1,45 +1,30 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { UserComponent } from './pages/user/user.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ProductsComponent } from './products/products.component';
-import { CertificateComponent } from './certificate/certificate.component';
-import { BlogComponent } from './blog/blog.component';
-import { ContactComponent } from './contact/contact.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ForgotPasswordComponent } from './forget-password/forgot-password.component';
 import { authGuard } from '../service/auth.guard';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { HistoryComponent } from './pages/history/history.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
-import { EnquiryComponent } from './pages/enquiry/enquiry.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', component: HomeComponent }, // Default route
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  // { path: 'dashboard', component: DashboardComponent, canActivate:[authGuard] },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent },
-  // { path: 'history', component: HistoryComponent },
-  {path:"enquiry", component:EnquiryComponent},
-  { path: 'about', component: AboutComponent },
-  // { path: 'product/:id', component: ProductsComponent },
-  { path: 'product/:item', component: ProductsComponent },
-  { path: 'certificate', component: CertificateComponent },
-  { path: 'blog', component: BlogComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'user', component: UserComponent },
-  { path: 'resetPassword/:token', component: ResetPasswordComponent },
-  { path: 'forgotPassword', component: ForgotPasswordComponent },
-  { path: 'privacy_policy', component: PrivacyPolicyComponent },
-  { path: 'terms&conditions', component: TermsAndConditionsComponent },
+  { path: '', pathMatch: 'full', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
 
-  // Catch-all wildcard route (optional: redirect to home or 404 page)
-  { path: '**', component: HomeComponent  }  
+  { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
+  { path: 'register', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
+
+  { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) /*, canActivate: [authGuard] */ },
+
+  { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+  { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent) },
+  { path: 'enquiry', loadComponent: () => import('./pages/enquiry/enquiry.component').then(m => m.EnquiryComponent) },
+
+  { path: 'about', loadComponent: () => import('./about/about.component').then(m => m.AboutComponent) },
+  { path: 'product/:item', loadComponent: () => import('./products/products.component').then(m => m.ProductsComponent) },
+  { path: 'certificate', loadComponent: () => import('./certificate/certificate.component').then(m => m.CertificateComponent) },
+  { path: 'blog', loadComponent: () => import('./blog/blog.component').then(m => m.BlogComponent) },
+  { path: 'contact', loadComponent: () => import('./contact/contact.component').then(m => m.ContactComponent) },
+
+  { path: 'user', loadComponent: () => import('./pages/user/user.component').then(m => m.UserComponent) },
+  { path: 'resetPassword/:token', loadComponent: () => import('./reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
+  { path: 'forgotPassword', loadComponent: () => import('./forget-password/forgot-password.component').then(m => m.ForgotPasswordComponent) },
+
+  { path: 'privacy_policy', loadComponent: () => import('./privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) },
+  { path: 'terms&conditions', loadComponent: () => import('./terms-and-conditions/terms-and-conditions.component').then(m => m.TermsAndConditionsComponent) },
+
+  { path: '**', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) }
 ];

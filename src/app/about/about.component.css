@@ -653,7 +653,7 @@ perspective: 60rem;
   
   .image-container {
     width: 45%;
-    max-height: 400px;
+    /* max-height: 400px; */
     margin-right: 1rem;
     margin-bottom: 0;
   }

@@ -1,50 +1,37 @@
-import {  inject, OnInit } from '@angular/core';
+import { inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Meta, Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-certificate',
+  standalone: true,
   imports: [MatButtonModule, FormsModule],
   templateUrl: './certificate.component.html',
   styleUrl: './certificate.component.css'
 })
-export class CertificateComponent {
-   @ViewChild('formContainer') formContainer!: ElementRef;
-  
+export class CertificateComponent implements OnInit {
+  @ViewChild('formContainer') formContainer!: ElementRef;
+
   private http = inject(HttpClient);
-  
-    name: string = '';
-    mobile: string = '';
-    product: string = '';
-    email: string = '';
-    message: string = '';
-    isSent: boolean = false;
-  
-  certificates = [
-    { 
-      title: 'FSSAI Certificate', 
-      image: '/certificate/fssaci_img.avif' 
-    },
-    { 
-      title: 'GST Certificate', 
-      image: '/certificate/gst_img.avif' 
-    },
-     { 
-      title: 'Certificate of registration', 
-      image: '/certificate/certificate_of_registration.avif' 
-    },
-    { 
-      title: 'Incorporation Certificate', 
-      image: '/certificate/incorpor_img.avif' 
-    },
 
-    
-  ];
+  // Contact form fields
+  name: string = '';
+  mobile: string = '';
+  product: string = '';
+  email: string = '';
+  message: string = '';
+  countryCode = '+91'; // Default country code
 
+  isSent: boolean = false;
+  userId: string;
+
+  // Company details for SEO + UI
   companyDetails = {
     name: 'Opas Bizz Pvt. Ltd.',
     founded: '2020',
@@ -58,80 +45,94 @@ export class CertificateComponent {
       'Market Adaptability'
     ]
   };
-  userId: string;
 
-  ngOnInit(): void {
-    // You might want to preload the video here
+  // Certifications to show on UI
+  certificates = [
+    { title: 'FSSAI Certificate', image: '/certificate/fssaci_img.avif' },
+    { title: 'GST Certificate', image: '/certificate/gst_img.avif' },
+    { title: 'Certificate of registration', image: '/certificate/certificate_of_registration.avif' },
+    { title: 'Incorporation Certificate', image: '/certificate/incorpor_img.avif' }
+  ];
+
+  constructor(private fb: FormBuilder,
+  private router: Router,
+  private meta: Meta,
+  private titleService: Title) {
+    this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
   }
 
-  handleVideoError() {
+  ngOnInit(): void {
+  this.titleService.setTitle('Opas Bizz – Global Grain Certifications & Contact');
+  this.meta.addTags([
+    { name: 'description', content: 'See Opas Bizz certifications (FSSAI, GST, Incorporation) and contact us for international grain trading partnerships.' },
+    { name: 'keywords', content: 'FSSAI, GST, Incorporation, Opas Bizz, global grains, certificate, import export, grain trading, India exports' },
+    { name: 'robots', content: 'index, follow' },
+    { property: 'og:title', content: 'Opas Bizz Certifications & Contact' },
+    { property: 'og:description', content: 'We are a certified global grain export company. Get in touch to collaborate.' },
+   
+    { property: 'og:url', content: 'https://opasbizz.in/certificates' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Opas Bizz – Grain Export Certification' },
+    { name: 'twitter:description', content: 'Explore our verified certifications and partner with us globally.' }
+  ]);
+}
+
+
+  handleVideoError(): void {
     console.error('Video failed to load');
   }
 
+  isFormValid(): boolean {
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.email.includes('@') &&
+      this.mobile.trim().length >= 8
+    );
+  }
 
-  constructor(private fb: FormBuilder, private router: Router){
-      this.userId = localStorage.getItem("userId")?.replace(/"/g, '') || '';
+  submitForm(): void {
+    if (!this.isFormValid()) {
+      alert('❌ Please fill out all required fields correctly.');
+      console.log("value>>>>>>>>>", this.name,this.email,this.product,this.countryCode,this.mobile,
+      this.message,)
+      return;
     }
-  
-  
-    // ?/////////////////////email card ////////////////
-    isFormValid(): boolean {
-      return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
-    }
-  
-    sendLetter(): void {
-      if (!this.isFormValid()) return;
-      const obj = {
-        fullName: this.name,
-        email: this.email,
-        productName: this.product,
-        phoneCode: "formValue.phoneCode",
-        phoneNumber: this.mobile,
-        message: this.message,
-        status: "pending",
-        userId: this.userId ||null
-      };
-      console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-      this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-        next: async (res: any) => {
-          if (res) {
-            this.isSent = true;
-            console.log("IF USER IS LOG IN >>>>>>>>", res)
-            // Reset form after animation completes
-            setTimeout(() => {
-              this.resetForm();
-            }, 6000);
-          }
-        },
-        error: (err) => {
-          // this.openSnackBar("Error submitting form. Please try again.", "close");
-          console.error("Submission error:", err);
-        }
-      });
-      // this.isSent = true;
-  
-      // // Optional: You could send the data to a service here
-      // console.log('Form submitted:', {
-      //   name: this.name,
-      //   mobile: this.mobile,
-      //   email: this.email,
-      //   message: this.message
-      // });
-  
-      // Reset form after animation completes
-      // setTimeout(() => {
-      //   this.resetForm();
-      // }, 6000);
-    }
-  
-    private resetForm(): void {
-      this.name = '';
-      this.mobile = '';
-      this.product = '';
-      this.email = '';
-      this.message = '';
-      this.isSent = false;
-    }
-    //////////////////////////email card end //////////////////////////
 
+    const fullMobile = `${this.countryCode} ${this.mobile}`;
+
+    const inquiryPayload = {
+      fullName: this.name,
+      email: this.email,
+      productName: this.product,
+      phoneCode: this.countryCode,
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "Pending",
+      userId: this.userId || null
+    };
+
+    console.log("🔁 Submitting inquiry >>>>>", inquiryPayload);
+
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", inquiryPayload).subscribe({
+      next: (res: any) => {
+        this.isSent = true;
+        alert('✅ Thank you for contacting us! We’ll get back to you shortly.');
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error("❌ Submission error:", err);
+        alert("⚠️ Something went wrong. Please try again later.");
+      }
+    });
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.mobile = '';
+    this.product = '';
+    this.email = '';
+    this.message = '';
+    this.isSent = false;
+  }
 }

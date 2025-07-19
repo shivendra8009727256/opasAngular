@@ -29,6 +29,7 @@ private http = inject(HttpClient);
   email: string = '';
   message: string = '';
   isSent: boolean = false;
+   countryCode = '+91'; // Default country code
 
   teamMembers = [
     {
@@ -93,45 +94,48 @@ private http = inject(HttpClient);
   }
 
 
-  // ?/////////////////////email card ////////////////
   isFormValid(): boolean {
-    return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.email.includes('@') &&
+      this.mobile.trim().length >= 8
+    );
   }
 
-  sendLetter(): void {
-    if (!this.isFormValid()) return;
-    this.isLoading = true; // Start loading
-    const obj = {
+  submitForm(): void {
+    if (!this.isFormValid()) {
+      alert('❌ Please fill out all required fields correctly.');
+      return;
+    }
+
+    const fullMobile = `${this.countryCode} ${this.mobile}`;
+
+    const inquiryPayload = {
       fullName: this.name,
       email: this.email,
       productName: this.product,
-      phoneCode: "formValue.phoneCode",
+      phoneCode: this.countryCode,
       phoneNumber: this.mobile,
       message: this.message,
-      status: "pending",
-      userId: this.userId ||null
+      status: "Pending",
+      userId: this.userId || null
     };
-    console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-      next: async (res: any) => {
-        if (res) {
-          this.isSent = true;
-          console.log("IF USER IS LOG IN >>>>>>>>", res)
-          // Reset form after animation completes
-          setTimeout(() => {
-            this.resetForm();
-          }, 6000);
-        }
+
+    console.log("🔁 Submitting inquiry >>>>>", inquiryPayload);
+
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", inquiryPayload).subscribe({
+      next: (res: any) => {
+        this.isSent = true;
+        alert('✅ Thank you for contacting us! We’ll get back to you shortly.');
+        this.resetForm();
       },
       error: (err) => {
-        // this.openSnackBar("Error submitting form. Please try again.", "close");
-        console.error("Submission error:", err);
-        this.isLoading = false; // end loading
+        console.error("❌ Submission error:", err);
+        alert("⚠️ Something went wrong. Please try again later.");
       }
     });
-   
   }
-  
 
   private resetForm(): void {
     this.name = '';
@@ -140,7 +144,6 @@ private http = inject(HttpClient);
     this.email = '';
     this.message = '';
     this.isSent = false;
-    this.isLoading = false; // end loading
   }
   //////////////////////////email card end //////////////////////////
 }

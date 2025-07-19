@@ -13,7 +13,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const grainColors = ['#FF9933', '#080808ff', '#138808', '#000080'];
+      const grainColors = ['#080808ff', '#080808ff', 'rgb(9 39 76 / 69%);', '#020258ff'];
       const index = new Date().getDay() % grainColors.length;
       document.querySelector('.footer')?.setAttribute('style', `background-color: ${grainColors[index]}`);
     }

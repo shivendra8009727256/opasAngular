@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +14,7 @@ import { SecureStorageService } from '../services/secure-storage.service';
 @Component({
     selector: 'app-contact',
     standalone: true,
-    imports: [
+    imports: [FormsModule,
         CommonModule,
         ReactiveFormsModule,
         MatIconModule,
@@ -40,24 +40,32 @@ export class ContactComponent implements OnInit, OnDestroy {
     currentBannerIndex = 0;
 
     http = inject(HttpClient);
-    profileForm: FormGroup;
-    otpSent = false;
-    otpVerified = false;
-    otpResendDisabled = false;
-    otpResendTimer = 30;
-    otpTimer: any;
-    otpMail: any;
-    otpHide = false;
+    // profileForm: FormGroup;
+    // otpSent = false;
+    // otpVerified = false;
+    // otpResendDisabled = false;
+    // otpResendTimer = 30;
+    // otpTimer: any;
+    // otpMail: any;
+    // otpHide = false;
+    name: string = '';
+  mobile: string = '';
+  product: string = '';
+  email: string = '';
+  message: string = '';
+  countryCode = '+91'; // Default country code
+
+  isSent: boolean = false;
     userId: any = '';
 
-    private initialFormValues = {
-        fullName: '',
-        productName: '',
-        email: '',
-        phoneCode: '+91', // Maintain default
-        phoneNumber: '',
-        message: ''
-    };
+    // private initialFormValues = {
+    //     fullName: '',
+    //     productName: '',
+    //     email: '',
+    //     phoneCode: '+91', // Maintain default
+    //     phoneNumber: '',
+    //     message: ''
+    // };
     countryCodes = [
         { name: 'Afghanistan', dial_code: '+93', code: 'AF' },
         { name: 'Albania', dial_code: '+355', code: 'AL' },
@@ -301,25 +309,28 @@ export class ContactComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder, private snackBar: MatSnackBar, private secureStorage: SecureStorageService) {
         this.userId = this.secureStorage.getItem("userId")?.replace(/"/g, '') || '';
 
-        this.profileForm = this.fb.group({
-            fullName: ["", [Validators.required, Validators.minLength(3)]],
-            email: ['', [Validators.required, Validators.email]],
-            otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
-            productName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]],
-            phoneCode: [{ value: '+91', disabled: true }, [Validators.required]],
-            phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-            message: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]]
-        });
+        // this.profileForm = this.fb.group({
+        //     fullName: ["", [Validators.required, Validators.minLength(3)]],
+        //     email: ['', [Validators.required, Validators.email]],
+        //     otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+        //     productName: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]],
+        //     phoneCode: [{ value: '+91', disabled: true }, [Validators.required]],
+        //     phoneNumber: [{ value: '', disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+        //     message: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(3)]]
+        // });
+    }
+    ngOnDestroy(): void {
+        // throw new Error('Method not implemented.');
     }
 
     ngOnInit() {
         requestIdleCallback(() => {
-            this.bannerInterval = setInterval(() => this.nextBanner(), 4000);
+            this.bannerInterval = setInterval(() => this.nextBanner(), 1000);
         });
 
-        if (this.userId) {
-            this.getUser(this.userId);
-        }
+        // if (this.userId) {
+        //     this.getUser(this.userId);
+        // }
     }
 
 
@@ -332,160 +343,160 @@ export class ContactComponent implements OnInit, OnDestroy {
         img.classList.add('loaded');
     }
 
-    getUser(item: any) {
-        try {
-            let params = new HttpParams().set('userId', item);
-            this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe({
-                next: async (res: any) => {
-                    this.profileForm.patchValue({
-                        fullName: res.user.fullName,
-                        email: res.user.email,
-                        phoneCode: res.user.phoneCode,
-                        phoneNumber: res.user.phoneNumber,
-                    });
-                    await this.profileForm.get('fullName')?.disable();
-                    await this.profileForm.get('email')?.disable();
-                    await this.profileForm.get('phoneCode')?.disable();
-                    await this.profileForm.get('phoneNumber')?.disable();
-                    await this.profileForm.get('productName')?.enable();
-                    await this.profileForm.get('message')?.enable();
-                    this.otpMail = res.user.email;
-                    this.otpVerified = true;
-                },
-                error: (err) => {
-                    const message = err.error?.message || err.message || 'User not fetch';
-                    this.openSnackBar(message, 'Close');
-                }
-            });
-        } catch (err) { }
-    }
+    // getUser(item: any) {
+    //     try {
+    //         let params = new HttpParams().set('userId', item);
+    //         this.http.get('https://opasbizz.in/api/auth/getUser', { params }).subscribe({
+    //             next: async (res: any) => {
+    //                 this.profileForm.patchValue({
+    //                     fullName: res.user.fullName,
+    //                     email: res.user.email,
+    //                     phoneCode: res.user.phoneCode,
+    //                     phoneNumber: res.user.phoneNumber,
+    //                 });
+    //                 await this.profileForm.get('fullName')?.disable();
+    //                 await this.profileForm.get('email')?.disable();
+    //                 await this.profileForm.get('phoneCode')?.disable();
+    //                 await this.profileForm.get('phoneNumber')?.disable();
+    //                 await this.profileForm.get('productName')?.enable();
+    //                 await this.profileForm.get('message')?.enable();
+    //                 this.otpMail = res.user.email;
+    //                 this.otpVerified = true;
+    //             },
+    //             error: (err) => {
+    //                 const message = err.error?.message || err.message || 'User not fetch';
+    //                 this.openSnackBar(message, 'Close');
+    //             }
+    //         });
+    //     } catch (err) { }
+    // }
 
-    async resetForm() {
-        await this.profileForm.reset();
-        Object.keys(this.profileForm.controls).forEach(key => {
-            const control = this.profileForm.get(key);
-            control?.clearValidators();
-            control?.updateValueAndValidity();
-        });
-    }
+    // async resetForm() {
+    //     await this.profileForm.reset();
+    //     Object.keys(this.profileForm.controls).forEach(key => {
+    //         const control = this.profileForm.get(key);
+    //         control?.clearValidators();
+    //         control?.updateValueAndValidity();
+    //     });
+    // }
 
-    onSubmit() {
-        const formValue = this.profileForm.getRawValue();
-        if ((!formValue.fullName && !this.userId) || !this.otpMail || !formValue.productName || !formValue.phoneNumber || !formValue.message) {
-            this.openSnackBar('Please fill all required fields', 'Close');
-            return;
-        }
+    // onSubmit() {
+    //     const formValue = this.profileForm.getRawValue();
+    //     if ((!formValue.fullName && !this.userId) || !this.otpMail || !formValue.productName || !formValue.phoneNumber || !formValue.message) {
+    //         this.openSnackBar('Please fill all required fields', 'Close');
+    //         return;
+    //     }
 
-        const obj = {
-            fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
-            email: this.otpMail,
-            productName: formValue.productName,
-            phoneCode: formValue.phoneCode,
-            phoneNumber: formValue.phoneNumber,
-            message: formValue.message,
-            status: "pending",
-            userId: this.userId
-        };
+    //     const obj = {
+    //         fullName: this.userId ? this.profileForm.get('fullName')?.value : formValue.fullName,
+    //         email: this.otpMail,
+    //         productName: formValue.productName,
+    //         phoneCode: formValue.phoneCode,
+    //         phoneNumber: formValue.phoneNumber,
+    //         message: formValue.message,
+    //         status: "pending",
+    //         userId: this.userId
+    //     };
 
-        this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-            next: async (res: any) => {
-                if (res) {
-                    this.otpSent = false;
-                    this.otpVerified = false;
-                    this.otpResendDisabled = false;
-                    this.profileForm.get('email')?.enable();
-                    if (!this.userId) {
-                        this.profileForm.get('fullName')?.enable();
-                    }
-                    await this.resetForm();
-                    await this.disableFormAfterVerification();
-                    if (this.userId != "") {
-                        await this.getUser(this.userId);
-                    }
-                    await this.openSnackBar(res.message, "close");
-                }
-            },
-            error: (err) => {
-                this.openSnackBar("Error submitting form. Please try again.", "close");
-                console.error("Submission error:", err);
-            }
-        });
-    }
+    //     this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
+    //         next: async (res: any) => {
+    //             if (res) {
+    //                 this.otpSent = false;
+    //                 this.otpVerified = false;
+    //                 this.otpResendDisabled = false;
+    //                 this.profileForm.get('email')?.enable();
+    //                 if (!this.userId) {
+    //                     this.profileForm.get('fullName')?.enable();
+    //                 }
+    //                 await this.resetForm();
+    //                 await this.disableFormAfterVerification();
+    //                 if (this.userId != "") {
+    //                     await this.getUser(this.userId);
+    //                 }
+    //                 await this.openSnackBar(res.message, "close");
+    //             }
+    //         },
+    //         error: (err) => {
+    //             this.openSnackBar("Error submitting form. Please try again.", "close");
+    //             console.error("Submission error:", err);
+    //         }
+    //     });
+    // }
 
-    get f() {
-        return this.profileForm.controls;
-    }
+    // get f() {
+    //     return this.profileForm.controls;
+    // }
 
-    sendOTP() {
-        if (this.f['email'].invalid) {
-            this.openSnackBar('Please enter a valid email first', 'Close');
-            return;
-        }
+    // sendOTP() {
+    //     if (this.f['email'].invalid) {
+    //         this.openSnackBar('Please enter a valid email first', 'Close');
+    //         return;
+    //     }
 
-        this.otpMail = this.profileForm.value.email;
-        const obj = { email: this.otpMail };
-        this.http.post("https://opasbizz.in/api/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
-            this.otpSent = true;
-            this.profileForm.get('email')?.disable();
-            this.startResendTimer();
-            this.openSnackBar('OTP sent to your email', 'Close');
-        });
-    }
+    //     this.otpMail = this.profileForm.value.email;
+    //     const obj = { email: this.otpMail };
+    //     this.http.post("https://opasbizz.in/api/userInquiry/inquirySendMail", obj).subscribe(async (res: any) => {
+    //         this.otpSent = true;
+    //         this.profileForm.get('email')?.disable();
+    //         this.startResendTimer();
+    //         this.openSnackBar('OTP sent to your email', 'Close');
+    //     });
+    // }
 
-    resendOTP() {
-        this.sendOTP();
-    }
+    // resendOTP() {
+    //     this.sendOTP();
+    // }
 
-    startResendTimer() {
-        this.otpResendDisabled = true;
-        this.otpResendTimer = 30;
-        this.otpTimer = setInterval(() => {
-            this.otpResendTimer--;
-            if (this.otpResendTimer <= 0) {
-                clearInterval(this.otpTimer);
-                this.otpResendDisabled = false;
-            }
-        }, 1000);
-    }
+    // startResendTimer() {
+    //     this.otpResendDisabled = true;
+    //     this.otpResendTimer = 30;
+    //     this.otpTimer = setInterval(() => {
+    //         this.otpResendTimer--;
+    //         if (this.otpResendTimer <= 0) {
+    //             clearInterval(this.otpTimer);
+    //             this.otpResendDisabled = false;
+    //         }
+    //     }, 1000);
+    // }
 
-    async verifyOTP() {
-        if (this.f['otp'].valid) {
-            try {
-                const obj = {
-                    email: this.otpMail,
-                    otp: this.profileForm.value.otp
-                };
+    // async verifyOTP() {
+    //     if (this.f['otp'].valid) {
+    //         try {
+    //             const obj = {
+    //                 email: this.otpMail,
+    //                 otp: this.profileForm.value.otp
+    //             };
 
-                await this.http.post("https://opasbizz.in/api/userInquiry/inquiryVerifyOtp", obj).subscribe({
-                    next: (res: any) => {
-                        this.otpVerified = true;
-                        this.openSnackBar(res.message || 'OTP verified!', 'Close');
-                        this.enableFormAfterVerification();
-                    },
-                    error: (err) => {
-                        const message = err.error?.message || err.message || 'OTP verification failed';
-                        this.openSnackBar(message, 'Close');
-                    }
-                });
-            } catch (err) {
-                this.openSnackBar("Please! Enter valid OTP ...", 'Close');
-            }
-        }
-    }
+    //             await this.http.post("https://opasbizz.in/api/userInquiry/inquiryVerifyOtp", obj).subscribe({
+    //                 next: (res: any) => {
+    //                     this.otpVerified = true;
+    //                     this.openSnackBar(res.message || 'OTP verified!', 'Close');
+    //                     this.enableFormAfterVerification();
+    //                 },
+    //                 error: (err) => {
+    //                     const message = err.error?.message || err.message || 'OTP verification failed';
+    //                     this.openSnackBar(message, 'Close');
+    //                 }
+    //             });
+    //         } catch (err) {
+    //             this.openSnackBar("Please! Enter valid OTP ...", 'Close');
+    //         }
+    //     }
+    // }
 
-    enableFormAfterVerification() {
-        this.profileForm.get('productName')?.enable();
-        this.profileForm.get('phoneCode')?.enable();
-        this.profileForm.get('phoneNumber')?.enable();
-        this.profileForm.get('message')?.enable();
-    }
+    // enableFormAfterVerification() {
+    //     this.profileForm.get('productName')?.enable();
+    //     this.profileForm.get('phoneCode')?.enable();
+    //     this.profileForm.get('phoneNumber')?.enable();
+    //     this.profileForm.get('message')?.enable();
+    // }
 
-    disableFormAfterVerification() {
-        this.profileForm.get('productName')?.disable();
-        this.profileForm.get('phoneCode')?.disable();
-        this.profileForm.get('phoneNumber')?.disable();
-        this.profileForm.get('message')?.disable();
-    }
+    // disableFormAfterVerification() {
+    //     this.profileForm.get('productName')?.disable();
+    //     this.profileForm.get('phoneCode')?.disable();
+    //     this.profileForm.get('phoneNumber')?.disable();
+    //     this.profileForm.get('message')?.disable();
+    // }
 
     openSnackBar(message: string, action: string) {
         this.snackBar.open(message, action, {
@@ -496,14 +507,67 @@ export class ContactComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
-        if (this.otpTimer) {
-            clearInterval(this.otpTimer);
-        }
-        if (this.bannerInterval) {
-            clearInterval(this.bannerInterval);
-        }
+    // ngOnDestroy() {
+    //     if (this.otpTimer) {
+    //         clearInterval(this.otpTimer);
+    //     }
+    //     if (this.bannerInterval) {
+    //         clearInterval(this.bannerInterval);
+    //     }
+    // }
+
+
+    isFormValid(): boolean {
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.email.includes('@') &&
+      this.mobile.trim().length >= 8
+    );
+  }
+
+  submitForm(): void {
+    if (!this.isFormValid()) {
+      alert('❌ Please fill out all required fields correctly.');
+      return;
     }
+
+    const fullMobile = `${this.countryCode} ${this.mobile}`;
+
+    const inquiryPayload = {
+      fullName: this.name,
+      email: this.email,
+      productName: this.product,
+      phoneCode: this.countryCode,
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "Pending",
+      userId: this.userId || null
+    };
+
+    console.log("🔁 Submitting inquiry >>>>>", inquiryPayload);
+
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", inquiryPayload).subscribe({
+      next: (res: any) => {
+        this.isSent = true;
+        alert('✅ Thank you for contacting us! We’ll get back to you shortly.');
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error("❌ Submission error:", err);
+        alert("⚠️ Something went wrong. Please try again later.");
+      }
+    });
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.mobile = '';
+    this.product = '';
+    this.email = '';
+    this.message = '';
+    this.isSent = false;
+  }
 
 
 }

@@ -223,7 +223,7 @@ export class ProductsComponent  {
   totalAmountInINR: number=0;
   userEmail: string | null;
   fullName: string | null;
-
+ countryCode = '+91'; // Default country code
   isActive: string | null;
   companyName: string | null;
   businessType: string | null;
@@ -426,63 +426,57 @@ scrollRight() {
 // /////////////////////add send query /////////////////////
 // ?/////////////////////email card ////////////////
 isFormValid(): boolean {
-  return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
-}
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.email.includes('@') &&
+      this.mobile.trim().length >= 8
+    );
+  }
 
-sendLetter(): void {
-  if (!this.isFormValid()) return;
-  // this.isLoading = true; // Add loading state
-  const obj = {
-    fullName: this.name,
-    email: this.email,
-    productName: this.productName,
-    phoneCode: "formValue.phoneCode",
-    phoneNumber: this.mobile,
-    message: this.message,
-    status: "pending",
-    userId: this.userId ||null
-  };
-  console.log(" send DATA OF ENQUIRY API>>>>>>>>>", obj);
-  this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-    next: async (res: any) => {
-      if (res) {
-        this.isSent = true;
-        console.log("IF USER IS LOG IN >>>>>>>>", res)
-        // Reset form after animation completes
-        setTimeout(() => {
-          // this.isLoading = false; // Add loading state
-          this.resetForm();
-        }, 6000);
-      }
-    },
-    error: (err) => {
-      // this.openSnackBar("Error submitting form. Please try again.", "close");
-      console.error("Submission error:", err);
+  submitForm(): void {
+    if (!this.isFormValid()) {
+      alert('❌ Please fill out all required fields correctly.');
+      console.log("value>>>>>>>>>", this.name,this.email,this.product,this.countryCode,this.mobile,
+      this.message,)
+      return;
     }
-  });
-  // this.isSent = true;
 
-  // // Optional: You could send the data to a service here
-  // console.log('Form submitted:', {
-  //   name: this.name,
-  //   mobile: this.mobile,
-  //   email: this.email,
-  //   message: this.message
-  // });
+    const fullMobile = `${this.countryCode} ${this.mobile}`;
 
-  // Reset form after animation completes
-  // setTimeout(() => {
-  //   this.resetForm();
-  // }, 6000);
-}
+    const inquiryPayload = {
+      fullName: this.name,
+      email: this.email,
+      productName: this.product,
+      phoneCode: this.countryCode,
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "Pending",
+      userId: this.userId || null
+    };
 
-private resetForm(): void {
-  this.name = '';
-  this.mobile = '';
-  this.productName = '';
-  this.email = '';
-  this.message = '';
-  this.isSent = false;
-}
+    console.log("🔁 Submitting inquiry >>>>>", inquiryPayload);
+
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", inquiryPayload).subscribe({
+      next: (res: any) => {
+        this.isSent = true;
+        alert('✅ Thank you for contacting us! We’ll get back to you shortly.');
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error("❌ Submission error:", err);
+        alert("⚠️ Something went wrong. Please try again later.");
+      }
+    });
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.mobile = '';
+    this.product = '';
+    this.email = '';
+    this.message = '';
+    this.isSent = false;
+  }
 
 }

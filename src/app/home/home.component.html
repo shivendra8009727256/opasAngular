@@ -505,49 +505,80 @@
   </div>
 
   <!-- end clients -->
-  <!-- email card start -->
-  <div class="email-section"> <!-- Add this wrapper -->
 
-
-    <div>
-      <img src="/inquiry2.png" class="image-container">
+  <!-- Contact page -->
+<section class="obz-contact-wrapper" id="contact-us">
+  <div class="obz-contact-box">
+    <!-- Office Info & Map -->
+    <div class="obz-contact-info">
+      <h2>Visit Our Office</h2>
+      <p>📞 <strong>+1204512832</strong></p>
+      <p>📞 <strong>+1204512833</strong></p>
+      <p>📧 info&#64;opasbizz.in</p>
+      <p>
+        Office No. F09, 1st Floor, Anjuman House,<br />
+        23, C Block, Sector 63,<br />
+        Noida, Uttar Pradesh, 201301
+      </p>
+      <iframe class="obz-map" src="https://www.google.com/maps?q=28.616419549723012,77.38158578176393&z=15&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 
-    <div [class.sent]="isSent">
-      <!-- <small>Enter message (optional) and click button "Send"</small> -->
-      <div class="wrapper centered">
-        <div class="letter">
-          <div class="side">
-            <h1>Contact us</h1>
-            <p>
-              <textarea placeholder="Your message" [(ngModel)]="message"></textarea>
-            </p>
-          </div>
-          <div class="side">
-            <p>
-              <input type="text" placeholder="Full Name" [(ngModel)]="name" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Phone Number" [(ngModel)]="mobile" required>
-            </p>
-            <p>
-              <input type="email" placeholder="Email" [(ngModel)]="email" required>
-            </p>
-            <p>
-              <input type="text" placeholder="Product Name" [(ngModel)]="product" required>
-            </p>
-            <p>
-              <button (click)="sendLetter()" [disabled]="!isFormValid()">Send</button>
-            </p>
-          </div>
+    <!-- Contact Form -->
+    <div class="obz-contact-form">
+      <form (ngSubmit)="submitForm()" #f="ngForm">
+        <input type="text" name="name" [(ngModel)]="name" placeholder="Full Name*" required />
+        <input type="email" name="email" [(ngModel)]="email" placeholder="Email*" required />
+        <input type="text" name="product" [(ngModel)]="product" placeholder="Product Name*" required />
+
+        <div class="obz-phone-group">
+          <select name="countryCode" [(ngModel)]="countryCode" required>
+            <option value="+91">India (+91)</option>
+            <option value="+1">USA (+1)</option>
+            <option value="+44">UK (+44)</option>
+            <option value="+971">UAE (+971)</option>
+            <option value="+61">Australia (+61)</option>
+            <option value="+1">Canada (+1)</option>
+            <option value="+49">Germany (+49)</option>
+            <option value="+33">France (+33)</option>
+            <option value="+81">Japan (+81)</option>
+            <option value="+86">China (+86)</option>
+            <option value="+7">Russia (+7)</option>
+            <option value="+55">Brazil (+55)</option>
+            <option value="+27">South Africa (+27)</option>
+            <option value="+52">Mexico (+52)</option>
+            <option value="+39">Italy (+39)</option>
+            <option value="+34">Spain (+34)</option>
+            <option value="+31">Netherlands (+31)</option>
+            <option value="+65">Singapore (+65)</option>
+            <option value="+60">Malaysia (+60)</option>
+            <option value="+92">Pakistan (+92)</option>
+            <option value="+880">Bangladesh (+880)</option>
+            <option value="+966">Saudi Arabia (+966)</option>
+            <option value="+62">Indonesia (+62)</option>
+            <option value="+66">Thailand (+66)</option>
+            <option value="+20">Egypt (+20)</option>
+            <option value="+234">Nigeria (+234)</option>
+            <option value="+84">Vietnam (+84)</option>
+            <option value="+90">Turkey (+90)</option>
+            <option value="+82">South Korea (+82)</option>
+            <option value="+54">Argentina (+54)</option>
+
+          </select>
+          <input type="tel" name="mobile" [(ngModel)]="mobile" placeholder="Mobile Number*" required
+            pattern="[0-9]{10}" />
         </div>
-        <div class="envelope front"></div>
-        <div class="envelope back"></div>
-      </div>
-      <p class="result-message centered" [class.show]="isSent">Thank you for your message</p>
-    </div>
 
+        <textarea name="message" [(ngModel)]="message" rows="4" placeholder="Your Message (optional)"></textarea>
+        <button type="submit">SEND MESSAGE ➜</button>
+      </form>
+    </div>
   </div>
+</section>
+<!-- contect page END -->
+
+
+  
 
   <!-- email card end -->
 

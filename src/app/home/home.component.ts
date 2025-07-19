@@ -45,6 +45,7 @@ export class HomeComponent {
   userId: string = '';
   userDataStatus: any;
   isBrowser: boolean | undefined;
+    countryCode = '+91'; // Default country code
 
 
   bannerImages: string[] = [
@@ -331,6 +332,51 @@ getUserstatus(): Promise<void> {
 }
 
 
+isFormValid(): boolean {
+    return (
+      this.name.trim() !== '' &&
+      this.email.trim() !== '' &&
+      this.email.includes('@') &&
+      this.mobile.trim().length >= 8
+    );
+  }
+
+  submitForm(): void {
+    if (!this.isFormValid()) {
+      alert('❌ Please fill out all required fields correctly.');
+      return;
+    }
+
+    const fullMobile = `${this.countryCode} ${this.mobile}`;
+
+    const inquiryPayload = {
+      fullName: this.name,
+      email: this.email,
+      productName: this.product,
+      phoneCode: this.countryCode,
+      phoneNumber: this.mobile,
+      message: this.message,
+      status: "Pending",
+      userId: this.userId || null
+    };
+
+    console.log("🔁 Submitting inquiry >>>>>", inquiryPayload);
+
+    this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", inquiryPayload).subscribe({
+      next: (res: any) => {
+        this.isSent = true;
+        alert('✅ Thank you for contacting us! We’ll get back to you shortly.');
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error("❌ Submission error:", err);
+        alert("⚠️ Something went wrong. Please try again later.");
+      }
+    });
+  }
+
+
+
 
 
 onSubmit() {
@@ -402,39 +448,9 @@ goToProduct(item: any) {
   this.router.navigate(['/product', formatted]);
 }
 
-isFormValid(): boolean {
-  return this.name.trim() !== '' && this.email.trim() !== '' && this.email.includes('@');
-}
 
-sendLetter(): void {
-  if (!this.isFormValid()) return;
-  this.isLoading = true;
 
-  const obj = {
-    fullName: this.name,
-    email: this.email,
-    productName: this.product,
-    phoneCode: "formValue.phoneCode",
-    phoneNumber: this.mobile,
-    message: this.message,
-    status: "Pending",
-    userId: this.userId || null
-  };
 
-  this.http.post("https://opasbizz.in/api/userInquiry/inquirySave", obj).subscribe({
-    next: async (res: any) => {
-      if (res) {
-        this.isSent = true;
-        setTimeout(() => {
-          this.resetForm();
-        }, 5000);
-      }
-    },
-    error: (err) => {
-      this.isLoading = false;
-    }
-  });
-}
 
 
   

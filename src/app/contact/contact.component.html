@@ -117,138 +117,76 @@
   <!-- Contact Form Card -->
 
 </div>
-<div class="send-container-wrapper">
-  <div class="card1  image-card" [@slideInLeft]>
-    <div class="card-header">
-      <h2 style="color: black; padding-bottom: 10px;">Send Inquiry</h2>
-      <div class="inquiry-wave"></div>
-      <!-- <div class="wave-container">
-                <div class="wave wave-1"></div>
-                <div class="wave wave-2"></div>
-                <div class="wave wave-3"></div>
-            </div> -->
+<!-- Contact page -->
+<section class="obz-contact-wrapper" id="contact-us">
+  <div class="obz-contact-box">
+    <!-- Office Info & Map -->
+    <div class="obz-contact-info">
+      <h2>Visit Our Office</h2>
+      <p>📞 <strong>+1204512832</strong></p>
+      <p>📞 <strong>+1204512833</strong></p>
+      <p>📧 info&#64;opasbizz.in</p>
+      <p>
+        Office No. F09, 1st Floor, Anjuman House,<br />
+        23, C Block, Sector 63,<br />
+        Noida, Uttar Pradesh, 201301
+      </p>
+      <iframe class="obz-map" src="https://www.google.com/maps?q=28.616419549723012,77.38158578176393&z=15&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    <div class=" card-content">
-      <div class="contact-form">
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class=" profile-form">
-          <!-- Full Name -->
-          <mat-form-field appearance="outline">
-            <mat-label>Full Name</mat-label>
-            <input matInput formControlName="fullName" required [disabled]="!otpVerified" />
-            <mat-error *ngIf="f['fullName'].errors?.['required']">
-              Full Name is required.
-            </mat-error>
-            <mat-error *ngIf="f['fullName'].errors?.['minlength']">
-              Full Name must be at least 3 characters long.
-            </mat-error>
-          </mat-form-field>
 
-          <!-- Email Field (always enabled) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required />
-            <mat-error *ngIf="f['email'].errors?.['required']">
-              Email is required.
-            </mat-error>
-            <mat-error *ngIf="f['email'].errors?.['email']">
-              Please enter a valid email address.
-            </mat-error>
-          </mat-form-field>
+    <!-- Contact Form -->
+    <div class="obz-contact-form">
+      <form (ngSubmit)="submitForm()" #f="ngForm">
+        <input type="text" name="name" [(ngModel)]="name" placeholder="Full Name*" required />
+        <input type="email" name="email" [(ngModel)]="email" placeholder="Email*" required />
+        <input type="text" name="product" [(ngModel)]="product" placeholder="Product Name*" required />
 
-          <!-- Send OTP Button -->
-          <div class="otp-action" [hidden]="otpHide">
-            <button type="button" mat-raised-button color="primary" (click)="sendOTP()"
-              [disabled]="f['email'].invalid || otpSent" class="otp-button">
-              {{ otpSent ? 'OTP Sent' : 'Send OTP' }}
-            </button>
-            <span *ngIf="otpSent" class="resend-text">
-              Didn't receive code?
-              <button type="button" mat-button (click)="resendOTP()" [disabled]="otpResendDisabled"
-                [hidden]="otpVerified">
-                Resend {{ otpResendDisabled ? '(' + otpResendTimer + 's)' : '' }}
-              </button>
-            </span>
-          </div>
+        <div class="obz-phone-group">
+          <select name="countryCode" [(ngModel)]="countryCode" required>
+            <option value="+91">India (+91)</option>
+            <option value="+1">USA (+1)</option>
+            <option value="+44">UK (+44)</option>
+            <option value="+971">UAE (+971)</option>
+            <option value="+61">Australia (+61)</option>
+            <option value="+1">Canada (+1)</option>
+            <option value="+49">Germany (+49)</option>
+            <option value="+33">France (+33)</option>
+            <option value="+81">Japan (+81)</option>
+            <option value="+86">China (+86)</option>
+            <option value="+7">Russia (+7)</option>
+            <option value="+55">Brazil (+55)</option>
+            <option value="+27">South Africa (+27)</option>
+            <option value="+52">Mexico (+52)</option>
+            <option value="+39">Italy (+39)</option>
+            <option value="+34">Spain (+34)</option>
+            <option value="+31">Netherlands (+31)</option>
+            <option value="+65">Singapore (+65)</option>
+            <option value="+60">Malaysia (+60)</option>
+            <option value="+92">Pakistan (+92)</option>
+            <option value="+880">Bangladesh (+880)</option>
+            <option value="+966">Saudi Arabia (+966)</option>
+            <option value="+62">Indonesia (+62)</option>
+            <option value="+66">Thailand (+66)</option>
+            <option value="+20">Egypt (+20)</option>
+            <option value="+234">Nigeria (+234)</option>
+            <option value="+84">Vietnam (+84)</option>
+            <option value="+90">Turkey (+90)</option>
+            <option value="+82">South Korea (+82)</option>
+            <option value="+54">Argentina (+54)</option>
 
-          <!-- OTP Verification Field -->
-          <div *ngIf="otpSent" class="otp-verification">
-            <mat-form-field appearance="outline" [hidden]="otpVerified">
-              <mat-label>Enter OTP</mat-label>
-              <input matInput formControlName="otp" required maxlength="6" />
-              <mat-error *ngIf="f['otp'].errors?.['required']">
-                OTP is required.
-              </mat-error>
-            </mat-form-field>
+          </select>
+          <input type="tel" name="mobile" [(ngModel)]="mobile" placeholder="Mobile Number*" required
+            pattern="[0-9]{10}" />
+        </div>
 
-            <button type="button" mat-raised-button color="accent" (click)="verifyOTP()" [disabled]="f['otp'].invalid"
-              [hidden]="otpVerified" class="verify-button">
-              Verify OTP
-            </button>
-
-            <mat-icon *ngIf="otpVerified" class="verified-icon">check_circle</mat-icon>
-          </div>
-
-
-
-          <!-- Phone Code Dropdown (disabled until verified) -->
-          <mat-form-field appearance="outline" style="flex: 1;">
-            <mat-label>Country Phone Code</mat-label>
-            <mat-select formControlName="phoneCode" required>
-              <mat-option *ngFor="let code of countryCodes" [value]="code.dial_code">
-                {{code.dial_code}} ({{code.name}})
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="f['phoneCode'].errors?.['required']">
-              Country code is required.
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Phone Number (disabled until verified) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" required [disabled]="!otpVerified" />
-            <mat-error *ngIf="f['phoneNumber'].errors?.['required']">
-              Phone Number is required.
-            </mat-error>
-            <mat-error *ngIf="f['phoneNumber'].errors?.['pattern']">
-              Phone Number must be 10 digits.
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Product Name (disabled until verified) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Product Name</mat-label>
-            <input matInput formControlName="productName" required [disabled]="!otpVerified" />
-            <mat-error *ngIf="f['productName'].errors?.['required']">
-              Product Name is required.
-            </mat-error>
-            <mat-error *ngIf="f['productName'].errors?.['minlength']">
-              Product Name must be at least 3 characters long.
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Message (disabled until verified) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Your Inquiry Message</mat-label>
-            <textarea matInput formControlName="message" required [disabled]="!otpVerified"></textarea>
-            <mat-error *ngIf="f['message'].errors?.['required']">
-              Message is required.
-            </mat-error>
-            <mat-error *ngIf="f['message'].errors?.['minlength']">
-              Message must be at least 3 characters long.
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Submit Button (disabled until verified) -->
-          <button mat-raised-button type="submit" [disabled]="!otpVerified" style="color: aliceblue;"
-            class="submit-btn">
-            <i class="material-icons">send</i> Send Inquiry
-          </button>
-        </form>
-      </div>
+        <textarea name="message" [(ngModel)]="message" rows="4" placeholder="Your Message (optional)"></textarea>
+        <button type="submit">SEND MESSAGE ➜</button>
+      </form>
     </div>
   </div>
-</div>
+</section>
+<!-- contect page END -->
 
 <!-- Map Card with Your Company Location -->
 <div class="map-container-wrapper">
